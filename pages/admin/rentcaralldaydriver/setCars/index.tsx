@@ -13,6 +13,8 @@ import { Box, Button, Flex, FormControl, FormErrorMessage, FormHelperText, FormL
 } from '@chakra-ui/react'
 import Head from 'next/head';
 import type { Dayjs } from 'dayjs';
+import dayjs from 'dayjs';
+import customParseFormat from 'dayjs/plugin/customParseFormat';
 import React, { useEffect, useState } from 'react'
 import axios from 'axios';
 import DatePicker from 'react-datepicker';
@@ -173,7 +175,7 @@ const ListRentCars = () => {
     const handleGL = (event:React.ChangeEvent<HTMLInputElement>) => setform(prev=> { return {...prev,GL:event.target.value}})
     const handlecost_enter = (event:React.ChangeEvent<HTMLInputElement>) => setform(prev=> { return {...prev,cost_enter:event.target.value}})
     const handleorder = (event:React.ChangeEvent<HTMLInputElement>) => setform(prev=> { return {...prev,order:event.target.value}})
-
+    const [editbutton,seteditbutton] = React.useState<boolean>(false);
     const FileDownload = require('js-file-download');
     const tokens = localStorageLoad("token")
     const downloadexcel = (event:any) => {
@@ -572,9 +574,6 @@ const ListRentCars = () => {
                     <GridItem colSpan={4}>
                         <Button hidden={editbutton} className='lable-rentcar' type='submit' colorScheme='teal' size='md' px={'10'} py={'5'} mb={"20px"}>
                             แก้ไขข้อมูล
-                        </Button>
-                        <Button onClick={handleapproved} hidden={approvedbutton} className='lable-rentcar' type='submit' colorScheme='teal' size='md' px={'10'} py={'5'} mx={"3"} mb={"20px"}>
-                            อนุมัติ
                         </Button>
 
                     </GridItem>
