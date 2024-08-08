@@ -47,6 +47,7 @@ const ListRentCars = () => {
     const [datas, setDatas] = useState<any>([])
     const [date, setDate] = useState<any>(new Date())
     // console.log(value);
+    const status = ['รออนุมัติ','อนุมัติ','รอจัดรถ'];
     const handleSubmit = (event: any) => {
         // alert('You clicked submit');
         event.preventDefault();
@@ -72,6 +73,23 @@ const ListRentCars = () => {
             FileDownload(res.data,"Excel.xlsx");
         }).catch((res)=>{
             console.log(res);
+        });
+    }
+  
+    const gettest = (event:any) => {
+        axios({
+            url: 'https://d713apsi01-wa01kbtcom.azurewebsites.net/ReserveCar/GetCarBookingNoDriver/?page=1&size=30',
+            method: 'GET',
+            headers: { 
+                'accept': '*/*', 
+                'Authorization': 'Bearer '+tokens,
+            }
+        }).then(async (res) => {
+            await setDatas(res.data.data.data.filter(x => x.booking_date == '08/08/2024'));
+            // console.log(res.data.data.data);
+            
+        }).catch( error =>{
+            console.log(error);
         });
     }
 
@@ -126,7 +144,7 @@ const ListRentCars = () => {
                                         <option value='2'>รออนุมัติ</option>
                                     </Select>
                                 </span>
-                                <Button className='lable-rentcar' type='submit' colorScheme='teal' size='md' ml={5}><AiOutlineSearch />ค้นหา</Button>
+                                <Button className='lable-rentcar' type='submit' onClick={gettest} colorScheme='teal' size='md' ml={5}><AiOutlineSearch />ค้นหา</Button>
                             </Flex>
                             <Flex p={2} justifyContent={"center"} >
                                 {/* <Button className='lable-rentcar' type='submit' colorScheme='teal' size='md' ml={5}><AiOutlineSearch onClick={downloadpdf} />PDF</Button> */}
@@ -160,24 +178,32 @@ const ListRentCars = () => {
                                     </Tr>
                                 </Thead>
                                 <Tbody >
+                                { Array.isArray(datas) && datas.map((row, index) => {
+                                return (
                                     <Tr>
-                                        <Td>1</Td>
-                                        <Td>millimetres (mm)</Td>
-                                        <Td isNumeric>25.4</Td>
-                                        <Td>inches</Td>
-                                        <Td>millimetres (mm)</Td>
-                                        <Td isNumeric>25.4</Td>
-                                        <Td>inches</Td>
-                                        <Td>millimetres (mm)</Td>
-                                        <Td isNumeric>25.4</Td>
-                                        <Td>millimetres (mm)</Td>
-                                        <Td isNumeric>25.4</Td>
-                                        <Td>inches</Td>
-                                        <Td>millimetres (mm)</Td>
-                                        <Td textDecoration={"underline"} ><a href="#">รอจัดรถ</a></Td>
-                                        <Td ><a href="#"><AiOutlineEdit /></a></Td>
+                                        <Td>{ index+1 }</Td>
+                                        <Td>{ row.booking_date }</Td>
+                                        <Td>{ row.bookingname }</Td>
+                                        <Td>{ row.typecar }</Td>
+                                        <Td>0</Td>
+                                        <Td>{ row.startdate }</Td>
+                                        <Td>{ row.enddate }</Td>
+                                        <Td>{ row.LocationOut }</Td>
+                                        <Td>{ row.locationIn }</Td>
+                                        <Td>{ row.GL }</Td>
+                                        <Td>{ row.cost_enter }</Td>
+                                        <Td>{ row.order }</Td>
+                                        <Td>{ row.status_approved }</Td>
+                                        <Td textDecoration={"underline"} >
+                                        <a href={"/admin/rentcaralldaynodriver/setCars/"+row.idcarbooking}>{ status[row.status] }</a>
+                                            </Td>
+                                        <Td >
+                                            <AiOutlineDelete />
+                                            
+                                        </Td>
                                     </Tr>
-                                    
+                                     );
+                                    })}
                                 </Tbody>
 
                             </Table>

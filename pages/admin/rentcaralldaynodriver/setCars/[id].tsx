@@ -2,12 +2,17 @@ import { Button, FormControl, FormErrorMessage, FormHelperText, FormLabel, Grid,
 import Head from 'next/head';
 import React, { useState } from 'react'
 import { Controller } from 'react-hook-form';
+import { localStorageLoad } from '../../../../utils/localStrorage';
+import { useRouter } from "next/router"
 
 
 const SetRentCarAllDayDriver = () => {
     const [value, setValue] = useState("1")
     const [datas, setDatas] = useState<any>([])
     const [date, setDate] = useState<any>(new Date())
+    const tokens = localStorageLoad("token")
+    const router = useRouter()
+    const id = router?.query?.id
     // console.log(value);
     const handleSubmit = (event: any) => {
         // alert('You clicked submit');
@@ -16,10 +21,21 @@ const SetRentCarAllDayDriver = () => {
         // console.log(data.get('cost-enter'));
 
     }
-
-    const handleChange = (event: any) => {
-        let value = event.target.value;
-        setDatas({ ...datas, [event.target.name]: event.target.value })
+    const gettest = (event:any) => {
+        axios({
+            url: 'https://d713apsi01-wa01kbtcom.azurewebsites.net/ReserveCar/GetCarBookingNoDriverById/'+id+'?page=1&size=30',
+            method: 'GET',
+            headers: { 
+                'accept': '*/*', 
+                'Authorization': 'Bearer '+tokens,
+            }
+        }).then(async (res) => {
+            await setDatas(res.data.data.data.filter(x => x.booking_date == '08/08/2024'));
+            // console.log(res.data.data.data);
+            
+        }).catch( error =>{
+            console.log(error);
+        });
     }
     console.log(datas);
 
