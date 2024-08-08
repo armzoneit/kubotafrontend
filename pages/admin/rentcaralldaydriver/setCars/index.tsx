@@ -372,7 +372,12 @@ const ListRentCars = () => {
                     <Td ><a href={`${row.idcarbooking}`}><AiOutlineEdit /></a></Td>
                 </Tr>
                 );
-              })}
+              })} {datatables.length == 0 && 
+                <Tr>
+                    <Td colSpan={17} style={{textAlign:'center'}}>ไม่พบข้อมูล</Td>
+                    
+                </Tr>
+            }
                                     
                                 </Tbody>
 
