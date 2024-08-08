@@ -70,9 +70,10 @@ const RentCar = () => {
     }
     const handlestartdate = (event:React.ChangeEvent<HTMLInputElement>) => setform(prev=> { 
         const vl = new Date(event)
+        const dal1 = [vl.getFullYear(), vl.getMonth()+1, vl.getDate()].join('-');
         setdateminend(new Date([vl.getFullYear(), vl.getMonth()+1, vl.getDate()].join('-')))
         setStartDate1(event);
-        if(form.startdate == form.enddate)
+        if(dal1 == form.enddate)
             {
                 sethours([])
                 setform(prev => ({...prev,timeIn:"00:00"}));
@@ -84,9 +85,10 @@ const RentCar = () => {
     })
     const handleenddate = (event:React.ChangeEvent<HTMLInputElement>) => setform(prev=> { 
         const vl = new Date(event)
+        const dal1 = [vl.getFullYear(), vl.getMonth()+1, vl.getDate()].join('-');
         setStartDate2(event);
         console.log(event);
-        if(form.startdate == form.enddate)
+        if(form.startdate == dal1)
             {
                 sethours([])
                 setform(prev => ({...prev,timeIn:"00:00"}));
@@ -453,6 +455,7 @@ const [disbut,setdisbut] = useState<boolean>(false);
                 sethours([])
                 let subhours = ggg.split(":")
                 sethours(range(0,parseInt(subhours[0])))
+                setminutes([0])
             }else{
                 sethours([])
             }
@@ -481,10 +484,12 @@ const [disbut,setdisbut] = useState<boolean>(false);
         }
         return result;
       };
-    const [hours,sethours] = useState([])
-    const disabledDateTime = () => ({
-        disabledHours: () => hours,
-      });
+      const [hours,sethours] = useState([])
+      const [minutes,setminutes] = useState([])
+      const disabledDateTime = () => ({
+          disabledHours: () => hours,
+          disabledMinutes: () => minutes,
+        });
     const handleChange = (event: any) => {
         let value = event.target.value;
         setDatas({ ...datas, [event.target.name]: event.target.value })

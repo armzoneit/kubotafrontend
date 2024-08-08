@@ -146,6 +146,7 @@ const ckcargg = (event:string) => {
                 sethours([])
                 let subhours = ggg.split(":")
                 sethours(range(0,parseInt(subhours[0])))
+                setminutes([0])
                 console.log(hours);
             }else{
                 sethours([])
@@ -223,20 +224,23 @@ const ckcargg = (event:string) => {
     })
     const range = (start: number, end: number) => {
         const result = [];
-        for (let i = start; i <= end; i++) {
+        for (let i = start; i < end; i++) {
           result.push(i);
         }
         return result;
       };
-    const [hours,sethours] = useState([])
-    const disabledDateTime = () => ({
-        disabledHours: () => hours,
-      });
+      const [hours,sethours] = useState([])
+      const [minutes,setminutes] = useState([])
+      const disabledDateTime = () => ({
+          disabledHours: () => hours,
+          disabledMinutes: () => minutes,
+        });
     const handlestartdate = (event:React.ChangeEvent<HTMLInputElement>) => setform(prev=> { 
         const vl = new Date(event)
+        const dal1 = [vl.getFullYear(), vl.getMonth()+1, vl.getDate()].join('-');
         setStartDate1(event);
         setdateminend(new Date([vl.getFullYear(), vl.getMonth()+1, vl.getDate()].join('-')))
-        if(form.startdate == form.enddate)
+        if(dal1 == form.enddate)
             {
                 sethours([])
                 setform(prev => ({...prev,timeIn:"00:00"}));
@@ -248,9 +252,10 @@ const ckcargg = (event:string) => {
     })
     const handleenddate = (event:React.ChangeEvent<HTMLInputElement>) => setform(prev=> { 
         const vl = new Date(event)
+        const dal1 = [vl.getFullYear(), vl.getMonth()+1, vl.getDate()].join('-');
         setStartDate2(event);
         console.log(event);
-        if(form.startdate == form.enddate)
+        if(form.startdate == dal1)
             {
                 sethours([])
                 setform(prev => ({...prev,timeIn:"00:00"}));

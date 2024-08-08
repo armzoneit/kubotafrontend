@@ -509,7 +509,13 @@ const [startDate, setStartDate] = useState(new Date());
             .then((response) => {
                 onClose();
                 search(1);
-                
+                toast({
+                    id: toastId4,
+                    description: `อนุมัติสำเร็จ`,
+                    status: "success",
+                    duration: 3000,
+                    isClosable: false,
+                })
             })
             .catch((error) => {
                 console.log(error);
@@ -1081,7 +1087,7 @@ const [startDate, setStartDate] = useState(new Date());
                         <Grid style={{ justifyContent: "center" }} >
                             <Flex p={2} mt={2} >
                                 <label className='lable-statusrentcar' style={{ width: "150px" }}>ประเภทการจอง</label>
-                                <Select width={'400px'} placeholder='เลือกประเภทการประเมิน' value={datasall.cartype} onChange={handlecartye}>
+                                <Select width={'400px'} placeholder='เลือกประเภทการจองรถ' value={datasall.cartype} onChange={handlecartye}>
                                     <option value='1' selected>จองรถเช่าเหมาวัน(พร้อมคนขับ)</option>
                                     <option value='2'>จองรถเช่าเหมาวัน(ไม่มีคนขับ)</option>
                                     <option value='3'>จองรถรับส่งระหว่างวัน</option>
