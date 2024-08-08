@@ -1,13 +1,16 @@
-import { Button, FormControl, FormErrorMessage, FormHelperText, FormLabel, Grid, GridItem, Input, Radio, RadioGroup, Select, Stack, Text } from '@chakra-ui/react'
+import { Button, FormControl, FormErrorMessage, FormHelperText, FormLabel, Grid, GridItem, Input, Radio, RadioGroup, Select, Stack, Text, useDisclosure, Modal } from '@chakra-ui/react';
 import Head from 'next/head';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Controller } from 'react-hook-form';
+import InfoCars from '../../../../components/admin/rentcarall/setCars/InfoCars';
+import ModalCar from '../../../../components/admin/rentcarall/setCars/ModalCar';
 
 
 const SetRentCarAllDayDriver = () => {
     const [value, setValue] = useState("1")
     const [datas, setDatas] = useState<any>([])
     const [date, setDate] = useState<any>(new Date())
+    const [dataCars, setDataCars] = useState<any>([])
     // console.log(value);
     const handleSubmit = (event: any) => {
         // alert('You clicked submit');
@@ -17,11 +20,49 @@ const SetRentCarAllDayDriver = () => {
 
     }
 
+    // -- Start Modal Car
+    const { isOpen, onOpen, onClose } = useDisclosure()
+    const [dataModal, setDataModal] = useState<any>([])
+    const handleModalEdit = (data: any) => {
+        console.log(data);
+        setDataModal(data);
+        onOpen();
+    }
+
+    const handleModalSubmit = (data: any) => {
+        console.log(data);
+    }
+    // -- End Modal Car
+
+
+    // -- Start Table
+    useEffect(() => {
+        setDataCars([
+            {
+                id: 1,
+                name: 'PDR',
+                typecar: 'รถเก๋ง',
+                licenseplate: 'กข-1234',
+                date: '12/12/2024',
+                age: '3',
+                driver: 'นาย สมชาย',
+                phone: '089-123-4567'
+            }
+        ])
+    }, [])
+
+    const handleDelete = (data: any) => {
+        console.log(data);
+    }
+
+    // -- End Table
+
+
+
     const handleChange = (event: any) => {
         let value = event.target.value;
         setDatas({ ...datas, [event.target.name]: event.target.value })
     }
-    console.log(datas);
 
     const isError = datas.note === ''
     return (
@@ -217,49 +258,8 @@ const SetRentCarAllDayDriver = () => {
                     <GridItem colSpan={6} borderTop={"2px"} marginTop={"5px"}>
                         <Text className='sub-text' >ข้อมูลการจัดรถ</Text>
                     </GridItem>
-                    <GridItem colSpan={2}>
-                        <FormControl>
-                            <FormLabel className='lable-rentcar'>ผู้ให้บริการ</FormLabel>
-                            <Input style={{ border: '1px #00AAAD solid' }} />
-                        </FormControl>
-                    </GridItem>
-                    <GridItem colSpan={2}>
-                        <FormControl>
-                            <FormLabel className='lable-rentcar'>ประเภทรถ</FormLabel>
-                            <Select onChange={handleChange} name='typecar' placeholder='Select option' style={{ border: '1px #00AAAD solid' }}>
-                                <option value='1'>รถเก๋ง</option>
-                                <option value='2'>รถตู้</option>
-                            </Select>
-                        </FormControl>
-                    </GridItem>
-                    <GridItem colSpan={2} />
-                    <GridItem colSpan={2}>
-                        <FormControl>
-                            <FormLabel className='lable-rentcar'>ทะเบียนรถ</FormLabel>
-                            <Input style={{ border: '1px #00AAAD solid' }} id='cost-enter' name='cost-enter' />
-                        </FormControl>
-                    </GridItem>
-                    <GridItem colSpan={2}>
-                        <FormControl>
-                            <FormLabel className='lable-rentcar'>ชื่อคนขับ</FormLabel>
-                            <Input style={{ border: '1px #00AAAD solid' }} id='cost-enter' name='cost-enter' />
-                        </FormControl>
-                    </GridItem>
-                    <GridItem colSpan={2} />
-                    <GridItem colSpan={2}>
-                        <FormControl>
-                            <FormLabel className='lable-rentcar'>เบอร์โทรศัพท์</FormLabel>
-                            <Input style={{ border: '1px #00AAAD solid' }} id='cost-enter' name='cost-enter' />
-                        </FormControl>
-                    </GridItem>
-                    <GridItem colSpan={2}>
-                        <FormControl>
-                            <FormLabel className='lable-rentcar'>สถานะการจัดรถ</FormLabel>
-                            <Select onChange={handleChange} name='typecar' placeholder='Select option' style={{ border: '1px #00AAAD solid' }}>
-                                <option value='1'>รถเก๋ง</option>
-                                <option value='2'>รถตู้</option>
-                            </Select>
-                        </FormControl>
+                    <GridItem colSpan={6} >
+                        <InfoCars datatables={dataCars} onEdit={handleModalEdit} onDelete={handleDelete} />
                     </GridItem>
                     <GridItem colSpan={2} />
 
@@ -273,7 +273,7 @@ const SetRentCarAllDayDriver = () => {
 
             </form >
 
-
+            <ModalCar data={dataModal} isOpen={isOpen} onClose={onClose} onSubmit={handleModalSubmit} />
 
         </>
 

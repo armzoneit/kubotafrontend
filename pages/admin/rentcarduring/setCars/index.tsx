@@ -197,9 +197,10 @@ const ListRentCars = () => {
     const FileDownload = require('js-file-download');
     const tokens = localStorageLoad("token")
     const downloadexcel = (event: any) => {
-        console.log("gggg");
         var res1 = startDate.toISOString().slice(0, 10)
         var res2 = endDate.toISOString().slice(0, 10)
+        console.log(res1, res2);
+
         axios({
             url: 'https://d713apsi01-wa01kbtcom.azurewebsites.net/Export_Excel/CarPickup_and_drop/' + res1 + '/' + res2,
             method: 'GET',
@@ -654,6 +655,7 @@ const ListRentCars = () => {
                     </Box>
                 </GridItem>
             </Grid>
+
         </>
     )
 }
