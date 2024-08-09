@@ -584,6 +584,12 @@ const [startDate, setStartDate] = useState(new Date());
                         position:postions,
                         status:k.statusApproved
                     });
+                }else{
+                    dumper.push({
+                        name:k.approvedName,
+                        position:k.bossPositionId,
+                        status:k.statusApproved
+                    });
                 }
             })
             setapproval(dumper)
@@ -619,8 +625,10 @@ const [startDate, setStartDate] = useState(new Date());
                 console.log(response)
                 setapprovedbutton(true);
                 seteditbutton(false);
+                setdisread(false);
                 if(response.data.data.carBookingWithDriver[0]?.employee_no == me?.data?.data?.myHrEmployee.employeeNo)
                 {
+                    
                     setapprovedbutton(true);
                     seteditbutton(false);
                 }else{
@@ -688,7 +696,62 @@ const [startDate, setStartDate] = useState(new Date());
 
             axios.request(config5)
             .then((response) => {
-                console.log(JSON.stringify(response.data));
+                console.log(response)
+                setapprovedbutton(true);
+                seteditbutton(false);
+                setdisread(false);
+                if(response.data.data.carBookingWithDriver[0]?.employee_no == me?.data?.data?.myHrEmployee.employeeNo)
+                {
+                    setapprovedbutton(true);
+                    seteditbutton(false);
+                }else{
+                    seteditbutton(true);
+                    response.data.data.approval.map((e,v) =>{
+                        console.log("ggg kuy",e);
+                        if(me?.data?.data?.myHrEmployee.employeeNo == e.employeeApproval)
+                        {
+                            setapprovedbutton(false);
+                        }
+                    });
+                }
+                if(response.data.data.carBookingWithDriver[0]?.employee_no != me?.data?.data?.myHrEmployee.employeeNo)
+                {
+                    setdisread(true);
+                }
+                console.log(response.data.data.carBookingWithDriver[0]);
+                setform({
+                    idcarbooking:response.data.data.carBookingWithDriver[0]?.idcarbooking,
+                    PlantId:response.data.data.carBookingWithDriver[0]?.plantId,
+                    employee_no:response.data.data.carBookingWithDriver[0]?.employee_no,
+                    booking_date:response.data.data.carBookingWithDriver[0]?.booking_date,
+                    bookingname:response.data.data.carBookingWithDriver[0]?.bookingname,
+                    email:response.data.data.carBookingWithDriver[0]?.email,
+                    agency:response.data.data.carBookingWithDriver[0]?.agency,
+                    division:response.data.data.carBookingWithDriver[0]?.division,
+                    tel:response.data.data.carBookingWithDriver[0]?.tel,
+                    note:response.data.data.carBookingWithDriver[0]?.note,
+                    typecar:response.data.data.carBookingWithDriver[0]?.typecar,
+                    number_travelers:response.data.data.carBookingWithDriver[0]?.number_travelers,
+                    number_cars:response.data.data.carBookingWithDriver[0]?.number_cars,
+                    person_count:response.data.data.carBookingWithDriver[0]?.person_count,
+                    startdate:response.data.data.carBookingWithDriver[0]?.startdate,
+                    enddate:response.data.data.carBookingWithDriver[0]?.enddate,
+                    locationIn:response.data.data.carBookingWithDriver[0]?.locationIn,
+                    timeIn:response.data.data.carBookingWithDriver[0]?.timeIn,
+                    LocationOut:response.data.data.carBookingWithDriver[0]?.plantId,
+                    timeOut:response.data.data.carBookingWithDriver[0]?.timeOut,
+                    operational_area:response.data.data.carBookingWithDriver[0]?.operational_area,
+                    upcountry:response.data.data.carBookingWithDriver[0]?.upcountry,
+                    overnight_stay:response.data.data.carBookingWithDriver[0]?.overnight_stay,
+                    person_responsible_for_expenses:response.data.data.carBookingWithDriver[0]?.person_responsible_for_expenses,
+                    other:response.data.data.carBookingWithDriver[0]?.other,
+                    number_of_trips:response.data.data.carBookingWithDriver[0]?.plantId,
+                    province:response.data.data.carBookingWithDriver[0]?.plantId,
+                    GL:response.data.data.carBookingWithDriver[0]?.GL,
+                    cost_enter:response.data.data.carBookingWithDriver[0]?.cost_enter,
+                    order:response.data.data.carBookingWithDriver[0]?.order,
+                    overnight:response.data.data.carBookingWithDriver[0]?.overnight,
+                })
             })
             .catch((error) => {
                 console.log(error);
@@ -707,7 +770,63 @@ const [startDate, setStartDate] = useState(new Date());
 
             axios.request(config5)
             .then((response) => {
-                console.log(JSON.stringify(response.data));
+                console.log(response)
+                setapprovedbutton(true);
+                seteditbutton(false);
+                setdisread(false);
+
+                if(response.data.data.carBookingWithDriver[0]?.employee_no == me?.data?.data?.myHrEmployee.employeeNo)
+                {
+                    setapprovedbutton(true);
+                    seteditbutton(false);
+                }else{
+                    seteditbutton(true);
+                    response.data.data.approval.map((e,v) =>{
+                        console.log("ggg kuy",e);
+                        if(me?.data?.data?.myHrEmployee.employeeNo == e.employeeApproval)
+                        {
+                            setapprovedbutton(false);
+                        }
+                    });
+                }
+                if(response.data.data.carBookingWithDriver[0]?.employee_no != me?.data?.data?.myHrEmployee.employeeNo)
+                {
+                    setdisread(true);
+                }
+                console.log(response.data.data.carBookingWithDriver[0]);
+                setform({
+                    idcarbooking:response.data.data.carBookingWithDriver[0]?.idcarbooking,
+                    PlantId:response.data.data.carBookingWithDriver[0]?.plantId,
+                    employee_no:response.data.data.carBookingWithDriver[0]?.employee_no,
+                    booking_date:response.data.data.carBookingWithDriver[0]?.booking_date,
+                    bookingname:response.data.data.carBookingWithDriver[0]?.bookingname,
+                    email:response.data.data.carBookingWithDriver[0]?.email,
+                    agency:response.data.data.carBookingWithDriver[0]?.agency,
+                    division:response.data.data.carBookingWithDriver[0]?.division,
+                    tel:response.data.data.carBookingWithDriver[0]?.tel,
+                    note:response.data.data.carBookingWithDriver[0]?.note,
+                    typecar:response.data.data.carBookingWithDriver[0]?.typecar,
+                    number_travelers:response.data.data.carBookingWithDriver[0]?.number_travelers,
+                    number_cars:response.data.data.carBookingWithDriver[0]?.number_cars,
+                    person_count:response.data.data.carBookingWithDriver[0]?.person_count,
+                    startdate:response.data.data.carBookingWithDriver[0]?.startdate,
+                    enddate:response.data.data.carBookingWithDriver[0]?.enddate,
+                    locationIn:response.data.data.carBookingWithDriver[0]?.locationIn,
+                    timeIn:response.data.data.carBookingWithDriver[0]?.timeIn,
+                    LocationOut:response.data.data.carBookingWithDriver[0]?.plantId,
+                    timeOut:response.data.data.carBookingWithDriver[0]?.timeOut,
+                    operational_area:response.data.data.carBookingWithDriver[0]?.operational_area,
+                    upcountry:response.data.data.carBookingWithDriver[0]?.upcountry,
+                    overnight_stay:response.data.data.carBookingWithDriver[0]?.overnight_stay,
+                    person_responsible_for_expenses:response.data.data.carBookingWithDriver[0]?.person_responsible_for_expenses,
+                    other:response.data.data.carBookingWithDriver[0]?.other,
+                    number_of_trips:response.data.data.carBookingWithDriver[0]?.plantId,
+                    province:response.data.data.carBookingWithDriver[0]?.plantId,
+                    GL:response.data.data.carBookingWithDriver[0]?.GL,
+                    cost_enter:response.data.data.carBookingWithDriver[0]?.cost_enter,
+                    order:response.data.data.carBookingWithDriver[0]?.order,
+                    overnight:response.data.data.carBookingWithDriver[0]?.overnight,
+                })
             })
             .catch((error) => {
                 console.log(error);
@@ -1170,7 +1289,7 @@ const [startDate, setStartDate] = useState(new Date());
                                         <Td>{(i)+1+((pagegination.page-1)*30)}</Td>
                                         <Td>{x.booking_date}</Td>
                                         <Td>{x.bookingname}</Td>
-                                        <Td className='text-centers'>{x.number_travelers == 0 || x.number_travelers == null ? "" : "(รถตู้) "} { x.number_cars == 0 || x.number_cars == null ? "" : "(รถเก๋ง)"} { x.number_cars1 == 0 || x.number_cars1 == null ? "" : "(รถเก๋ง)"}</Td>
+                                        <Td className='text-centers'>{x.number_travelers == 0 || x.number_travelers == null ? "" : "(รถตู้) "} { x.number_cars == 0 || x.number_cars == null ? "" : "(รถเก๋ง)"} { x.number_cars1 == 0 || x.number_cars1 == null ? "" : "(รถกระบะ)"}</Td>
                                         <Td className='text-centers'>{x.number_travelers == 0 || x.number_travelers == null ? "" : "("+x.number_travelers+")"} {x.number_cars == 0 || x.number_cars == null  ? "" : "("+x.number_cars+")"} {x.number_cars1 == 0 || x.number_cars1 == null  ? "" : "("+x.number_cars1+")"}</Td>
                                         <Td className='text-centers'>{x.startdate}</Td>
                                         <Td className='text-centers'>{x.enddate}</Td>
@@ -1196,8 +1315,8 @@ const [startDate, setStartDate] = useState(new Date());
                                         <Td>{x.booking_date}</Td>
                                         <Td>{x.bookingname}</Td>
                                         
-                                        <Td className='text-centers'>{x.number_travelers == 0 || x.number_travelers == null ? "" : "(รถตู้) "} { x.number_cars == 0 || x.number_cars == null ? "" : "(รถเก๋ง)"} { x.number_cars1 == 0 || x.number_cars1 == null ? "" : "(รถเก๋ง)"}</Td>
-                                        <Td className='text-centers'>{x.number_travelers == 0 || x.number_travelers == null ? "" : "("+x.number_travelers+")"} {x.number_cars == 0 || x.number_cars == null  ? "" : "("+x.number_cars+")"} {x.number_cars1 == 0 || x.number_cars1 == null  ? "" : "("+x.number_cars1+")"}</Td>
+                                        <Td className='text-centers'>{x.number_travelers == 0 || x.number_travelers == null ? "" : "(รถตู้) "} { x.number_cars1 == 0 || x.number_cars1 == null ? "" : "(รถเก๋ง)"}</Td>
+                                        <Td className='text-centers'>{x.number_travelers == 0 || x.number_travelers == null ? "" : "("+x.number_travelers+")"} {x.number_cars1 == 0 || x.number_cars1 == null  ? "" : "("+x.number_cars1+")"}</Td>
                                         <Td className='text-centers'>{x.startdate}</Td>
                                         <Td className='text-centers'>{x.enddate}</Td>
                                         <Td maxWidth={"200px"} overflow={"hidden"} textOverflow={"ellipsis"}>{x.locationIn}</Td>
