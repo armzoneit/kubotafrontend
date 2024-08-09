@@ -210,11 +210,12 @@ const RentCar = () => {
                 duration: 5000,
                 isClosable: false,
               })
+              const vl = new Date(startDate)
               setform({
                 idcarbooking:null,
                 PlantId:me?.data?.data?.myHrEmployee.plantId,
                 employee_no:me?.data?.data?.myHrEmployee.employeeNo,
-                booking_date:"2023-12-06 03:54:07.6233333 +00:00",
+                booking_date:[vl.getFullYear(), vl.getMonth()+1, vl.getDate()].join('-')+" 03:54:07.6233333 +00:00",
                 bookingname:me?.data?.data?.myHrEmployee.firstName+" "+me?.data?.data?.myHrEmployee.lastName,
                 email:me?.data?.data?.myHrEmployee.email,
                 agency:me?.data?.data?.myHrEmployee.jobName,

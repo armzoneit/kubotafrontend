@@ -761,7 +761,7 @@ const [startDate, setStartDate] = useState(new Date());
             let config5 = {
             method: 'get',
             maxBodyLength: Infinity,
-            url: 'https://d713apsi01-wa01kbtcom.azurewebsites.net/ReserveCar/GetCarBookingWithDriverById/'+ids,
+            url: 'https://d713apsi01-wa01kbtcom.azurewebsites.net/ReserveCar/GetCarBookingPickupAndDropById/'+ids,
             headers: { 
                 'accept': '*/*',
                 'Authorization': "Bearer "+tokens
@@ -1289,8 +1289,8 @@ const [startDate, setStartDate] = useState(new Date());
                                         <Td>{(i)+1+((pagegination.page-1)*30)}</Td>
                                         <Td>{x.booking_date}</Td>
                                         <Td>{x.bookingname}</Td>
-                                        <Td className='text-centers'>{x.number_travelers == 0 || x.number_travelers == null ? "" : "(รถตู้) "} { x.number_cars == 0 || x.number_cars == null ? "" : "(รถเก๋ง)"} { x.number_cars1 == 0 || x.number_cars1 == null ? "" : "(รถกระบะ)"}</Td>
-                                        <Td className='text-centers'>{x.number_travelers == 0 || x.number_travelers == null ? "" : "("+x.number_travelers+")"} {x.number_cars == 0 || x.number_cars == null  ? "" : "("+x.number_cars+")"} {x.number_cars1 == 0 || x.number_cars1 == null  ? "" : "("+x.number_cars1+")"}</Td>
+                                        <Td className='text-centers'>{x.number_travelers == 0 || x.number_travelers == null ? "" : "(รถตู้) "} { x.number_cars1 == 0 || x.number_cars1 == null ? "" : "(รถกระบะ)"}</Td>
+                                        <Td className='text-centers'>{x.number_travelers == 0 || x.number_travelers == null ? "" : "("+x.number_travelers+")"} {x.number_cars1 == 0 || x.number_cars1 == null  ? "" : "("+x.number_cars1+")"}</Td>
                                         <Td className='text-centers'>{x.startdate}</Td>
                                         <Td className='text-centers'>{x.enddate}</Td>
                                         <Td maxWidth={"200px"} overflow={"hidden"} textOverflow={"ellipsis"}>{x.locationIn}</Td>
