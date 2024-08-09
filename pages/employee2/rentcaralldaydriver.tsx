@@ -496,33 +496,33 @@ const RentCarAllDayDriver = () => {
           });
           setplant(me?.data?.data?.myHrEmployee.plantId)
           console.log(me);
-          let config = {
-            method: 'get',
-            maxBodyLength: Infinity,
-            url: 'https://d713apsi01-wa01kbtcom.azurewebsites.net/ReserveCar/CheckReserverCar/1',
-            headers: { 
-              'accept': '*/*', 
-              'Authorization': 'Bearer '+tokens
-            }
-          };
+        //   let config = {
+        //     method: 'get',
+        //     maxBodyLength: Infinity,
+        //     url: 'https://d713apsi01-wa01kbtcom.azurewebsites.net/ReserveCar/CheckReserverCar/1',
+        //     headers: { 
+        //       'accept': '*/*', 
+        //       'Authorization': 'Bearer '+tokens
+        //     }
+        //   };
           
-          axios.request(config)
-          .then((response) => {
-            console.log(response);
-            if(response.data.data.length == 0) {
-                toast({
-                    id: toastId7,
-                    description: `ไม่มีรถที่พร้อมให้บริการ`,
-                    status: "warning",
-                    duration: 5000,
-                    isClosable: false,
-                  })
-                setdisbut(true);
-            }
-          })
-          .catch((error) => {
-            console.log(error);
-          });
+        //   axios.request(config)
+        //   .then((response) => {
+        //     console.log(response);
+        //     if(response.data.data.length == 0) {
+        //         toast({
+        //             id: toastId7,
+        //             description: `ไม่มีรถที่พร้อมให้บริการ`,
+        //             status: "warning",
+        //             duration: 5000,
+        //             isClosable: false,
+        //           })
+        //         setdisbut(true);
+        //     }
+        //   })
+        //   .catch((error) => {
+        //     console.log(error);
+        //   });
           
     },[me.isLoading])
 
