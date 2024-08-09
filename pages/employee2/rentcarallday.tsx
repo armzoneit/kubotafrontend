@@ -1,14 +1,11 @@
 import { Button,useDisclosure, Checkbox, Flex, FormControl, FormErrorMessage, FormHelperText,Image, FormLabel, Grid, GridItem, Input, Radio, RadioGroup, Select, Stack, Text,useToast,Container,
     Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
-  ModalBody,
-  ModalCloseButton,
-
-
-
+    ModalOverlay,
+    ModalContent,
+    ModalHeader,
+    ModalFooter,
+    ModalBody,
+    ModalCloseButton,
  } from '@chakra-ui/react'
 import Head from 'next/head';
 import React, { useEffect, useState } from 'react'
