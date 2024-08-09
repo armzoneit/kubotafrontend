@@ -179,8 +179,10 @@ const RentCar = () => {
             "tel":form.tel,
             "note":form.note,
             "typecar":null,
-            "number_travelers":parseInt(form.countcar1),
-            "number_cars":parseInt(form.number_cars),
+            "number_cars":parseInt(form.countcar1),
+            "person_count":parseInt(form.countper1),
+            "number_cars2":parseInt(form.countcar2),
+            "person_count2":parseInt(form.countper2),
             "startdate":form.startdate,
             "enddate":form.enddate,
             "locationIn":form.locationIn,
@@ -366,33 +368,33 @@ const [disbut,setdisbut] = useState<boolean>(false);
         countcar3:0,
         countper3:0
         });
-        let config = {
-            method: 'get',
-            maxBodyLength: Infinity,
-            url: 'https://d713apsi01-wa01kbtcom.azurewebsites.net/ReserveCar/CheckReserverCar/3',
-            headers: { 
-              'accept': '*/*', 
-              'Authorization': 'Bearer '+tokens
-            }
-          };
+        // let config = {
+        //     method: 'get',
+        //     maxBodyLength: Infinity,
+        //     url: 'https://d713apsi01-wa01kbtcom.azurewebsites.net/ReserveCar/CheckReserverCar/3',
+        //     headers: { 
+        //       'accept': '*/*', 
+        //       'Authorization': 'Bearer '+tokens
+        //     }
+        //   };
           
-          axios.request(config)
-          .then((response) => {
-            console.log(response);
-            if(response.data.data.length == 0) {
-                toast({
-                    id: "error",
-                    description: `ไม่มีรถที่พร้อมให้บริการ`,
-                    status: "warning",
-                    duration: 5000,
-                    isClosable: false,
-                  })
-                setdisbut(true);
-            }
-          })
-          .catch((error) => {
-            console.log(error);
-          });
+        //   axios.request(config)
+        //   .then((response) => {
+        //     console.log(response);
+        //     if(response.data.data.length == 0) {
+        //         toast({
+        //             id: "error",
+        //             description: `ไม่มีรถที่พร้อมให้บริการ`,
+        //             status: "warning",
+        //             duration: 5000,
+        //             isClosable: false,
+        //           })
+        //         setdisbut(true);
+        //     }
+        //   })
+        //   .catch((error) => {
+        //     console.log(error);
+        //   });
           console.log(me);
     },[me.isLoading])
     // console.log(value);

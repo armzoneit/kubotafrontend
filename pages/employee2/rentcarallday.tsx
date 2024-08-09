@@ -464,12 +464,12 @@ const ckcargg = (event:string) => {
             "pathfile": pathc,
             "note": form.note,
             "typecar": form.typecar,
-            "number_travelers": parseInt(form.number_travelers),
+            "number_travelers": parseInt(form.countcar1),
             "brand_cars1": form.brand_cars1,
-            "person_count": parseInt(form.person_count),
-            "number_cars": parseInt(form.number_cars),
+            "person_count": parseInt(form.countper1),
+            "number_cars": parseInt(form.countcar2),
             "brand_cars2": form.brand_cars2,
-            "person_count2": parseInt(form.person_count2),
+            "person_count2": parseInt(form.countper2),
             "startdate": form.startdate,
             "enddate": form.enddate,
             "locationIn": form.locationIn,
@@ -614,33 +614,33 @@ const ckcargg = (event:string) => {
             countper2:0,
             license_number:"",
           });
-          let config = {
-            method: 'get',
-            maxBodyLength: Infinity,
-            url: 'https://d713apsi01-wa01kbtcom.azurewebsites.net/ReserveCar/CheckReserverCar/2',
-            headers: { 
-              'accept': '*/*', 
-              'Authorization': 'Bearer '+tokens
-            }
-          };
+        //   let config = {
+        //     method: 'get',
+        //     maxBodyLength: Infinity,
+        //     url: 'https://d713apsi01-wa01kbtcom.azurewebsites.net/ReserveCar/CheckReserverCar/2',
+        //     headers: { 
+        //       'accept': '*/*', 
+        //       'Authorization': 'Bearer '+tokens
+        //     }
+        //   };
           
-          axios.request(config)
-          .then((response) => {
-            console.log(response);
-            if(response.data.data.length == 0) {
-                toast({
-                    id: "error",
-                    description: `ไม่มีรถที่พร้อมให้บริการ`,
-                    status: "warning",
-                    duration: 5000,
-                    isClosable: false,
-                  })
-                setdisbut(true);
-            }
-          })
-          .catch((error) => {
-            console.log(error);
-          });
+        //   axios.request(config)
+        //   .then((response) => {
+        //     console.log(response);
+        //     if(response.data.data.length == 0) {
+        //         toast({
+        //             id: "error",
+        //             description: `ไม่มีรถที่พร้อมให้บริการ`,
+        //             status: "warning",
+        //             duration: 5000,
+        //             isClosable: false,
+        //           })
+        //         setdisbut(true);
+        //     }
+        //   })
+        //   .catch((error) => {
+        //     console.log(error);
+        //   });
     },[me.isLoading])
     const handleChange = (event: any) => {
         let value = event.target.value;

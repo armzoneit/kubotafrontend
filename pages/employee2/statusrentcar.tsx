@@ -94,7 +94,7 @@ const StatusRentCar = () => {
 
     const me = getMe()
     const [loading,setloading] = useState<boolean>(false);
-    
+    const [textcc,settextcc] = useState<string>("");
     const [disread,setdisread] = useState<boolean>(false);
     const { isOpen, onOpen, onClose } = useDisclosure()
     const isopen1 = useDisclosure()
@@ -554,43 +554,47 @@ const [startDate, setStartDate] = useState(new Date());
           axios.request(config)
           .then((response) => {
             console.log(response.data);
+            var ii = 0;
             response.data.map(function(k,v){
-
-                if(k.bossPositionId == "Ass_Mgr"){
-                    let postions = "ผู้ช่วยผู้จัดการส่วน";
+                if(ii < 2){
                     if(k.bossPositionId == "Ass_Mgr"){
-                        postions == "ผู้ช่วยผู้จัดการส่วน"
-                    }else if(k.bossPositionId == "Dep_Mgr")
-                    {
-                        postions = "ผู้จัดการส่วน"
+                        let postions = "ผู้ช่วยผู้จัดการส่วน";
+                        if(k.bossPositionId == "Ass_Mgr"){
+                            postions == "ผู้ช่วยผู้จัดการส่วน"
+                        }else if(k.bossPositionId == "Dep_Mgr")
+                        {
+                            postions = "ผู้จัดการส่วน"
+                        }
+                        dumper.push({
+                            name:k.approvedName == null ? k.bossName : k.approvedName,
+                            position:postions,
+                            status:k.statusApproved
+                        });
+                        
                     }
-                    dumper.push({
-                        name:k.approvedName,
-                        position:postions,
-                        status:k.statusApproved
-                    });
-                }
 
-                else if(k.bossPositionId == "Dep_Mgr"){
-                    let postions = "";
-                    if(k.bossPositionId == "Ass_Mgr"){
-                        postions = "ผู้ช่วยผู้จัดการส่วน"
-                    }else if(k.bossPositionId == "Dep_Mgr")
-                    {
-                        postions = "ผู้จัดการส่วน"
+                    else if(k.bossPositionId == "Dep_Mgr"){
+                        let postions = "";
+                        if(k.bossPositionId == "Ass_Mgr"){
+                            postions = "ผู้ช่วยผู้จัดการส่วน"
+                        }else if(k.bossPositionId == "Dep_Mgr")
+                        {
+                            postions = "ผู้จัดการส่วน"
+                        }
+                        dumper.push({
+                            name:k.approvedName == null ? k.bossName : k.approvedName,
+                            position:postions,
+                            status:k.statusApproved
+                        });
+                    }else{
+                        dumper.push({
+                            name:k.approvedName == null ? k.bossName : k.approvedName,
+                            position:k.bossPositionId,
+                            status:k.statusApproved
+                        });
                     }
-                    dumper.push({
-                        name:k.approvedName,
-                        position:postions,
-                        status:k.statusApproved
-                    });
-                }else{
-                    dumper.push({
-                        name:k.approvedName,
-                        position:k.bossPositionId,
-                        status:k.statusApproved
-                    });
                 }
+                ii++;
             })
             setapproval(dumper)
           })
@@ -622,6 +626,7 @@ const [startDate, setStartDate] = useState(new Date());
             
             axios.request(config5)
             .then((response) => {
+                settextcc("จองรถเช่าเหมาวัน(พร้อมคนขับ)");
                 console.log(response)
                 setapprovedbutton(true);
                 seteditbutton(false);
@@ -696,6 +701,7 @@ const [startDate, setStartDate] = useState(new Date());
 
             axios.request(config5)
             .then((response) => {
+                settextcc("จองรถเช่าเหมาวัน(ไม่มีคนขับ)");
                 console.log(response)
                 setapprovedbutton(true);
                 seteditbutton(false);
@@ -770,6 +776,7 @@ const [startDate, setStartDate] = useState(new Date());
 
             axios.request(config5)
             .then((response) => {
+                settextcc("จองรถรับส่งระหว่างวัน");
                 console.log(response)
                 setapprovedbutton(true);
                 seteditbutton(false);
@@ -880,7 +887,7 @@ const [startDate, setStartDate] = useState(new Date());
             <Modal isOpen={isOpen} size={"full"} onClose={onClose}>
             {overlay}
             <ModalContent>
-                <ModalHeader><Text className='head-text' >แก้ไข จองรถเช่าเหมาวัน(พร้อมคนขับ)</Text></ModalHeader>
+                <ModalHeader><Text className='head-text' >แก้ไข {textcc}</Text></ModalHeader>
                 <ModalCloseButton />
                 <ModalBody>
                 <Container maxW={"100%"}>
