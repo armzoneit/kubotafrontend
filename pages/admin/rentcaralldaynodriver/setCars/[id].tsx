@@ -90,12 +90,14 @@ const SetRentCarAllDayDriver = () => {
                 'Authorization': 'Bearer ' + tokens,
             }
         }).then(async (res) => {
-            let detail = res.data.data[0];
+            // console.log(res.data.data.carBookingWithDriver[0]); 
+
+            let detail = res.data.data.carBookingWithDriver[0];
             detail.booking_date = new Date(detail.booking_date).toISOString().slice(0, 10);
             detail.startdate = new Date(detail.startdate).toISOString().slice(0, 10);
             detail.enddate = new Date(detail.enddate).toISOString().slice(0, 10);
             setDatas(detail);
-            console.log("Hello");
+            // console.log("Hello");
 
         }).catch(error => {
             console.log(error);

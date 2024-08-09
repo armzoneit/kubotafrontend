@@ -90,7 +90,7 @@ export const SidebarData = [
       },
       {
         title: 'เพิ่มข้อมูลรถและคนขับรถ',
-        path: '/admin/rentcaralldaydriver/AddcarandDriver',
+        path: '/admin/CarManage/Driver',
       },
       {
         title: 'รายงานข้อมูลรถและคนขับรถ',
@@ -121,7 +121,7 @@ export const SidebarData = [
       },
       {
         title: 'เพิ่มข้อมูลรถ',
-        path: '/admin/rentcaralldaynodriver/AddcarandDriver',
+        path: '/admin/CarManage/noDriver',
       },
       {
         title: 'รายงานข้อมูลรถ',
@@ -152,7 +152,7 @@ export const SidebarData = [
       },
       {
         title: 'เพิ่มข้อมูลรถและคนขับรถ',
-        path: '/admin/rentcarduring/AddcarandDriver',
+        path: '/admin/CarManage/rentcarduring',
       },
       {
         title: 'รายงานข้อมูลรถและคนขับรถ',

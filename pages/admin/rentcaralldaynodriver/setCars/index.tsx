@@ -275,17 +275,17 @@ const ListRentCars = () => {
                             <Flex p={2}  >
                                 <label className='lable-statusrentcar' style={{ width: "150px" }}>วันที่ใช้รถเริ่มต้น</label>
                                 <span>
-                                <DatePicker required dateFormat="dd-MM-yyyy" wrapperClassName='date_picker full-width' selected={startDate} onChange={(event)=>{setStartDate(event)}} />
+                                    <DatePicker required dateFormat="dd-MM-yyyy" wrapperClassName='date_picker full-width' selected={startDate} onChange={(event)=>{setStartDate(event)}} />
                                 </span>
                                 <DatePickerWrapperStyles />
                                 <label className='lable-statusrentcar' style={{ width: "150px" }}>วันที่ใช้รถสิ้นสุด</label>
                                 <span>
-                                <DatePicker required dateFormat="dd-MM-yyyy" wrapperClassName='date_picker full-width' selected={startDate1} onChange={(event)=>{setStartDate1(event)}} />
+                                    <DatePicker required dateFormat="dd-MM-yyyy" wrapperClassName='date_picker full-width' selected={startDate1} onChange={(event)=>{setStartDate1(event)}} />
                                 </span>
                             </Flex>
                             <Flex p={2}  >
                                 <label className='lable-statusrentcar' style={{ width: "150px" }}>ชื่อผู้จองรถ</label>
-                                <Input style={{ border: '1px #00A5A8 solid', width: '150px' }} type="text"  value={bookingnames} onChange={(e) => {setbookingnames(e.target.value)}}/>
+                                    <Input style={{ border: '1px #00A5A8 solid', width: '150px' }} type="text"  value={bookingnames} onChange={(e) => {setbookingnames(e.target.value)}}/>
                                 <label className='lable-statusrentcar' style={{ width: "150px" }}>สถานะการจัดรถ</label>
                                 <span>
                                     <Select  style={{ border: '1px #00A5A8 solid'}} value={datasall.cartype} onChange={handlecartye}>
@@ -293,7 +293,7 @@ const ListRentCars = () => {
                                         <option value='1'>รอจัดรถ</option>
                                     </Select>
                                 </span>
-                                <Button className='lable-rentcar' type='button' onClick={search} colorScheme='teal' size='md' ml={5}><AiOutlineSearch />ค้นหา</Button>
+                                    <Button className='lable-rentcar' type='button' onClick={search} colorScheme='teal' size='md' ml={5}><AiOutlineSearch />ค้นหา</Button>
                             </Flex>
                             <Flex p={2} justifyContent={"center"} >
                                 {/* <Button className='lable-rentcar' type='submit' colorScheme='teal' size='md' ml={5}><AiOutlineSearch onClick={downloadpdf} />PDF</Button> */}
@@ -346,41 +346,41 @@ const ListRentCars = () => {
                                 </Thead>
                                 <Tbody >
                                     
-            {Array.isArray(datatables) && datatables.map((row, index) => {
-                return (
-                    <Tr>
-                    <Td>{index+1}</Td>
-                    <Td>{row.booking_date}</Td>
-                    <Td>{row.bookingname}</Td>
-                    <Td>{row.agency}</Td>
-                    <Td>{row.division}</Td>
-                    <Td>{row.tel}</Td>
-                    <Td>{row.number_travelers == 0 || row.number_travelers == null ? "" : "(รถตู้) "} { row.number_cars == 0 || row.number_cars == null ? "" : "(รถเก๋ง)"} { row.number_cars1 == 0 || row.number_cars1 == null ? "" : "(รถเก๋ง)"}</Td>
-                    <Td>{row.number_travelers}</Td>
-                    <Td>{row.startdate}</Td>
-                    <Td>{row.enddate}</Td>
-                    <Td>{row.locationIn}</Td>
-                    <Td>{row.locationOut}</Td>
-                    <Td>{row.GL}</Td>
-                    <Td>{row.cost_enter}</Td>
-                    <Td>{row.order}</Td>
-                    {row.statusApproved == "1" ? <Td className='text-centers'>อนุมัติ</Td> : <Td className='text-centers'>รออนุมัติ</Td> }
-                   
-                   
-                    {row.status == "1" ? 
-                    <Td className='text-centers'> <a href={"/admin/rentcaralldaynodriver/setCars/"+row.idcarbooking}> รอจัดรถ </a></Td> 
-                    : 
-                    <Td className='text-centers'> <a href={"/admin/rentcaralldaynodriver/setCars/"+row.idcarbooking}> รออนุมัติ </a></Td> 
-                    }
-                    <Td ><a href={`${row.idcarbooking}`}><AiOutlineEdit /></a></Td>
-                </Tr>
-                );
-              })} {datatables.length == 0 && 
-                <Tr>
-                    <Td colSpan={17} style={{textAlign:'center'}}>ไม่พบข้อมูล</Td>
-                    
-                </Tr>
-            }
+                                    {Array.isArray(datatables) && datatables.map((row, index) => {
+                                        return (
+                                            <Tr>
+                                            <Td>{index+1}</Td>
+                                            <Td>{row.booking_date}</Td>
+                                            <Td>{row.bookingname}</Td>
+                                            <Td>{row.agency}</Td>
+                                            <Td>{row.division}</Td>
+                                            <Td>{row.tel}</Td>
+                                            <Td>{row.number_travelers == 0 || row.number_travelers == null ? "" : "(รถตู้) "} { row.number_cars == 0 || row.number_cars == null ? "" : "(รถเก๋ง)"} { row.number_cars1 == 0 || row.number_cars1 == null ? "" : "(รถเก๋ง)"}</Td>
+                                            <Td>{row.number_travelers}</Td>
+                                            <Td>{row.startdate}</Td>
+                                            <Td>{row.enddate}</Td>
+                                            <Td>{row.locationIn}</Td>
+                                            <Td>{row.locationOut}</Td>
+                                            <Td>{row.GL}</Td>
+                                            <Td>{row.cost_enter}</Td>
+                                            <Td>{row.order}</Td>
+                                            {row.statusApproved == "1" ? <Td className='text-centers'>อนุมัติ</Td> : <Td className='text-centers'>รออนุมัติ</Td> }
+                                        
+                                        
+                                            {row.status == "1" ? 
+                                            <Td className='text-centers'> <a href={"/admin/rentcaralldaynodriver/setCars/"+row.idcarbooking}> รอจัดรถ </a></Td> 
+                                            : 
+                                            <Td className='text-centers'> <a href={"/admin/rentcaralldaynodriver/setCars/"+row.idcarbooking}> รออนุมัติ </a></Td> 
+                                            }
+                                            <Td ><a href={`${row.idcarbooking}`}><AiOutlineEdit /></a></Td>
+                                        </Tr>
+                                        );
+                                    })} {datatables.length == 0 && 
+                                        <Tr>
+                                            <Td colSpan={17} style={{textAlign:'center'}}>ไม่พบข้อมูล</Td>
+                                            
+                                        </Tr>
+                                    }
                                     
                                 </Tbody>
 
