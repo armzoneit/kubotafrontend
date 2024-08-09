@@ -58,7 +58,8 @@ const SetRentCarAllDayDriver = () => {
     const [dataModal, setDataModal] = useState<any>([])
 
     const id = router?.query?.id
-    const type_text = "ไม่มีคนขับ";
+    const type = ['','พร้อมคนขับ','ไม่มีคนขับ','ระหว่างวัน'];
+    const type_text = type[2];
     // console.log(value);
     const handleSubmit = (event: any) => {
         // alert('You clicked submit');
@@ -130,6 +131,8 @@ const SetRentCarAllDayDriver = () => {
                     gap={4}>
                     <GridItem colSpan={3}>
                         <FormControl>
+                            
+                            
                             <FormLabel className='lable-rentcar'>วันที่จองรถ : </FormLabel> 
                             <Input value={datas.booking_date } disabled style={{ border: '1px #00AAAD solid' }}/>
 
