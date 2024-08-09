@@ -39,6 +39,7 @@ const DatePickerWrapperStyles = createGlobalStyle`
 
 const RentCar = () => {
     const me = getMe()
+    
     const toast = useToast()
     const tokens = localStorageLoad("token")
     const toastId4 = "success"
@@ -50,6 +51,7 @@ const RentCar = () => {
     const [startDate2, setStartDate2] = useState();
     const [ckcar1,setckcar1] = useState<boolean>(false)
     const [ckcar2,setckcar2] = useState<boolean>(false)
+    const [ckcar3,setckcar3] = useState<boolean>(false)
     const [dateminend, setdateminend] = useState(new Date())
     // console.log(value);
     const ckcargg = (event:string) => {
@@ -193,7 +195,9 @@ const RentCar = () => {
             "order":form.order,
             "status": 0,
             "status_approved": 0,
-            "googleform": 0
+            "googleform": 0,
+            "person_count3":form.countper3,
+            "number_cars3":form.countcar3
         }];
         console.log([JSON.stringify(form)]);
         console.log("aaaa",jsonref);
@@ -235,7 +239,9 @@ const RentCar = () => {
                 countcar1:0,
                 countper1:0,
                 countcar2:0,
-                countper2:0
+                countper2:0,
+                countcar3:0,
+                countper3:0
               });
               setStartDate1(undefined)
               setStartDate2(undefined)
@@ -281,7 +287,9 @@ const RentCar = () => {
         countcar1:0,
         countper1:0,
         countcar2:0,
-        countper2:0
+        countper2:0,
+        countcar3:0,
+        countper3:0
 })
 const handlereset = (event:any) => {
     setform({
@@ -301,6 +309,8 @@ const handlereset = (event:any) => {
         countper1:0,
         countcar2:0,
         countper2:0,
+        countcar3:0,
+        countper3:0,
         number_cars:"",
         startdate:"",
         enddate:"",
@@ -348,6 +358,12 @@ const [disbut,setdisbut] = useState<boolean>(false);
             GL:"",
             cost_enter:"",
             order:"",
+            countcar1:0,
+        countper1:0,
+        countcar2:0,
+        countper2:0,
+        countcar3:0,
+        countper3:0
         });
         let config = {
             method: 'get',
@@ -376,6 +392,7 @@ const [disbut,setdisbut] = useState<boolean>(false);
           .catch((error) => {
             console.log(error);
           });
+          console.log(me);
     },[me.isLoading])
     // console.log(value);
     const handlebookingname = (event:React.ChangeEvent<HTMLInputElement>) => setform(prev=> { return {...prev,bookingname:event.target.value}})
@@ -443,6 +460,24 @@ const [disbut,setdisbut] = useState<boolean>(false);
             return {...prev}
         }
     })
+    const handlecountcar3 = (event:React.ChangeEvent<HTMLInputElement>) => setform(prev=> {
+        let isnumber = /^[0-9\b]*$/;
+           if(isnumber.test(event.target.value))
+           {
+               return {...prev,countcar3:event.target.value}
+           }  else{
+               return {...prev}
+           }
+       })
+   const handlecountper3 = (event:React.ChangeEvent<HTMLInputElement>) => setform(prev=> { 
+       let isnumber = /^[0-9\b]*$/;
+       if(isnumber.test(event.target.value))
+       {
+           return {...prev,countper3:event.target.value}
+       }  else{
+           return {...prev}
+       }
+   })
     const onChanges1 = (time: Dayjs, timeString: string) => {
         var ggg = timeString
         if(typeof timeString === "string" && timeString.length === 0)
@@ -607,6 +642,32 @@ const [disbut,setdisbut] = useState<boolean>(false);
                             </RadioGroup> */}
                         </FormControl>
                     </GridItem>
+                    { parseInt(me?.data?.data?.myHrEmployee.plantId) == 2 &&
+                        <GridItem colSpan={12}>
+                        <FormControl>
+                            <Flex>
+                                <Checkbox colorScheme='green' marginRight={"20px"} isChecked={ckcar3} onChange={(val)=>setckcar3(val.target.checked)}>
+                                รถเก๋ง
+                                </Checkbox>
+                                <Stack direction='row' alignItems={"baseline"}>
+                                    <FormLabel className='lable-rentcar'>จำนวนคัน</FormLabel>
+                                    <Input type='search' required isDisabled={!ckcar3} style={{ border: '1px #00AAAD solid', margin: "0px 10px" }} maxWidth={"100"} value={form.countcar3} onChange={handlecountcar3} name='number_cars' />
+                                </Stack>
+                                <Stack direction='row' alignItems={"baseline"}>
+                                    <FormLabel className='lable-rentcar'>จำนวนผู้เดินทาง</FormLabel>
+                                    <Input type='search' required isDisabled={!ckcar3} style={{ border: '1px #00AAAD solid', margin: "0px 10px" }} maxWidth={"100"} value={form.countper3} onChange={handlecountper3} />
+                                </Stack>
+                            </Flex>
+                            {/* <RadioGroup onChange={setValue} value={value}>
+                                <Stack direction='row'>
+                                    <Radio value='1'>รถตู้</Radio>
+                                    <Radio value='2'>รถกระบะ</Radio>
+                                </Stack>
+                            </RadioGroup> */}
+                        </FormControl>
+                    </GridItem>
+                    
+                    }
                     
                    
                     <GridItem colSpan={9}/>
