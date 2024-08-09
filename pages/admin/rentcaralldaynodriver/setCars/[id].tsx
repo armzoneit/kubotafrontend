@@ -21,6 +21,8 @@ import dayjs from 'dayjs';
 import styled, { css, createGlobalStyle } from 'styled-components';
 import { SearchIcon } from '@chakra-ui/icons';
 import { TimePicker } from 'antd';
+import InfoCars from '../../../../components/admin/rentcarall/setCars/InfoCars';
+
 const DatePickerWrapperStyles = createGlobalStyle`
     .date_picker.full-width input {
         border: 1px #00AAAD solid;
@@ -52,6 +54,8 @@ const SetRentCarAllDayDriver = () => {
     const router = useRouter()
     const [showfile,setshowfile] = useState<boolean>(true)
     const { isOpen, onOpen, onClose } = useDisclosure()
+    const [dataCars, setDataCars] = useState<any>([])
+    const [dataModal, setDataModal] = useState<any>([])
 
     const id = router?.query?.id
     const type_text = "ไม่มีคนขับ";
@@ -63,6 +67,15 @@ const SetRentCarAllDayDriver = () => {
         // console.log(data.get('cost-enter'));
 
     }
+    const handleDelete = (data: any) => {
+        console.log(data);
+    }
+    const handleModalEdit = (data: any) => {
+        console.log(data);
+        setDataModal(data);
+        onOpen();
+    }
+
     const handleChange = async(event: any) => {
         await setDatas({ ...datas, [event.target.name]: event.target.value })
     }
@@ -85,6 +98,19 @@ const SetRentCarAllDayDriver = () => {
         }).catch( error =>{
             console.log(error);
         });
+
+        setDataCars([
+            {
+                id: 1,
+                name: 'PDR',
+                typecar: 'รถเก๋ง',
+                licenseplate: 'กข-1234',
+                date: '12/12/2024',
+                age: '3',
+                driver: 'นาย สมชาย',
+                phone: '089-123-4567'
+            }
+        ])
     },[me.isLoading])
    
 
@@ -102,7 +128,7 @@ const SetRentCarAllDayDriver = () => {
                     templateRows='repeat(2, 1fr)'
                     templateColumns='repeat(12, 1fr)'
                     gap={4}>
-                    <GridItem colSpan={6}>
+                    <GridItem colSpan={3}>
                         <FormControl>
                             <FormLabel className='lable-rentcar'>วันที่จองรถ : </FormLabel> 
                             <Input value={datas.booking_date } disabled style={{ border: '1px #00AAAD solid' }}/>
@@ -146,9 +172,8 @@ const SetRentCarAllDayDriver = () => {
                             <FormLabel className='lable-rentcar'>วัตถุประสงค์ในการจองรถ : </FormLabel>
                             <Input value={datas.note } disabled style={{ border: '1px #00AAAD solid' }}/>
 
-                        </FormControl>
-                    </GridItem>
-                    <GridItem colSpan={6}>
+                        
+                  
                             { datas.number_cars ? <FormLabel className='lable-rentcar'>รถเก๋ง { datas.number_cars } คัน : ยี่ห้อ { datas.brand_cars1 } : จำนวนผู้เดินทาง { datas.person_count } </FormLabel> : ''}
                             { datas.number_travelers ? <FormLabel className='lable-rentcar'>รถกระบะ { datas.number_travelers } คัน : ยี่ห้อ { datas.brand_cars2 } : จำนวนผู้เดินทาง { datas.person_count2 } </FormLabel> : ''}
                             
@@ -175,10 +200,11 @@ const SetRentCarAllDayDriver = () => {
 
                             <FormLabel className='lable-rentcar'>Order : </FormLabel>
                             <Input value={datas.order } disabled style={{ border: '1px #00AAAD solid' }}/>
-
+                        </FormControl>
                     </GridItem>
-                   
-                   
+                    <GridItem colSpan={9} style={{ padding: '1%' }}>
+                        <InfoCars type={type_text}/>
+                    </GridItem>
                     
                     
                     
