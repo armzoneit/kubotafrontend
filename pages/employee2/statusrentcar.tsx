@@ -554,42 +554,45 @@ const [startDate, setStartDate] = useState(new Date());
           axios.request(config)
           .then((response) => {
             console.log(response.data);
+            var ii = 0;
             response.data.map(function(k,v){
-
-                if(k.bossPositionId == "Ass_Mgr"){
-                    let postions = "ผู้ช่วยผู้จัดการส่วน";
+                if(ii != 2){
                     if(k.bossPositionId == "Ass_Mgr"){
-                        postions == "ผู้ช่วยผู้จัดการส่วน"
-                    }else if(k.bossPositionId == "Dep_Mgr")
-                    {
-                        postions = "ผู้จัดการส่วน"
+                        let postions = "ผู้ช่วยผู้จัดการส่วน";
+                        if(k.bossPositionId == "Ass_Mgr"){
+                            postions == "ผู้ช่วยผู้จัดการส่วน"
+                        }else if(k.bossPositionId == "Dep_Mgr")
+                        {
+                            postions = "ผู้จัดการส่วน"
+                        }
+                        dumper.push({
+                            name:k.approvedName,
+                            position:postions,
+                            status:k.statusApproved
+                        });
+                        ii++;
                     }
-                    dumper.push({
-                        name:k.approvedName,
-                        position:postions,
-                        status:k.statusApproved
-                    });
-                }
 
-                else if(k.bossPositionId == "Dep_Mgr"){
-                    let postions = "";
-                    if(k.bossPositionId == "Ass_Mgr"){
-                        postions = "ผู้ช่วยผู้จัดการส่วน"
-                    }else if(k.bossPositionId == "Dep_Mgr")
-                    {
-                        postions = "ผู้จัดการส่วน"
+                    else if(k.bossPositionId == "Dep_Mgr"){
+                        let postions = "";
+                        if(k.bossPositionId == "Ass_Mgr"){
+                            postions = "ผู้ช่วยผู้จัดการส่วน"
+                        }else if(k.bossPositionId == "Dep_Mgr")
+                        {
+                            postions = "ผู้จัดการส่วน"
+                        }
+                        dumper.push({
+                            name:k.approvedName,
+                            position:postions,
+                            status:k.statusApproved
+                        });
+                    }else{
+                        dumper.push({
+                            name:k.approvedName,
+                            position:k.bossPositionId,
+                            status:k.statusApproved
+                        });
                     }
-                    dumper.push({
-                        name:k.approvedName,
-                        position:postions,
-                        status:k.statusApproved
-                    });
-                }else{
-                    dumper.push({
-                        name:k.approvedName,
-                        position:k.bossPositionId,
-                        status:k.statusApproved
-                    });
                 }
             })
             setapproval(dumper)
