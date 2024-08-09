@@ -364,11 +364,15 @@ const ListRentCars = () => {
                     <Td>{row.GL}</Td>
                     <Td>{row.cost_enter}</Td>
                     <Td>{row.order}</Td>
-                    {row.statusApproved == "1" ? <Td className='text-centers'>อนุมัติ</Td> : <Td className='text-centers'>รออนุมัติ</Td>
-                                        }
-                                        {
-                                        row.statusApproved == "1" ? <Td className='text-centers'>รอจัดรถ</Td> : <Td className='text-centers'>รออนุมัติ</Td>
-                                        }
+                    {row.statusApproved == "1" ? <Td className='text-centers'>อนุมัติ</Td> : <Td className='text-centers'>รออนุมัติ</Td> }
+                   
+                   
+                    {row.status == "1" ? 
+                    <Td className='text-centers'> <a href={"/admin/rentcaralldaynodriver/setCars/"+row.idcarbooking}> รอจัดรถ </a></Td> 
+                    : 
+                    <Td className='text-centers'> <a href={"/admin/rentcaralldaynodriver/setCars/"+row.idcarbooking}> รออนุมัติ </a></Td> 
+                    }
+                    
                     <Td ><a href={`${row.idcarbooking}`}><AiOutlineEdit /></a></Td>
                 </Tr>
                 );

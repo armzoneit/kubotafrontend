@@ -1,9 +1,27 @@
-import { Box, Button, Flex, FormControl, FormErrorMessage, FormHelperText, FormLabel, Grid, GridItem, Input, Radio, RadioGroup, Select, Stack, Text } from '@chakra-ui/react'
+import { Box, Button, Flex, FormControl, FormErrorMessage, FormHelperText, FormLabel, Grid, GridItem, Input, Radio, RadioGroup, Select, Stack, Text,
+    Checkbox,
+    Modal,
+    ModalOverlay,
+    ModalContent,
+    ModalHeader,
+    ModalFooter,
+    ModalBody,
+    ModalCloseButton,
+    useDisclosure,
+    Container
+
+} from '@chakra-ui/react'
 import Head from 'next/head';
-import React, { useState } from 'react'
+import type { Dayjs } from 'dayjs';
+import dayjs from 'dayjs';
+import customParseFormat from 'dayjs/plugin/customParseFormat';
+import React, { useEffect, useState } from 'react'
 import axios from 'axios';
-import { localStorageLoad } from '../../../../utils/localStrorage';
+import DatePicker from 'react-datepicker';
+import styled, { css, createGlobalStyle } from 'styled-components';
 import { Controller } from 'react-hook-form';
+import { localStorageLoad } from '../../../../utils/localStrorage';
+import { getMe } from "../../../../data-hooks/me/getMe"
 import { AiOutlineSearch, AiOutlineEdit, AiOutlineDelete } from "react-icons/ai";
 import {
     Table,
@@ -16,8 +34,7 @@ import {
     TableCaption,
     TableContainer,
 } from '@chakra-ui/react'
-import DatePicker from 'react-datepicker';
-import styled, { css, createGlobalStyle } from 'styled-components';
+import { TimePicker } from 'antd';
 const DatePickerWrapperStyles = createGlobalStyle`
     .date_picker.full-width input {
         border: 1px #00AAAD solid;
@@ -40,14 +57,17 @@ const DatePickerWrapperStyles = createGlobalStyle`
         border-radius: 5px;
     }
 `;
+
 const ListRentCars = () => {
-    const [startDate, setStartDate] = useState(new Date());
-    const [startDate1, setStartDate1] = useState(new Date());
+    const me = getMe()
     const [value, setValue] = useState("1")
     const [datas, setDatas] = useState<any>([])
     const [date, setDate] = useState<any>(new Date())
+    const [disread,setdisread] = useState<boolean>(false);
     // console.log(value);
-    const status = ['รออนุมัติ','อนุมัติ','รอจัดรถ'];
+    const [ckcar1,setckcar1] = useState<boolean>(false)
+    const [ckcar2,setckcar2] = useState<boolean>(false)
+    const [startDate2, setStartDate2] = useState(new Date());
     const handleSubmit = (event: any) => {
         // alert('You clicked submit');
         event.preventDefault();
@@ -55,14 +75,114 @@ const ListRentCars = () => {
         // console.log(data.get('cost-enter'));
 
     }
+    const onChanges1 = (time: Dayjs, timeString: string) => {
+        var ggg = timeString
+        if(typeof timeString === "string" && timeString.length === 0)
+            {
+                ggg = "00:00";
+            }
+        setform(prev => ({...prev,timeIn:ggg}));
+        
+      };
+      const onChanges2 = (time: Dayjs, timeString: string) => {
+        console.log(timeString);
+        var ggg = timeString
+        if(typeof timeString === "string" && timeString.length === 0)
+            {
+                ggg = "00:00";
+            }
+        setform(prev => ({...prev,timeOut:ggg}));
+        
+      };
+    const handleTrip = (event:React.ChangeEvent<HTMLInputElement>) => setform(prev=> { 
+        let isnumber = /^[0-9\b]*$/;
+        if(isnumber.test(event.target.value))
+        {
+            return {...prev,number_of_trips:event.target.value}
+        } else{
+            return {...prev}
+        }
+        
+        
+    })
+    const [bookingnames,setbookingnames] = useState<string>("")
+    
+    const [datatables,setdatatable] = useState([])
+    const handlebookingdate = (event:React.ChangeEvent<HTMLInputElement>) => setform(prev=> { 
+        setStartDate(event);
+    });
+    const handlebookingdate1 = (event:React.ChangeEvent<HTMLInputElement>) => setform(prev=> { 
+        setStartDate1(event);
+    });
+    const OverlayOne = () => (
+        <ModalOverlay
+          bg='blackAlpha.300'
+          backdropFilter='blur(10px) hue-rotate(90deg)'
+        />
+      )
+      const [overlay, setOverlay] = React.useState(<OverlayOne />)
+    const [form, setform] = useState({
+        idcarbooking:null,
+        PlantId:"",
+        employee_no:"",
+        booking_date:"",
+        bookingname:"",
+        email:"",
+        agency:"",
+        division:"",
+        tel:"",
+        note:"",
+        typecar:"",
+        number_travelers:"0",
+        number_cars:"0",
+        person_count:"0",
+        startdate:"",
+        enddate:"",
+        locationIn:"",
+        timeIn:"00:00",
+        LocationOut:"",
+        timeOut:"00:00",
+        operational_area:"",
+        upcountry:"",
+        overnight_stay:"",
+        person_responsible_for_expenses:"",
+        other:"",
+        number_of_trips:"",
+        province:"",
+        GL:"",
+        cost_enter:"",
+        order:"",
+        overnight:"0",
+})
+    const handlebookingname = (event:React.ChangeEvent<HTMLInputElement>) => setform(prev=> { console.log("test555"); return {...prev,bookingname:event.target.value}})
+    const handleemail = (event:React.ChangeEvent<HTMLInputElement>) => setform(prev=> { return {...prev,email:event.target.value}})
+    const handleagency = (event:React.ChangeEvent<HTMLInputElement>) => setform(prev=> { return {...prev,agency:event.target.value}})
+    const handledivision = (event:React.ChangeEvent<HTMLInputElement>) => setform(prev=> { return {...prev,division:event.target.value}})
+    const handletel = (event:React.ChangeEvent<HTMLInputElement>) => setform(prev=> { return {...prev,tel:event.target.value}})
+    const handlenote = (event:React.ChangeEvent<HTMLInputElement>) => setform(prev=> { return {...prev,note:event.target.value}})
+    const handletypecar = (event:React.ChangeEvent<HTMLInputElement>) => setform(prev=> { return {...prev,typecar:event.target.value}})
+    const handlenumber_travelers = (event:React.ChangeEvent<HTMLInputElement>) => setform(prev=> { return {...prev,number_travelers:event.target.value}})
+    const handlenumber_cars = (event:React.ChangeEvent<HTMLInputElement>) => setform(prev=> { return {...prev,number_cars:event.target.value}})
+    const handlestartdate = (event:React.ChangeEvent<HTMLInputElement>) => setform(prev=> { return {...prev,startdate:event.target.value}})
+    const handleenddate = (event:React.ChangeEvent<HTMLInputElement>) => setform(prev=> { return {...prev,enddate:event.target.value}})
+    const handlelocationIn = (event:React.ChangeEvent<HTMLInputElement>) => setform(prev=> { return {...prev,locationIn:event.target.value}})
+    const handletimeIn = (event:React.ChangeEvent<HTMLInputElement>) => setform(prev=> { return {...prev,timeIn:event.target.value}})
+    const handlelocationOut = (event:React.ChangeEvent<HTMLInputElement>) => setform(prev=> { return {...prev,LocationOut:event.target.value}})
+    const handletimeOut = (event:React.ChangeEvent<HTMLInputElement>) => setform(prev=> { return {...prev,timeOut:event.target.value}})
+    const handleoperational_area = (event:React.ChangeEvent<HTMLInputElement>) => setform(prev=> { return {...prev,operational_area:event.target.value}})
+    const handleovernight_stay = (event:React.ChangeEvent<HTMLInputElement>) => setform(prev=> { return {...prev,overnight_stay:event.target.value}})
+    const handleperson_responsible_for_expenses = (event:React.ChangeEvent<HTMLInputElement>) => setform(prev=> { return {...prev,person_responsible_for_expenses:event.target.value}})
+    const handleGL = (event:React.ChangeEvent<HTMLInputElement>) => setform(prev=> { return {...prev,GL:event.target.value}})
+    const handlecost_enter = (event:React.ChangeEvent<HTMLInputElement>) => setform(prev=> { return {...prev,cost_enter:event.target.value}})
+    const handleorder = (event:React.ChangeEvent<HTMLInputElement>) => setform(prev=> { return {...prev,order:event.target.value}})
+    const [editbutton,seteditbutton] = React.useState<boolean>(false);
     const FileDownload = require('js-file-download');
     const tokens = localStorageLoad("token")
     const downloadexcel = (event:any) => {
-        console.log("gggg");
         var res1 = startDate.toISOString().slice(0,10)
         var res2 = startDate1.toISOString().slice(0,10)
         axios({
-            url: 'https://d713apsi01-wa01kbtcom.azurewebsites.net/Export_Excel/CarNoDriver/'+res1+'/'+res2,
+            url: 'https://d713apsi01-wa01kbtcom.azurewebsites.net/Export_Excel/CarWithDriver/'+res1+'/'+res2+'/'+(bookingnames == "" ? " " : bookingnames)+'/'+datasall.cartype,
             method: 'GET',
             responseType: 'blob', // Important
             headers: { 
@@ -75,24 +195,8 @@ const ListRentCars = () => {
             console.log(res);
         });
     }
-  
-    const gettest = (event:any) => {
-        axios({
-            url: 'https://d713apsi01-wa01kbtcom.azurewebsites.net/ReserveCar/GetCarBookingNoDriver/?page=1&size=30',
-            method: 'GET',
-            headers: { 
-                'accept': '*/*', 
-                'Authorization': 'Bearer '+tokens,
-            }
-        }).then(async (res) => {
-            await setDatas(res.data.data.data.filter(x => x.booking_date == '08/08/2024'));
-            // console.log(res.data.data.data);
-            
-        }).catch( error =>{
-            console.log(error);
-        });
-    }
-
+    const [startDate, setStartDate] = useState(new Date());
+    const [startDate1, setStartDate1] = useState(new Date());
     const downloadpdf = (event:any) => {
         axios({
             url: 'https://d713apsi01-wa01kbtcom.azurewebsites.net/Export_PDF/CarPickup_and_drop_WithDriver/1',
@@ -102,25 +206,70 @@ const ListRentCars = () => {
             FileDownload(res.data,"PDF.pdf");
         });
     }
-
+    const { isOpen, onOpen, onClose } = useDisclosure()
+    const handleSizeClick = (newSize) => {
+        onOpen()
+      }
+    const [datasall,setdatas] = useState({
+        cartype:0,
+        person_responsible_for_expenses:""
+    });
+    useEffect(() =>{
+        console.log(form.bookingname);
+    },[form.bookingname])
     const handleChange = (event: any) => {
         let value = event.target.value;
         setDatas({ ...datas, [event.target.name]: event.target.value })
     }
-    console.log(datas);
-
+    // console.log(datas);
+    const handlecartye = (event:React.ChangeEvent<HTMLInputElement>) => setdatas(prev=> { 
+        console.log(event.target.value);
+        
+        return {...prev,cartype:event.target.value}}
+    )
+    
     const isError = datas.note === ''
+    const search = (event:any) =>{
+        const tokens = localStorageLoad("token")
+        var res1 = startDate.toISOString().slice(0,10)
+        var res2 = startDate1.toISOString().slice(0,10)
+        console.log(res1);
+        console.log("car",datasall.cartype)
+        console.log("start",datasall.startdates)
+        console.log("end",datasall.enddates)
+        const axios = require('axios');
+        let data = '';
+        let config = {
+        method: 'get',
+        maxBodyLength: Infinity,
+        url: 'https://d713apsi01-wa01kbtcom.azurewebsites.net/ReserveCar/GetCheckStatus_ReserveCar2/2/'+res1+'/'+res2+'/'+me?.data?.data?.planningBusUser.role+'/'+(bookingnames == "" ? " " : bookingnames)+'/'+datasall.cartype+'?page=1&size=100',
+        headers: { 
+            'Content-Type': 'application/json', 
+            'Authorization': 'Bearer '+tokens
+        },
+        data : data
+        };
+
+        axios.request(config)
+        .then((response) => {
+            console.log(response);
+            if(response.data.data.length>0){
+                console.log("data",response.data.data);
+                setdatatable(response.data.data)
+                console.log("table",datatables);
+            }
+        })
+        .catch((error) => {
+        console.log(error);
+        });
+
+    }
     return (
         <>
-            <Head>
-                <title>จัดรถเช่าเหมาวัน (ไม่มีคนขับรถ)</title>
-                <meta name="description" content="reservation" />
-                <link rel="icon" href="/favicon.ico" />
-            </Head>
             <Grid templateColumns='repeat(6, 1fr)'>
                 <GridItem colSpan={6}>
                     <Box border="solid 1px #00A5A8" p={4} borderRadius={"10px"} justifySelf={"center"}>
-                        <Text color={'#00A5A8'} fontSize='xl' as={'b'} className='lable-rentcar'>จัดรถเช่าเหมาวัน (ไม่มีคนขับรถ)</Text>
+                        <Text color={'#00A5A8'} fontSize='xl' as={'b'} className='lable-rentcar'>จัดรถเช่าเหมาวัน (พร้อมคนขับรถ)</Text>
                         <Grid style={{ justifyContent: "center" }} >
                         
                             <Flex p={2}  >
@@ -128,34 +277,49 @@ const ListRentCars = () => {
                                 <span>
                                 <DatePicker required dateFormat="dd-MM-yyyy" wrapperClassName='date_picker full-width' selected={startDate} onChange={(event)=>{setStartDate(event)}} />
                                 </span>
+                                <DatePickerWrapperStyles />
                                 <label className='lable-statusrentcar' style={{ width: "150px" }}>วันที่ใช้รถสิ้นสุด</label>
                                 <span>
                                 <DatePicker required dateFormat="dd-MM-yyyy" wrapperClassName='date_picker full-width' selected={startDate1} onChange={(event)=>{setStartDate1(event)}} />
                                 </span>
-                                <DatePickerWrapperStyles />
                             </Flex>
                             <Flex p={2}  >
                                 <label className='lable-statusrentcar' style={{ width: "150px" }}>ชื่อผู้จองรถ</label>
-                                <Input style={{ border: '1px #00A5A8 solid', width: '150px' }} type="text" />
+                                <Input style={{ border: '1px #00A5A8 solid', width: '150px' }} type="text"  value={bookingnames} onChange={(e) => {setbookingnames(e.target.value)}}/>
                                 <label className='lable-statusrentcar' style={{ width: "150px" }}>สถานะการจัดรถ</label>
                                 <span>
-                                    <Select placeholder='เลือกสถานะ' style={{ border: '1px #00A5A8 solid'}}>
+                                    <Select  style={{ border: '1px #00A5A8 solid'}} value={datasall.cartype} onChange={handlecartye}>
+                                        <option value='0'>รออนุมัติ</option>
                                         <option value='1'>รอจัดรถ</option>
-                                        <option value='2'>รออนุมัติ</option>
                                     </Select>
                                 </span>
-                                <Button className='lable-rentcar' type='submit' onClick={gettest} colorScheme='teal' size='md' ml={5}><AiOutlineSearch />ค้นหา</Button>
+                                <Button className='lable-rentcar' type='button' onClick={search} colorScheme='teal' size='md' ml={5}><AiOutlineSearch />ค้นหา</Button>
                             </Flex>
                             <Flex p={2} justifyContent={"center"} >
                                 {/* <Button className='lable-rentcar' type='submit' colorScheme='teal' size='md' ml={5}><AiOutlineSearch onClick={downloadpdf} />PDF</Button> */}
-                                <Button className='lable-rentcar' onClick={downloadexcel} type='submit' colorScheme='teal' size='md' ml={5}><AiOutlineSearch  />Excel</Button>
+                                <Button onClick={downloadexcel} className='lable-rentcar' type='submit' colorScheme='teal' size='md' ml={5}><AiOutlineSearch  />Excel</Button>
                             </Flex>
                         </Grid>
                     </Box>
                 </GridItem>
+                <GridItem colSpan={6} mt={"50px"} ml={"10px"}>
+                    <Flex p={2} display={"flex"} justifyContent={"space-between"}>
+                        <p>จำนวนที่ใช้งานทั้งหมด 1 คัน</p>
+                        {/* <span >จำนวนแสดง: 
+                            <span style={{display:"inline-block",marginTop:"-8px"}}>
+                                <Select placeholder='' width={"105px"} >
+                                    <option value='5' selected>5</option>
+                                    <option value='10'>10</option>
+                                    <option value='30'>30</option>
+                                    <option value='-1'>ทั้งหมด</option>
+                                </Select>
+                            </span>
+                        </span> */}
+                    </Flex> 
+                </GridItem>
                 <GridItem colSpan={6}>
 
-                    <Box mt={"50px"}  >
+                    <Box mt={"0px"}  >
                         <TableContainer borderRadius={"10px"} border={'1px #00A5A8 solid'} >
                             <Table size='md' className='table-font' >
                                 <Thead bgColor={'#00A5A8'} height={"40px"}  >
@@ -163,8 +327,11 @@ const ListRentCars = () => {
                                         <Th color={"white"}>ลำดับ</Th>
                                         <Th color={"white"}>วันจอง/เวลา</Th>
                                         <Th color={"white"}>ชื่อผู้จองรถ</Th>
-                                        <Th color={"white"}>ประเภทรถ</Th>
-                                        <Th color={"white"}>จำนวน (คัน)</Th>
+                                        <Th color={"white"}>หน่วยงาน</Th>
+                                        <Th color={"white"}>ส่วนงาน</Th>
+                                        <Th color={"white"}>เบอร์โทร</Th>
+                                        <Th color={"white"}>ประเภทรถที่ขอ</Th>
+                                        <Th color={"white"}>จำนวน(คัน)</Th>
                                         <Th color={"white"}>วันที่ใช้รถเริ่มต้น/เวลา</Th>
                                         <Th color={"white"}>วันที่ใช้รถสิ้นสุด/เวลา</Th>
                                         <Th color={"white"}>สถานที่รับ</Th>
@@ -178,32 +345,43 @@ const ListRentCars = () => {
                                     </Tr>
                                 </Thead>
                                 <Tbody >
-                                { Array.isArray(datas) && datas.map((row, index) => {
-                                return (
-                                    <Tr>
-                                        <Td>{ index+1 }</Td>
-                                        <Td>{ row.booking_date }</Td>
-                                        <Td>{ row.bookingname }</Td>
-                                        <Td>{ row.typecar }</Td>
-                                        <Td>0</Td>
-                                        <Td>{ row.startdate }</Td>
-                                        <Td>{ row.enddate }</Td>
-                                        <Td>{ row.LocationOut }</Td>
-                                        <Td>{ row.locationIn }</Td>
-                                        <Td>{ row.GL }</Td>
-                                        <Td>{ row.cost_enter }</Td>
-                                        <Td>{ row.order }</Td>
-                                        <Td>{ row.status_approved }</Td>
-                                        <Td textDecoration={"underline"} >
-                                        <a href={"/admin/rentcaralldaynodriver/setCars/"+row.idcarbooking}>{ status[row.status] }</a>
-                                            </Td>
-                                        <Td >
-                                            <AiOutlineDelete />
-                                            
-                                        </Td>
-                                    </Tr>
-                                     );
-                                    })}
+                                    
+            {Array.isArray(datatables) && datatables.map((row, index) => {
+                return (
+                    <Tr>
+                    <Td>{index+1}</Td>
+                    <Td>{row.booking_date}</Td>
+                    <Td>{row.bookingname}</Td>
+                    <Td>{row.agency}</Td>
+                    <Td>{row.division}</Td>
+                    <Td>{row.tel}</Td>
+                    <Td>{row.number_travelers == 0 || row.number_travelers == null ? "" : "(รถตู้) "} { row.number_cars == 0 || row.number_cars == null ? "" : "(รถเก๋ง)"} { row.number_cars1 == 0 || row.number_cars1 == null ? "" : "(รถเก๋ง)"}</Td>
+                    <Td>{row.number_travelers}</Td>
+                    <Td>{row.startdate}</Td>
+                    <Td>{row.enddate}</Td>
+                    <Td>{row.locationIn}</Td>
+                    <Td>{row.locationOut}</Td>
+                    <Td>{row.GL}</Td>
+                    <Td>{row.cost_enter}</Td>
+                    <Td>{row.order}</Td>
+                    {row.statusApproved == "1" ? <Td className='text-centers'>อนุมัติ</Td> : <Td className='text-centers'>รออนุมัติ</Td> }
+                   
+                   
+                    {row.status == "1" ? 
+                    <Td className='text-centers'> <a href={"/admin/rentcaralldaynodriver/setCars/"+row.idcarbooking}> รอจัดรถ </a></Td> 
+                    : 
+                    <Td className='text-centers'> <a href={"/admin/rentcaralldaynodriver/setCars/"+row.idcarbooking}> รออนุมัติ </a></Td> 
+                    }
+                    <Td ><a href={`${row.idcarbooking}`}><AiOutlineEdit /></a></Td>
+                </Tr>
+                );
+              })} {datatables.length == 0 && 
+                <Tr>
+                    <Td colSpan={17} style={{textAlign:'center'}}>ไม่พบข้อมูล</Td>
+                    
+                </Tr>
+            }
+                                    
                                 </Tbody>
 
                             </Table>
