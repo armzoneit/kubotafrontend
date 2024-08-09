@@ -147,7 +147,6 @@ const ckcargg = (event:string) => {
                 let subhours = ggg.split(":")
                 sethours(range(0,parseInt(subhours[0])))
                 setminutes([0])
-                console.log(hours);
             }else{
                 sethours([])
             }
