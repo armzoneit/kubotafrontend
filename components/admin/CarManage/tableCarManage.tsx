@@ -65,7 +65,7 @@ const tableCarManage = ({ mode }) => {
         {
             serv: true,
             type: true,
-            type_group:['รถเก๋ง','กระบะ'],
+            type_group:['รถเก๋ง','รถกระบะ'],
             license: true,
             register_date: false,
             driver: false,
@@ -74,7 +74,7 @@ const tableCarManage = ({ mode }) => {
         {
             serv: true,
             type: true,
-            type_group:['รถเก๋ง','กระบะ','กระบะ'],
+            type_group:['รถเก๋ง','รถกระบะ','รถตู้'],
             license: true,
             register_date: false,
             driver: true,
@@ -166,7 +166,6 @@ const tableCarManage = ({ mode }) => {
                     icon: "success",
                     title: "บันทึกข้อมูลสำเร็จ!",
                     text: ""
-                    
                 });
                 await setallCars(response.data.data);
             }).catch((error) => {

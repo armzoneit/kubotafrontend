@@ -30,11 +30,12 @@ import { AiOutlineDelete, AiOutlineEdit } from "react-icons/ai";
 import { localStorageLoad } from '../../../../utils/localStrorage';
 import axios from 'axios';
 import { getMe } from "../../../../data-hooks/me/getMe";
+import Swal from 'sweetalert2';
 
 import { Controller } from 'react-hook-form';
 import { useRouter } from "next/router"
 import get from 'lodash/get';
-const InfoCars = ({ type, idcarbooking }) => {
+const InfoCars = ({ mode, idcarbooking,booking }) => {
     const me = getMe()
     const isopen = useDisclosure()
     const router = useRouter()
@@ -48,48 +49,84 @@ const InfoCars = ({ type, idcarbooking }) => {
     )
     const [overlay, setOverlay] = React.useState(<OverlayOne />);
     const [selectCars, setselectCars] = useState<any>([]);
-
+    const [allCars, setallCars] = useState<any>([]);
     const [cars, setCars] = useState<any>([]);
     const [editCars, seteditCars] = useState<any>([]);
+    const bookingname = booking.bookingname;
+    
     const [addCars, setaddCars] = React.useState({
-        service_id: null,
-        car_id: null,
-        driver_id: null,
-        type: type,
-        id: id
+        id: 0,
+        type_manage: 0,
+        car_id: 0,
+        mode: mode,
+        booking_id: idcarbooking,
+        bookingname: bookingname,
+        type_car: 0,
+        serv: "string",
+        license: "string"
     });
+    
+    const [carForm, setcarForm] = useState<any>([
+        {
+            serv: {name:'ผู้ให้บริการ', value:'',key:'serv'},
+            type: {name:['รถตู้','รถเก๋ง'],value:'',key:'type'},
+            license: {name:'ทะเบียนรถ',value:'',key:'license'},
+            car_model: { name:'รุ่นรถ',value:'',key:'carModel'},
+            register_date: {name:'วันที่จดทะเบียนรถ',value:'',key:'dateRegisterCar'},
+            driver: {name:'ชื่อคนขับรถ',value:'',key:'driver'},
+            driver_phone: {name:'เบอร์โทรศัพท์คนขับรถ',value:'',key:'driverPhone'}
+        },
+        {
+            type: {name:['รถเก๋ง','รถกระบะ'],value:'',key:'type'},
+            license: {name:'ทะเบียนรถ',value:'',key:'license'},
+            car_model: { name:'รุ่นรถ',value:'',key:'carModel'},
+            register_date: {name:'วันที่จดทะเบียนรถ',value:'',key:'dateRegisterCar'},
+        },
+        {
+            type: {name:['รถเก๋ง','รถกระบะ','รถตู้'],value:'',key:'type'},
+            license: {name:'ทะเบียนรถ',value:'',key:'license'},
+            car_model: { name:'รุ่นรถ',value:'',key:'carModel'},
+            register_date: {name:'วันที่จดทะเบียนรถ',value:'',key:'dateRegisterCar'},
+            driver: {name:'ชื่อคนขับรถ',value:'',key:'driver'},
+            driver_phone: {name:'เบอร์โทรศัพท์คนขับรถ',value:'',key:'driverPhone'}
+        },
+    ]);
+    const [carsInfo, setCarsInfo] = useState<any>([]);
 
-    const getCar = async () => {
-        try {
-            let config: any = {
-                url: '/',
-                method: 'GET',
-                headers: {
-                    'accept': '*/*',
-                    'Authorization': 'Bearer ' + tokens,
-                }
-            }
+    
+    const type_manage = ['รถต่างจังหวัด','กรุงเทพฯ-ปริมณฑล','SKCN-SKCA','SKCN-Kubota Farm'];
 
-            console.log(type);
+    // const getCar = async () => {
+    //     try {
+    //         let config: any = {
+    //             url: '/',
+    //             method: 'GET',
+    //             headers: {
+    //                 'accept': '*/*',
+    //                 'Authorization': 'Bearer ' + tokens,
+    //             }
+    //         }
 
-
-            if (type == 'ไม่มีคนขับ') {
-                config.url = 'https://d713apsi01-wa01kbtcom.azurewebsites.net/ReserveCar/GetCarBooking/2/' + idcarbooking
-            } else if (type == 'พร้อมคนขับ') {
-                config.url = 'https://d713apsi01-wa01kbtcom.azurewebsites.net/ReserveCar/GetCarBooking/1/' + idcarbooking
-            } else if (type == 'ระหว่างวัน') {
-                config.url = 'https://d713apsi01-wa01kbtcom.azurewebsites.net/ReserveCar/GetCarBooking/3/' + idcarbooking
-            }
-
-            const { data } = await axios(config)
-
-            setCars(data);
+    //         console.log(type);
 
 
-        } catch (error) {
-            console.log(error);
-        }
-    }
+    //         if (type == 'ไม่มีคนขับ') {
+    //             config.url = 'https://d713apsi01-wa01kbtcom.azurewebsites.net/ReserveCar/GetCarBooking/2/' + idcarbooking
+    //         } else if (type == 'พร้อมคนขับ') {
+    //             config.url = 'https://d713apsi01-wa01kbtcom.azurewebsites.net/ReserveCar/GetCarBooking/1/' + idcarbooking
+    //         } else if (type == 'ระหว่างวัน') {
+    //             config.url = 'https://d713apsi01-wa01kbtcom.azurewebsites.net/ReserveCar/GetCarBooking/3/' + idcarbooking
+    //         }
+
+    //         const { data } = await axios(config)
+
+    //         setCars(data);
+
+
+    //     } catch (error) {
+    //         console.log(error);
+    //     }
+    // }
 
     const hendleDeleteCar = async (id: any) => {
         try {
@@ -121,12 +158,156 @@ const InfoCars = ({ type, idcarbooking }) => {
     }
 
     useEffect(() => {
-        getCar();
-    }, [me.isLoading, idcarbooking]);
+        // getCar();
+        axios.get('https://d713apsi01-wa01kbtcom.azurewebsites.net/CarDetail/GetCarDetail').then(async (response) => {
+            // let data = await response.data.filter(x => x.mode*1 == mode+1);
+            let data = await response.data;
 
-    const addCar = () => {
-        console.log(addCars);
+            await setallCars(data);
+        }).catch((error) => {
+            console.log(error);
+        });
+        
+        setCarsInfo(carForm[mode-1]);
+        resetAllcar();
+    }, [me.isLoading, idcarbooking]);
+    const resetAllcar = async () => {
+        axios.get('https://d713apsi01-wa01kbtcom.azurewebsites.net/CarBooking/GetCarBooking/1/'+idcarbooking).then(async (response) => {
+            // let data = await response.data.filter(x => x.mode*1 == mode+1);
+
+            await setCars(response.data);
+        }).catch((error) => {
+            console.log(error);
+        });
     }
+    const handleChange = async (event: any) => {
+        let ac = addCars;
+        ac[event.target.name] = event.target.value;
+        // await setaddCars({ ...addCars, [event.target.name]: event.target.value })
+        if(event.target.name === 'car_id'){
+            showCarDetail(event.target.value);
+        }
+        await setaddCars(ac);
+
+        
+    }
+    
+    const showCarDetail = async (id) =>{
+
+        if(!id){
+            return false;
+        }
+        let showCar = await allCars.find(x => x.id == id);
+        let data = carsInfo;
+
+        for(let x in data){
+            data[x].value = showCar[data[x].key]
+        }
+        let text = '';
+        let ac = addCars;
+        
+        for(let x in carsInfo){
+            text = Array.isArray(carsInfo[x].name) ? text + '<b>ประเภทรถ</b> :'+carsInfo[x].name[carsInfo[x].value]+'<br>': text + '<b>'+carsInfo[x].name+'</b> :'+carsInfo[x].value+'<br>';
+        }
+        ac.type_car = showCar.type;
+        ac.serv = carsInfo.serv ? carsInfo.serv.value : 0;
+        ac.license = carsInfo.license.value;
+
+        await setaddCars(ac);
+        
+        document.getElementById('car_infomation').innerHTML = text;
+    }
+
+    const insertData = async () => {
+        addCars.type = parseInt(addCars.type);
+        addCars.booking_id = parseInt(addCars.booking_id);
+        addCars.car_id = parseInt(addCars.car_id);
+
+        addCars.mode = addCars.mode.toString();
+        addCars.serv = addCars.serv.toString();
+        if(addCars.id){
+            console.log(addCars.id);
+           axios.put('https://d713apsi01-wa01kbtcom.azurewebsites.net/CarBooking/UpdateCarBooking',addCars,{ 
+                accept: '*/*', 
+                Authorization: 'Bearer '+tokens,
+            }).then(async(response) => {
+                Swal.fire({
+                    icon: "success",
+                    title: "บันทึกข้อมูลสำเร็จ!",
+                    text: ""
+                });
+                // await setCars(response.data.data);
+                resetAllcar();
+            }).catch((error) => {
+                console.log(error);
+            });
+        }else{
+            console.log(addCars.id);
+ 
+            axios.post('https://d713apsi01-wa01kbtcom.azurewebsites.net/CarBooking/InsertCarBooking',addCars,{ 
+                accept: '*/*', 
+                Authorization: 'Bearer '+tokens,
+            }).then(async(response) => {
+                Swal.fire({
+                    icon: "success",
+                    title: "บันทึกข้อมูลสำเร็จ!",
+                    text: ""
+                });
+                // await setCars(response.data.data);
+                resetAllcar();
+            }).catch((error) => {
+                console.log(error);
+            });
+            
+        }
+       
+    }
+
+    const resetData= async (data) => {
+
+        let ac = addCars;
+        ac.booking_id = data.bookingId;
+        ac.bookingname = data.bookingName;
+        ac.car_id = data.carId;
+        ac.id = data.id;
+        ac.license = data.license;
+        ac.mode = data.mode;
+        ac.serv = data.serv;
+        ac.type_car = data.type_car;
+        ac.type_manage = data.type_manage;
+
+        await setaddCars(ac);
+        showCarDetail(data.carId);
+    }
+
+    const deleteData = async (id) => {
+        Swal.fire({
+            title: "คุณต้องการลบใช่ไหม?",
+            text: "",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "ลบ!",
+            cancelButtonText: "ยกเลิก",
+
+          }).then((result) => {
+            if (result.isConfirmed) {
+                axios.delete('https://d713apsi01-wa01kbtcom.azurewebsites.net/CarBooking/DeleteCarBooking/'+id).then(async(response) => {
+                    Swal.fire({
+                        icon: "success",
+                        title: "ลบข้อมูลสำเร็จ!",
+                        text: ""
+                    });
+                resetAllcar();
+                    
+                }).catch((error) => {
+                    console.log(error);
+                });
+            }
+          });
+    }
+
     return (
         <>
             <Modal blockScrollOnMount={false} size={"xl"} isOpen={isopen.isOpen} onClose={isopen.onClose}>
@@ -141,18 +322,32 @@ const InfoCars = ({ type, idcarbooking }) => {
                                 <Grid templateRows='repeat(2, 1fr)' templateColumns='repeat(6, 1fr)' gap={4}>
                                     <GridItem colSpan={12}>
                                         <FormControl>
-                                            <FormLabel className='lable-rentcar'>เลือกผู้ให้บริการ</FormLabel>
-                                            <Select name='car_id' placeholder='เลือกรถ' style={{ border: '1px #00AAAD solid' }} value={addCars.car_id}>
-
+                                            { mode == 1 ? <FormLabel className='lable-rentcar'>ประเภทการจัดรถ :</FormLabel> : ''}
+                                            { mode == 1  ?
+                                           <Select name='type_manage' placeholder='เลือกประเภทการจัดรถ' style={{ border: '1px #00AAAD solid' }} value={addCars.type_manage} onChange={handleChange}>
+                                                {
+                                                        type_manage.map((val, index) => {
+                                                        return (
+                                                            <option value={index}>{ val }</option>
+                                                        )})
+                                                }
+                                                
                                             </Select>
+                                            : '' }
+                                            
                                             <FormLabel className='lable-rentcar'>เลือกรถ</FormLabel>
-                                            <Select name='car_id' placeholder='เลือกรถ' style={{ border: '1px #00AAAD solid' }} value={addCars.car_id}>
-
+                                            <Select name='car_id' placeholder='เลือกรถ' style={{ border: '1px #00AAAD solid' }} value={addCars.car_id} onChange={handleChange}>
+                                                {
+                                                      allCars.map((val) => {
+                                                        return (
+                                                            <option value={val.id} selected={val.id == addCars.car_id}>{ val.carModel } ( { val.license } )</option>
+                                                        )})
+                                                }
                                             </Select>
-                                            <FormLabel className='lable-rentcar'>เลือกคนขับ</FormLabel>
-                                            <Select name='car_id' placeholder='เลือกคนขับ' style={{ border: '1px #00AAAD solid' }} value={addCars.driver_id}>
+                                            <FormLabel className='lable-rentcar'>ข้อมูลรถที่เลือก</FormLabel>
+                                            <div id="car_infomation">
 
-                                            </Select>
+                                            </div>
                                         </FormControl>
                                     </GridItem>
                                 </Grid>
@@ -164,9 +359,7 @@ const InfoCars = ({ type, idcarbooking }) => {
                         <Button colorScheme='blue' backgroundColor={"#00A5A8"} mr={3}
                             onClick={() => {
                                 isopen.onClose();
-                                addCar();
-                                console.log(1);
-
+                                insertData();
                             }}>
                             เพิ่มรถ
                         </Button>
@@ -204,50 +397,41 @@ const InfoCars = ({ type, idcarbooking }) => {
                             <Th color={"white"}>อายุรถ</Th>
                             <Th color={"white"}>ชื่อคนขับ</Th>
                             <Th color={"white"}>เบอร์โทรศัพท์</Th>
-                            <Th color={"white"} colSpan={2} align="center">แก้ไข</Th>
-                            <Th color={"white"} colSpan={2} align="center">ลบ</Th>
+                            <Th color={"white"} colSpan={2}>จัดการ</Th>
                         </Tr>
                     </Thead>
                     <Tbody >
-                        {
+                        { Array.isArray(cars) &&
                             cars.map((car, index) => {
                                 return (
                                     <Tr key={index}>
-                                        <Td>{car.TransportationProvider}</Td>
-                                        <Td>{car.typeCar}</Td>
+                                        <Td>{car.serv}</Td>
+                                        <Td>{ carsInfo.type.name[car.typeCar]}</Td>
                                         <Td>
-                                            {car.Car_registration}
+                                            {car.license}
                                         </Td>
                                         <Td>
-                                            {car.DateRegisterCar}
+                                            
                                         </Td>
                                         <Td>
-                                            {car.Car_age}
+                                            
                                         </Td>
                                         <Td>
-                                            {car.DriverName}
+                                            
                                         </Td>
                                         <Td>
-                                            {car.Tel}
+                                           
                                         </Td>
-                                        <Td>
-                                            <IconButton
-                                                aria-label="Edit"
-                                                icon={<AiOutlineEdit />}
-                                                onClick={() => {
-                                                    isopen.onOpen();
-                                                    seteditCars(car);
-                                                }}
-                                            />
+                                        <Td >
+                                            <a onClick={(e)=>{resetData(car);isopen.onOpen();}} href="#">
+                                                <AiOutlineEdit />
+                                            </a>
+                                            
                                         </Td>
-                                        <Td>
-                                            <IconButton
-                                                aria-label="Delete"
-                                                icon={<AiOutlineDelete />}
-                                                onClick={() => {
-                                                    hendleDeleteCar(car.id)
-                                                }}
-                                            />
+                                        <Td >
+                                            <a onClick={(e)=>{deleteData(car.id);}} href="#">
+                                                <AiOutlineDelete />
+                                            </a>
                                         </Td>
                                     </Tr>
                                 )
