@@ -69,6 +69,7 @@ const ReportRentCar = ({ mode }) => {
     const type_manage_car = ['รถต่างจังหวัด','กรุงเทพฯ-ปริมณฑล','SKCN-SKCA','SKCN-Kubota Farm'];
 
     const car_type = [
+        [],
         ['รถตู้','รถเก๋ง'],
         ['รถเก๋ง','รถกระบะ'],
         ['รถเก๋ง','รถกระบะ','รถตู้']
@@ -167,11 +168,9 @@ const ReportRentCar = ({ mode }) => {
                                 <Select name='type_manage' placeholder='เลือกประเภทการจัดรถ' style={{ border: '1px #00AAAD solid' }} 
                                     onChange={(event)=>{
                                         setstatus(event.target.value)
-                                        console.log(event.target.value);
-                                        console.log(status);
                                         
                                     }} >
-                                    {
+                                    {Array.isArray(car_manage_status) &&
                                             car_manage_status.map((val, index) => {
                                             return (
                                                 <option value={index}>{ val }</option>
@@ -185,7 +184,7 @@ const ReportRentCar = ({ mode }) => {
 
                                 <FormLabel className='lable-rentcar'>ประเภทรถที่ขอ : </FormLabel>
                                 <Select placeholder='Select option' style={{ border: '1px #00A5A8 solid'}} onChange={(event)=>{settype_car(event.target.value)}}>
-                                    {
+                                    {Array.isArray(car_type) &&
                                             car_type[mode].map((val, index) => {
                                             return (
                                                 <option value={index}>{ val }</option>
@@ -199,7 +198,7 @@ const ReportRentCar = ({ mode }) => {
                                <GridItem colSpan={12}>
                                     <label className='lable-statusrentcar' style={{ width: "150px" }}>ประเภทการจัดรถ</label>
                                     <Select placeholder='Select option' style={{ border: '1px #00A5A8 solid'}} onChange={(event)=>{settype_manage(event.target.value)}}>
-                                        {
+                                        { Array.isArray(type_manage_car) &&
                                                 type_manage_car.map((val, index) => {
                                                 return (
                                                     <option value={index}>{ val }</option>
