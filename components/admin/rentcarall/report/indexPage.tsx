@@ -49,6 +49,7 @@ const ReportRentCar = ({ mode }) => {
     const me = getMe();
     const router = useRouter();
     const tokens = localStorageLoad("token");
+    const FileDownload = require('js-file-download');
 
 
     const [startDate, setStartDate] = useState(new Date());
@@ -64,7 +65,7 @@ const ReportRentCar = ({ mode }) => {
 
 
     const title_name = ['','รายงานการขอใช้รถเช่าเหมาวัน (พร้อมคนขับรถ)','รายงานการขอใช้รถเช่าเหมาวัน (ไม่มีคนขับรถ)','รายงานการขอใช้รถรับส่งระหว่างวัน'];
-    const edit_url = ['','rentcaralldaydriver','rentcaralldaynodriver','rentcarduring'];
+    const download_url = ['','CarWithDriver','CarNoDriver','CarPickup_and_drop'];
     const car_manage_status = ['รอจัดรถ','จัดเสร็จแล้ว','ยกเลิก'];
     const type_manage_car = ['รถต่างจังหวัด','กรุงเทพฯ-ปริมณฑล','SKCN-SKCA','SKCN-Kubota Farm'];
 
@@ -133,6 +134,59 @@ const ReportRentCar = ({ mode }) => {
             data:dataTable
         }).then((res) => {
             console.log(res);
+            
+        }).catch((err)=>{
+            console.log(err);
+        });
+        // axios.get('https://d713apsi01-wa01kbtcom.azurewebsites.net/Export_Excel/GetAll',dataTable,{ 
+        //     headers: {
+        //       'Content-Type': 'application/json'
+        //      }
+        // }).then(async(response) => {
+        //     console.log(response);
+            
+        // }).catch((error) => {
+        //     console.log(error);
+        // });
+        
+    }
+
+    const export_excel = async () => {
+        let data = {
+            page:1,
+            size:10,
+            mode:mode,
+            filter:[
+                {
+                    bookingname:bookingname,
+                    status:status.toString(),
+                    serv:serv,
+                    license:license,
+                    driver:driver,
+                    type_car:type_car,
+                    type_manage:type_manage,
+                    start_date:startDate ? new Date(startDate).toISOString().slice(0,10) :'',
+                    end_date:startDate1 ? new Date(startDate1).toISOString().slice(0,10) :''
+                }
+            ]
+        };
+
+        
+        await setdataTable(data);
+
+        axios({
+            url: 'https://d713apsi01-wa01kbtcom.azurewebsites.net/Export_Excel/'+download_url[mode],
+            method: 'POST',
+            responseType: 'blob', // Important
+            headers: { 
+                'accept': '*/*', 
+                'Authorization': 'Bearer '+tokens,
+                'Content-Type': 'application/json'
+            },
+            data:dataTable
+        }).then((res) => {
+            FileDownload(res.data,title_name[mode]+".xlsx");
+
             
         }).catch((err)=>{
             console.log(err);
@@ -235,7 +289,7 @@ const ReportRentCar = ({ mode }) => {
                             <GridItem colSpan={12} p={2} justifyContent={"center"}>
                                 <Button className='lable-rentcar' type='submit' colorScheme='teal' size='md' ml={5} onClick={searchCommit}><AiOutlineSearch />ค้นหา</Button>
                                 {/* <Button className='lable-rentcar' type='submit' colorScheme='teal' size='md' ml={5}><AiOutlineSearch />PDF</Button> */}
-                                <Button className='lable-rentcar' type='submit' colorScheme='teal' size='md' ml={5}><AiOutlineSearch />Excel</Button>
+                                <Button className='lable-rentcar' type='submit' colorScheme='teal' size='md' ml={5} onClick={export_excel}><AiOutlineSearch />Excel</Button>
                             </GridItem>
                         </Grid>
                     </Box>
