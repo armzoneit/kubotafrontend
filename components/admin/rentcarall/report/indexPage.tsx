@@ -54,7 +54,7 @@ const ReportRentCar = ({ mode }) => {
     const [startDate, setStartDate] = useState(new Date());
     const [startDate1, setStartDate1] = useState(new Date());
     const [bookingname, setbookingname] = useState<any>('');
-    const [status, setstatus] = useState<any>(0);
+    const [status, setstatus] = useState<any>('');
     const [serv, setserv] = useState<any>('');
     const [license, setlicense] = useState<any>('');
     const [driver, setdriver] = useState<any>('');
@@ -80,7 +80,8 @@ const ReportRentCar = ({ mode }) => {
        page:1,
        size:10,
        mode:mode,
-       filter:{
+       filter:[
+        {
             bookingname:bookingname,
             status:status,
             serv:serv,
@@ -90,9 +91,10 @@ const ReportRentCar = ({ mode }) => {
             type_manage:type_manage,
             // start_date:startDate,
             // end_date:startDate1
-            start_date:"2024-08-08",
-            end_date:"2024-08-12"
-       },
+            start_date:startDate ? startDate.toISOString().slice(0,10) :'',
+            end_date:startDate1 ? startDate1.toISOString().slice(0,10) :''
+       }
+       ],
     //    rows:new Array()
     });
     
@@ -101,29 +103,50 @@ const ReportRentCar = ({ mode }) => {
             page:1,
             size:10,
             mode:mode,
-            filter:{
-                bookingname:bookingname,
-                status:status,
-                serv:serv,
-                license:license,
-                driver:driver,
-                type_car:type_car,
-                type_manage:type_manage,
-                start_date:"2024-08-08",
-                end_date:"2024-08-12"
-            }
+            filter:[
+                {
+                    bookingname:bookingname,
+                    status:status.toString(),
+                    serv:serv,
+                    license:license,
+                    driver:driver,
+                    type_car:type_car,
+                    type_manage:type_manage,
+                    start_date:startDate ? new Date(startDate).toISOString().slice(0,10) :'',
+                    end_date:startDate1 ? new Date(startDate1).toISOString().slice(0,10) :''
+                }
+            ]
         };
+
+        
         await setdataTable(data);
         console.log(dataTable);
-        
-        axios.get('https://d713apsi01-wa01kbtcom.azurewebsites.net/Export_Excel/CarNoDriver',dataTable,{ 
-            accept: '*/*', 
-            Authorization: 'Bearer '+tokens,
-        }).then(async(response) => {
-          
-        }).catch((error) => {
-            console.log(error);
+
+        axios({
+            url: 'https://d713apsi01-wa01kbtcom.azurewebsites.net/Export_Excel/GetAll',
+            method: 'POST',
+            headers: { 
+                'accept': '*/*', 
+                'Authorization': 'Bearer '+tokens,
+                'Content-Type': 'application/json'
+            },
+            data:dataTable
+        }).then((res) => {
+            console.log(res);
+            
+        }).catch((err)=>{
+            console.log(err);
         });
+        // axios.get('https://d713apsi01-wa01kbtcom.azurewebsites.net/Export_Excel/GetAll',dataTable,{ 
+        //     headers: {
+        //       'Content-Type': 'application/json'
+        //      }
+        // }).then(async(response) => {
+        //     console.log(response);
+            
+        // }).catch((error) => {
+        //     console.log(error);
+        // });
         
     }
     
@@ -211,7 +234,7 @@ const ReportRentCar = ({ mode }) => {
                            
                             <GridItem colSpan={12} p={2} justifyContent={"center"}>
                                 <Button className='lable-rentcar' type='submit' colorScheme='teal' size='md' ml={5} onClick={searchCommit}><AiOutlineSearch />ค้นหา</Button>
-                                <Button className='lable-rentcar' type='submit' colorScheme='teal' size='md' ml={5}><AiOutlineSearch />PDF</Button>
+                                {/* <Button className='lable-rentcar' type='submit' colorScheme='teal' size='md' ml={5}><AiOutlineSearch />PDF</Button> */}
                                 <Button className='lable-rentcar' type='submit' colorScheme='teal' size='md' ml={5}><AiOutlineSearch />Excel</Button>
                             </GridItem>
                         </Grid>

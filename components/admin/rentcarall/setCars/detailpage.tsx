@@ -83,20 +83,23 @@ const detailpage = ({ mode }) => {
         await setDatas({ ...datas, [event.target.name]: event.target.value })
     }
     useEffect(() => {
+        console.log(edit_url);
+        console.log(edit_url[mode]);
+        
         axios({
-            url: 'https://d713apsi01-wa01kbtcom.azurewebsites.net/ReserveCar/'+edit_url[mode]+'/' + id + '?page=1&size=30',
+            url: 'https://d713apsi01-wa01kbtcom.azurewebsites.net/ReserveCar/'+edit_url[mode]+'/' + id,
             method: 'GET',
             headers: {
                 'accept': '*/*',
                 'Authorization': 'Bearer ' + tokens,
             }
         }).then(async (res) => {
-            // console.log(res.data.data.carBookingWithDriver[0]); 
+            console.log(res.data.data.carBookingWithDriver[0]); 
 
             let detail = res.data.data.carBookingWithDriver[0];
-            detail.booking_date = new Date(detail.booking_date).toISOString().slice(0, 10);
-            detail.startdate = new Date(detail.startdate).toISOString().slice(0, 10);
-            detail.enddate = new Date(detail.enddate).toISOString().slice(0, 10);
+            // detail.booking_date = new Date(detail.booking_date).toISOString().slice(0, 10);
+            // detail.startdate = new Date(detail.startdate).toISOString().slice(0, 10);
+            // detail.enddate = new Date(detail.enddate).toISOString().slice(0, 10);
             setDatas(detail);
             // console.log("Hello");
 
@@ -174,10 +177,10 @@ const detailpage = ({ mode }) => {
                             {datas.number_travelers ? <FormLabel className='lable-rentcar'>รถกระบะ {datas.number_travelers} คัน : ยี่ห้อ {datas.brand_cars2} : จำนวนผู้เดินทาง {datas.person_count2} </FormLabel> : ''}
 
                             <FormLabel className='lable-rentcar'>วันที่ใช้รถเริ่มต้น : </FormLabel>
-                            <Input value={datas.startdate + ":" + datas.timeIn} disabled style={{ border: '1px #00AAAD solid' }} />
+                            <Input value={datas.startdate + " " + datas.timeIn} disabled style={{ border: '1px #00AAAD solid' }} />
 
                             <FormLabel className='lable-rentcar'>วันที่ใช้รถสิ้นสุด : </FormLabel>
-                            <Input value={datas.enddate + ":" + datas.timeOut} disabled style={{ border: '1px #00AAAD solid' }} />
+                            <Input value={datas.enddate + " " + datas.timeOut} disabled style={{ border: '1px #00AAAD solid' }} />
 
                             <FormLabel className='lable-rentcar'>สถานที่รับ : </FormLabel>
                             <Input value={datas.LocationOut} disabled style={{ border: '1px #00AAAD solid' }} />

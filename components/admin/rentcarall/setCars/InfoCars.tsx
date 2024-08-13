@@ -93,6 +93,8 @@ const InfoCars = ({ mode, idcarbooking,booking }) => {
     ]);
     const [carsInfo, setCarsInfo] = useState<any>([]);
 
+    const [status, setstatus] = useState(['รอจัดรถ','จัดเสร็จแล้ว','ยกเลิก']);
+    const [chgstat, setchgstat] = useState(0);
     
     const type_manage = ['รถต่างจังหวัด','กรุงเทพฯ-ปริมณฑล','SKCN-SKCA','SKCN-Kubota Farm'];
 
@@ -128,34 +130,6 @@ const InfoCars = ({ mode, idcarbooking,booking }) => {
     //     }
     // }
 
-    const hendleDeleteCar = async (id: any) => {
-        try {
-            let config: any = {
-                url: '/',
-                method: 'GET',
-                headers: {
-                    'accept': '*/*',
-                    'Authorization': 'Bearer ' + tokens,
-                }
-            }
-
-            if (type == 'ไม่มีคนขับ') {
-                config.url = 'https://d713apsi01-wa01kbtcom.azurewebsites.net/ReserveCar/DeleteCarBooking/' + id + '/2'
-            } else if (type == 'พร้อมคนขับ') {
-                config.url = 'https://d713apsi01-wa01kbtcom.azurewebsites.net/ReserveCar/DeleteCarBooking/' + id + '/1'
-            } else if (type == 'ระหว่างวัน') {
-                config.url = 'https://d713apsi01-wa01kbtcom.azurewebsites.net/ReserveCar/DeleteCarBooking/' + id + '/3'
-            }
-
-            const { data } = await axios(config)
-
-            setCars(data);
-
-
-        } catch (error) {
-            console.log(error);
-        }
-    }
 
     useEffect(() => {
         // getCar();
@@ -170,6 +144,7 @@ const InfoCars = ({ mode, idcarbooking,booking }) => {
         
         setCarsInfo(carForm[mode-1]);
         resetAllcar();
+        setchgstat(booking.status);
     }, [me.isLoading, idcarbooking]);
     const resetAllcar = async () => {
         axios.get('https://d713apsi01-wa01kbtcom.azurewebsites.net/CarBooking/GetCarBooking/1/'+idcarbooking).then(async (response) => {
@@ -291,7 +266,7 @@ const InfoCars = ({ mode, idcarbooking,booking }) => {
             confirmButtonText: "ลบ!",
             cancelButtonText: "ยกเลิก",
 
-          }).then((result) => {
+        }).then((result) => {
             if (result.isConfirmed) {
                 axios.delete('https://d713apsi01-wa01kbtcom.azurewebsites.net/CarBooking/DeleteCarBooking/'+id).then(async(response) => {
                     Swal.fire({
@@ -308,6 +283,50 @@ const InfoCars = ({ mode, idcarbooking,booking }) => {
           });
     }
 
+    const chgStatus = async () => {
+        if(!cars.length){
+            Swal.fire({
+                icon: "error",
+                title: "กรุณาเพิ่มรถเข้ารายการจองก่อนค่ะ!",
+                text: ""
+            });
+            return false;
+        }
+        console.log(allCars.length);
+        
+        Swal.fire({
+            title: "คุณต้องการปรับสถานะใช่ไหม?",
+            text: "",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "ปรับสถานะ!",
+            cancelButtonText: "ยกเลิก",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                axios.post('https://d713apsi01-wa01kbtcom.azurewebsites.net/ReserveCar/UpdateStatusBooking',{
+                    id:parseInt(idcarbooking),
+                    mode:mode,
+                    status:parseInt(chgstat)
+                }).then(async(response) => {
+                    Swal.fire({
+                        icon: "success",
+                        title: "ปรับสถานะข้อมูลสำเร็จ!",
+                        text: ""
+                    }).then( () => {
+                        router.push('/admin/rentcaralldaydriver/setCars')
+                    });
+                    
+                    
+                }).catch((error) => {
+                    console.log(error);
+                });
+            }
+        });
+    }
+    console.log('bookings',chgstat);
+    
     return (
         <>
             <Modal blockScrollOnMount={false} size={"xl"} isOpen={isopen.isOpen} onClose={isopen.onClose}>
@@ -371,17 +390,28 @@ const InfoCars = ({ mode, idcarbooking,booking }) => {
             <Grid templateRows='repeat(2, 1fr)'
                 templateColumns='repeat(12, 1fr)' gap={4}>
                 <GridItem colSpan={3}>
-                    <Button colorScheme='blue' backgroundColor={"#00A5A8"} mr={3} onClick={isopen.onOpen}>เพิ่มรถ</Button>
+                    { !booking.status ? <Button colorScheme='blue' backgroundColor={"#00A5A8"} mr={3} onClick={isopen.onOpen}>เพิ่มรถ</Button> : ''}
+                    
                 </GridItem>
                 <GridItem colSpan={3}>
-                    <Select name='status' placeholder='เลือกสถานะ' style={{ border: '1px #00AAAD solid' }} >
-
+                    <Select id='status' placeholder='เลือกสถานะ' style={{ border: '1px #00AAAD solid' }} onChange={(e) => { setchgstat(e.target.value);}}>
+                    {
+                            status.map((val, index) => {
+                            return (
+                                <option value={index} selected={index == booking.status}>{ val }</option>
+                            )})
+                    }
                     </Select>
                 </GridItem>
                 <GridItem colSpan={3}>
-                    <Button colorScheme='blue' backgroundColor={"#00A5A8"} mr={3} onClick={isopen.onOpen}>
+                    {/* <a  onClick={chgStatus()} href="#"> */}
+                    <Button colorScheme='blue' backgroundColor={"#00A5A8"} mr={3}  onClick={() => {
+                                // isopen.onClose();
+                                chgStatus();
+                            }}>
                         ปรับสถานะ
                     </Button>
+                    {/* </a> */}
                 </GridItem>
             </Grid>
 
@@ -423,15 +453,17 @@ const InfoCars = ({ mode, idcarbooking,booking }) => {
                                            
                                         </Td>
                                         <Td >
-                                            <a onClick={(e)=>{resetData(car);isopen.onOpen();}} href="#">
+                                        { !booking.status ?   <a onClick={(e)=>{resetData(car);isopen.onOpen();}} href="#">
                                                 <AiOutlineEdit />
                                             </a>
-                                            
+                                            : '' }
                                         </Td>
                                         <Td >
+                                        { !booking.status ?  
                                             <a onClick={(e)=>{deleteData(car.id);}} href="#">
                                                 <AiOutlineDelete />
                                             </a>
+                                            :''}
                                         </Td>
                                     </Tr>
                                 )

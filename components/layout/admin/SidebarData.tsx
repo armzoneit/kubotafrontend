@@ -92,10 +92,10 @@ export const SidebarData = [
         title: 'เพิ่มข้อมูลรถและคนขับรถ',
         path: '/admin/CarManage/Driver',
       },
-      {
-        title: 'รายงานข้อมูลรถและคนขับรถ',
-        path: '/admin/rentcaralldaydriver/carAndDriver',
-      },
+      // {
+      //   title: 'รายงานข้อมูลรถและคนขับรถ',
+      //   path: '/admin/rentcaralldaydriver/carAndDriver',
+      // },
       {
         title: 'รายงานการขอใช้รถเช่าเหมาวัน (พร้อมคนขับ)',
         path: '/admin/rentcaralldaydriver/reportall',
@@ -123,10 +123,10 @@ export const SidebarData = [
         title: 'เพิ่มข้อมูลรถ',
         path: '/admin/CarManage/noDriver',
       },
-      {
-        title: 'รายงานข้อมูลรถ',
-        path: '/admin/rentcaralldaynodriver/carAndDriver',
-      },
+      // {
+      //   title: 'รายงานข้อมูลรถ',
+      //   path: '/admin/rentcaralldaynodriver/carAndDriver',
+      // },
       {
         title: 'รายงานการขอใช้รถเช่าเหมาวัน (ไม่มีคนขับรถ)',
         path: '/admin/rentcaralldaynodriver/reportall',
@@ -154,10 +154,10 @@ export const SidebarData = [
         title: 'เพิ่มข้อมูลรถและคนขับรถ',
         path: '/admin/CarManage/rentcarduring',
       },
-      {
-        title: 'รายงานข้อมูลรถและคนขับรถ',
-        path: '/admin/rentcarduring/carAndDriver',
-      },
+      // {
+      //   title: 'รายงานข้อมูลรถและคนขับรถ',
+      //   path: '/admin/rentcarduring/carAndDriver',
+      // },
       {
         title: 'รายงานการขอใช้รถรับส่งระหว่างวัน',
         path: '/admin/rentcarduring/reportall',
