@@ -287,14 +287,14 @@ const ReportRentCar = ({ mode }) => {
                             }
                            
                             <GridItem colSpan={12} p={2} justifyContent={"center"}>
-                                <Button className='lable-rentcar' type='submit' colorScheme='teal' size='md' ml={5} onClick={searchCommit}><AiOutlineSearch />ค้นหา</Button>
+                                {/* <Button className='lable-rentcar' type='submit' colorScheme='teal' size='md' ml={5} onClick={searchCommit}><AiOutlineSearch />ค้นหา</Button> */}
                                 {/* <Button className='lable-rentcar' type='submit' colorScheme='teal' size='md' ml={5}><AiOutlineSearch />PDF</Button> */}
                                 <Button className='lable-rentcar' type='submit' colorScheme='teal' size='md' ml={5} onClick={export_excel}><AiOutlineSearch />Excel</Button>
                             </GridItem>
                         </Grid>
                     </Box>
                 </GridItem>
-                <GridItem colSpan={6} mt={"50px"} ml={"10px"}>
+                {/* <GridItem colSpan={6} mt={"50px"} ml={"10px"}>
                     <Flex p={2} display={"flex"} justifyContent={"space-between"}>
                         <p>จำนวนที่ใช้งานทั้งหมด 1 คัน</p>
                         <span >จำนวนแสดง: 
@@ -373,7 +373,7 @@ const ReportRentCar = ({ mode }) => {
                             </Table>
                         </TableContainer>
                     </Box>
-                </GridItem>
+                </GridItem> */}
             </Grid>
         </>
     )

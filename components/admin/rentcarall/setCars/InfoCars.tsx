@@ -51,8 +51,10 @@ const InfoCars = ({ mode, idcarbooking,booking }) => {
     const [selectCars, setselectCars] = useState<any>([]);
     const [allCars, setallCars] = useState<any>([]);
     const [cars, setCars] = useState<any>([]);
+    const [carsId, setCarsId] = useState<any>([]);
+
     const [editCars, seteditCars] = useState<any>([]);
-    const bookingname = booking.bookingname;
+    const bookingname = booking.bookingname ? booking.bookingname : booking.bookingName;
     
     const [addCars, setaddCars] = React.useState({
         id: 0,
@@ -60,11 +62,13 @@ const InfoCars = ({ mode, idcarbooking,booking }) => {
         car_id: 0,
         mode: mode,
         booking_id: idcarbooking,
-        bookingname: bookingname,
+        bookingname: booking.bookingname ? booking.bookingname : booking.bookingName,
         type_car: 0,
         serv: "string",
         license: "string"
     });
+    console.log(addCars);
+    console.log(booking.bookingName);
     
     const [carForm, setcarForm] = useState<any>([
         {
@@ -97,6 +101,7 @@ const InfoCars = ({ mode, idcarbooking,booking }) => {
     const [chgstat, setchgstat] = useState(0);
     
     const type_manage = ['รถต่างจังหวัด','กรุงเทพฯ-ปริมณฑล','SKCN-SKCA','SKCN-Kubota Farm'];
+    const main_url = ['','rentcaralldaydriver','rentcaralldaynodriver','rentcarduring'];
 
     // const getCar = async () => {
     //     try {
@@ -133,23 +138,33 @@ const InfoCars = ({ mode, idcarbooking,booking }) => {
 
     useEffect(() => {
         // getCar();
-        axios.get('https://d713apsi01-wa01kbtcom.azurewebsites.net/CarDetail/GetCarDetail').then(async (response) => {
-            // let data = await response.data.filter(x => x.mode*1 == mode+1);
-            let data = await response.data;
-
-            await setallCars(data);
-        }).catch((error) => {
-            console.log(error);
-        });
+       
         
         setCarsInfo(carForm[mode-1]);
         resetAllcar();
         setchgstat(booking.status);
+        getAllCars();
     }, [me.isLoading, idcarbooking]);
+    const getAllCars = async () => {
+        axios.get('https://d713apsi01-wa01kbtcom.azurewebsites.net/CarDetail/GetCarDetail').then(async (response) => {
+            let data = await response.data.filter(x => x.mode == mode &&  !carsId.includes(x.id));
+            // let data = await response.data.filter(x =>);
+            console.log(data,'getAllCars');
+            
+            await setallCars(data);
+        }).catch((error) => {
+            console.log(error);
+        });
+    }
     const resetAllcar = async () => {
-        axios.get('https://d713apsi01-wa01kbtcom.azurewebsites.net/CarBooking/GetCarBooking/1/'+idcarbooking).then(async (response) => {
+        axios.get('https://d713apsi01-wa01kbtcom.azurewebsites.net/CarBooking/GetCarBooking/'+mode+'/'+idcarbooking).then(async (response) => {
             // let data = await response.data.filter(x => x.mode*1 == mode+1);
-
+            let ir = new Array();
+            for(let x in response.data){
+                ir.push(response.data.carId);
+            }
+            await setCarsId(ir);
+            await getAllCars();
             await setCars(response.data);
         }).catch((error) => {
             console.log(error);
@@ -185,7 +200,7 @@ const InfoCars = ({ mode, idcarbooking,booking }) => {
             text = Array.isArray(carsInfo[x].name) ? text + '<b>ประเภทรถ</b> :'+carsInfo[x].name[carsInfo[x].value]+'<br>': text + '<b>'+carsInfo[x].name+'</b> :'+carsInfo[x].value+'<br>';
         }
         ac.type_car = showCar.type;
-        ac.serv = carsInfo.serv ? carsInfo.serv.value : 0;
+        ac.serv = showCar.serv;
         ac.license = carsInfo.license.value;
 
         await setaddCars(ac);
@@ -194,14 +209,15 @@ const InfoCars = ({ mode, idcarbooking,booking }) => {
     }
 
     const insertData = async () => {
-        addCars.type = parseInt(addCars.type);
+        
         addCars.booking_id = parseInt(addCars.booking_id);
         addCars.car_id = parseInt(addCars.car_id);
 
+        addCars.type_car = addCars.type_car.toString();
+        addCars.type_manage = addCars.type_manage.toString();
         addCars.mode = addCars.mode.toString();
         addCars.serv = addCars.serv.toString();
         if(addCars.id){
-            console.log(addCars.id);
            axios.put('https://d713apsi01-wa01kbtcom.azurewebsites.net/CarBooking/UpdateCarBooking',addCars,{ 
                 accept: '*/*', 
                 Authorization: 'Bearer '+tokens,
@@ -211,13 +227,12 @@ const InfoCars = ({ mode, idcarbooking,booking }) => {
                     title: "บันทึกข้อมูลสำเร็จ!",
                     text: ""
                 });
-                // await setCars(response.data.data);
+                await setCars(response.data.data);
                 resetAllcar();
             }).catch((error) => {
                 console.log(error);
             });
         }else{
-            console.log(addCars.id);
  
             axios.post('https://d713apsi01-wa01kbtcom.azurewebsites.net/CarBooking/InsertCarBooking',addCars,{ 
                 accept: '*/*', 
@@ -292,7 +307,6 @@ const InfoCars = ({ mode, idcarbooking,booking }) => {
             });
             return false;
         }
-        console.log(allCars.length);
         
         Swal.fire({
             title: "คุณต้องการปรับสถานะใช่ไหม?",
@@ -315,7 +329,7 @@ const InfoCars = ({ mode, idcarbooking,booking }) => {
                         title: "ปรับสถานะข้อมูลสำเร็จ!",
                         text: ""
                     }).then( () => {
-                        router.push('/admin/rentcaralldaydriver/setCars')
+                        router.push('/admin/'+main_url[mode]+'/setCars')
                     });
                     
                     
@@ -325,7 +339,6 @@ const InfoCars = ({ mode, idcarbooking,booking }) => {
             }
         });
     }
-    console.log('bookings',chgstat);
     
     return (
         <>

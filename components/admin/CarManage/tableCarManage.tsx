@@ -154,7 +154,7 @@ const tableCarManage = ({ mode }) => {
    
 
     const insertData = async () => {
-        addData.type = addData.type*1;
+        addData.type = addData.type.toString();
         addData.mode = addData.mode.toString();
         addData.driver = addData.driver ? addData.driver : '';
         addData.driver_phone = addData.driver_phone ? addData.driver_phone : '';

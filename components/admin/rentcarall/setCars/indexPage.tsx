@@ -70,6 +70,7 @@ const indexPage = ({ mode }) => {
     const [startDate2, setStartDate2] = useState(new Date());
     const title_name = ['','จัดรถเช่าเหมาวัน (พร้อมคนขับรถ)','จัดรถเช่าเหมาวัน (ไม่มีคนขับรถ)','งานรับส่งระหว่างวัน'];
     const edit_url = ['','rentcaralldaydriver','rentcaralldaynodriver','rentcarduring'];
+    const [status, setstatus] = useState(['รอจัดรถ','จัดเสร็จแล้ว','ยกเลิก']);
 
 
     const handleSubmit = (event: any) => {
@@ -295,8 +296,12 @@ const indexPage = ({ mode }) => {
                                 <label className='lable-statusrentcar' style={{ width: "150px" }}>สถานะการจัดรถ</label>
                                 <span>
                                     <Select  style={{ border: '1px #00A5A8 solid'}} value={datasall.cartype} onChange={handlecartye}>
-                                        <option value='0'>รออนุมัติ</option>
-                                        <option value='1'>รอจัดรถ</option>
+                                    {
+                                            status.map((val, index) => {
+                                            return (
+                                                <option value={index} >{ val }</option>
+                                            )})
+                                    }
                                     </Select>
                                 </span>
                                     <Button className='lable-rentcar' type='button' onClick={search} colorScheme='teal' size='md' ml={5}><AiOutlineSearch />ค้นหา</Button>
@@ -340,14 +345,14 @@ const indexPage = ({ mode }) => {
                                         <Th color={"white"}>จำนวน(คัน)</Th>
                                         <Th color={"white"}>วันที่ใช้รถเริ่มต้น/เวลา</Th>
                                         <Th color={"white"}>วันที่ใช้รถสิ้นสุด/เวลา</Th>
-                                        <Th color={"white"}>สถานที่รับ</Th>
+                                        {/* <Th color={"white"}>สถานที่รับ</Th>
                                         <Th color={"white"}>สถานที่ส่ง</Th>
                                         <Th color={"white"}>GL</Th>
                                         <Th color={"white"}>Cost Center</Th>
-                                        <Th color={"white"}>Order</Th>
+                                        <Th color={"white"}>Order</Th> */}
                                         <Th color={"white"}>สถานะการอนุมัติ</Th>
                                         <Th color={"white"}>สถานะการจัดรถ</Th>
-                                        <Th color={"white"}>แก้ไข</Th>
+                                        {/* <Th color={"white"}>แก้ไข</Th> */}
                                     </Tr>
                                 </Thead>
                                 <Tbody >
@@ -365,25 +370,22 @@ const indexPage = ({ mode }) => {
                                             <Td>{row.number_travelers}</Td>
                                             <Td>{row.startdate}</Td>
                                             <Td>{row.enddate}</Td>
-                                            <Td>{row.locationIn}</Td>
+                                            {/* <Td>{row.locationIn}</Td>
                                             <Td>{row.locationOut}</Td>
                                             <Td>{row.GL}</Td>
                                             <Td>{row.cost_enter}</Td>
-                                            <Td>{row.order}</Td>
+                                            <Td>{row.order}</Td> */}
                                             {row.statusApproved == "1" ? <Td className='text-centers'>อนุมัติ</Td> : <Td className='text-centers'>รออนุมัติ</Td> }
                                         
                                         
-                                            {row.status == "1" ? 
-                                            <Td className='text-centers'> <a href={"/admin/"+edit_url[mode]+"/setCars/"+row.idcarbooking}> รอจัดรถ </a></Td> 
-                                            : 
-                                            <Td className='text-centers'> <a href={"/admin/"+edit_url[mode]+"/setCars/"+row.idcarbooking}> รออนุมัติ </a></Td> 
-                                            }
-                                            <Td ><a href={`${row.idcarbooking}`}><AiOutlineEdit /></a></Td>
+                                            <Td className='text-centers'> <a href={"/admin/"+edit_url[mode]+"/setCars/"+row.idcarbooking}> { status[row.status]} </a></Td> 
+                                           
+                                            {/* <Td ><a href={`${row.idcarbooking}`}><AiOutlineEdit /></a></Td> */}
                                         </Tr>
                                         );
                                     })} {datatables.length == 0 && 
                                         <Tr>
-                                            <Td colSpan={17} style={{textAlign:'center'}}>ไม่พบข้อมูล</Td>
+                                            <Td colSpan={11} style={{textAlign:'center'}}>ไม่พบข้อมูล</Td>
                                             
                                         </Tr>
                                     }

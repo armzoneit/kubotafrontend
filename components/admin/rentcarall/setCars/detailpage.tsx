@@ -61,6 +61,7 @@ const detailpage = ({ mode }) => {
     const id = router?.query?.id
     const type = ['','จัดรถเช่าเหมาวัน (พร้อมคนขับรถ)','จัดรถเช่าเหมาวัน (ไม่มีคนขับรถ)','งานรับส่งระหว่างวัน'];
     const edit_url = ['','GetCarBookingWithDriverById','GetCarBookingNoDriverById','GetCarBookingPickupAndDropById'];
+
     const type_text = type[mode];
     // console.log(value);
     const handleSubmit = (event: any) => {
@@ -83,9 +84,6 @@ const detailpage = ({ mode }) => {
         await setDatas({ ...datas, [event.target.name]: event.target.value })
     }
     useEffect(() => {
-        console.log(edit_url);
-        console.log(edit_url[mode]);
-        
         axios({
             url: 'https://d713apsi01-wa01kbtcom.azurewebsites.net/ReserveCar/'+edit_url[mode]+'/' + id,
             method: 'GET',
@@ -148,22 +146,18 @@ const detailpage = ({ mode }) => {
                             <Input value={datas.tel} disabled style={{ border: '1px #00AAAD solid' }} />
 
                             <FormLabel className='lable-rentcar'>รหัสพนักงานผู้ใช้งาน : </FormLabel>
-                            <Input value={datas.code_employee} disabled style={{ border: '1px #00AAAD solid' }} />
+                            <Input value={datas.employee_no} disabled style={{ border: '1px #00AAAD solid' }} />
 
-                            <FormLabel className='lable-rentcar'>ชื่อผู้ใช้รถ : </FormLabel>
-                            <Input value={datas.drivername} disabled style={{ border: '1px #00AAAD solid' }} />
-
-                            <FormLabel className='lable-rentcar'>Email : </FormLabel>
-                            <Input value={datas.use_email} disabled style={{ border: '1px #00AAAD solid' }} />
+                           
 
                             <FormLabel className='lable-rentcar'>ตำแหน่ง : </FormLabel>
-                            <Input value={datas.use_agency} disabled style={{ border: '1px #00AAAD solid' }} />
+                            <Input value={datas.agency} disabled style={{ border: '1px #00AAAD solid' }} />
 
                             <FormLabel className='lable-rentcar'>ส่วนงาน : </FormLabel>
-                            <Input value={datas.use_division} disabled style={{ border: '1px #00AAAD solid' }} />
+                            <Input value={datas.division} disabled style={{ border: '1px #00AAAD solid' }} />
 
                             <FormLabel className='lable-rentcar'>เบอร์โทรศัพท์ผู้ใช้รถ : </FormLabel>
-                            <Input value={datas.tel_use_car} disabled style={{ border: '1px #00AAAD solid' }} />
+                            <Input value={datas.tel} disabled style={{ border: '1px #00AAAD solid' }} />
 
                             <FormLabel className='lable-rentcar'>ใบขับขี่เลขที่ : </FormLabel>
                             <Input value={datas.license_number} disabled style={{ border: '1px #00AAAD solid' }} />
@@ -173,8 +167,9 @@ const detailpage = ({ mode }) => {
 
 
 
-                            {datas.number_cars ? <FormLabel className='lable-rentcar'>รถเก๋ง {datas.number_cars} คัน : ยี่ห้อ {datas.brand_cars1} : จำนวนผู้เดินทาง {datas.person_count} </FormLabel> : ''}
-                            {datas.number_travelers ? <FormLabel className='lable-rentcar'>รถกระบะ {datas.number_travelers} คัน : ยี่ห้อ {datas.brand_cars2} : จำนวนผู้เดินทาง {datas.person_count2} </FormLabel> : ''}
+                            {datas.number_cars ? <FormLabel className='lable-rentcar'>รถเก๋ง {datas.number_cars} คัน <br /> จำนวนผู้เดินทาง {datas.person_count} </FormLabel> : ''}
+                            <hr />
+                            {datas.number_travelers ? <FormLabel className='lable-rentcar'>รถกระบะ {datas.number_travelers} คัน :<br /> จำนวนผู้เดินทาง {datas.person_count2} </FormLabel> : ''}
 
                             <FormLabel className='lable-rentcar'>วันที่ใช้รถเริ่มต้น : </FormLabel>
                             <Input value={datas.startdate + " " + datas.timeIn} disabled style={{ border: '1px #00AAAD solid' }} />
