@@ -768,8 +768,13 @@ const StatusRentCar = () => {
                     setapprovedbutton(true);
                     seteditbutton(false);
                     setdisread(false);
+                    console.log({
+                        employeeNo:response.data.data.carBookingWithDriver[0]?.employee_no,
+                        myHrEmployee:me?.data?.data?.myHrEmployee.employeeNo
+                    });
 
                     if (response.data.data.carBookingWithDriver[0]?.employee_no == me?.data?.data?.myHrEmployee.employeeNo) {
+
                         setapprovedbutton(true);
                         seteditbutton(false);
                     } else {
