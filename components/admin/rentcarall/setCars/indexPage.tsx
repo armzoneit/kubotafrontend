@@ -302,15 +302,15 @@ const indexPage = ({ mode }) => {
                                     <Button className='lable-rentcar' type='button' onClick={search} colorScheme='teal' size='md' ml={5}><AiOutlineSearch />ค้นหา</Button>
                             </Flex>
                             <Flex p={2} justifyContent={"center"} >
-                                {/* <Button className='lable-rentcar' type='submit' colorScheme='teal' size='md' ml={5}><AiOutlineSearch onClick={downloadpdf} />PDF</Button> */}
-                                <Button onClick={downloadexcel} className='lable-rentcar' type='submit' colorScheme='teal' size='md' ml={5}><AiOutlineSearch  />Excel</Button>
+                                {/* <Button className='lable-rentcar' type='submit' colorScheme='teal' size='md' ml={5}><AiOutlineSearch onClick={downloadpdf} />PDF</Button>
+                                <Button onClick={downloadexcel} className='lable-rentcar' type='submit' colorScheme='teal' size='md' ml={5}><AiOutlineSearch  />Excel</Button> */}
                             </Flex>
                         </Grid>
                     </Box>
                 </GridItem>
                 <GridItem colSpan={6} mt={"50px"} ml={"10px"}>
                     <Flex p={2} display={"flex"} justifyContent={"space-between"}>
-                        <p>จำนวนที่ใช้งานทั้งหมด 1 คัน</p>
+                        {/* <p>จำนวนที่ใช้งานทั้งหมด 1 คัน</p> */}
                         {/* <span >จำนวนแสดง: 
                             <span style={{display:"inline-block",marginTop:"-8px"}}>
                                 <Select placeholder='' width={"105px"} >
