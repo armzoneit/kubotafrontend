@@ -49,6 +49,7 @@ import dayjs from 'dayjs';
 import DatePicker from 'react-datepicker';
 import styled, { css, createGlobalStyle } from 'styled-components';
 import { TimePicker } from 'antd';
+import { number } from 'yup';
 
 const DatePickerWrapperStyles = createGlobalStyle`
     .date_picker.full-width input {
@@ -102,6 +103,7 @@ const StatusRentCar = () => {
 
     const [ckcar1, setckcar1] = useState<boolean>(false)
     const [ckcar2, setckcar2] = useState<boolean>(false)
+    const [ckcar3, setckcar3] = useState<boolean>(false)
     const [approval, setapproval] = useState([{
         no: 1,
         name: "A",
@@ -166,6 +168,8 @@ const StatusRentCar = () => {
         typecar: "",
         number_travelers: "0",
         number_cars: "0",
+        number_cars2: "0",
+        number_cars3: "0",
         person_count: "0",
         startdate: "",
         enddate: "",
@@ -786,7 +790,7 @@ const StatusRentCar = () => {
                         PlantId: response.data.data.carBookingWithDriver[0]?.plantId,
                         employee_no: response.data.data.carBookingWithDriver[0]?.employee_no,
                         booking_date: response.data.data.carBookingWithDriver[0]?.booking_date,
-                        bookingname: response.data.data.carBookingWithDriver[0]?.bookingname,
+                        bookingname: response.data.data.carBookingWithDriver[0]?.bookingName,
                         email: response.data.data.carBookingWithDriver[0]?.email,
                         agency: response.data.data.carBookingWithDriver[0]?.agency,
                         division: response.data.data.carBookingWithDriver[0]?.division,
@@ -794,23 +798,27 @@ const StatusRentCar = () => {
                         note: response.data.data.carBookingWithDriver[0]?.note,
                         typecar: response.data.data.carBookingWithDriver[0]?.typecar,
                         number_travelers: response.data.data.carBookingWithDriver[0]?.number_travelers,
-                        number_cars: response.data.data.carBookingWithDriver[0]?.number_cars,
+                        number_cars: response.data.data.carBookingWithDriver[0]?.number_Cars,
+                        number_cars2: response.data.data.carBookingWithDriver[0]?.number_Cars2,
+                        number_cars3: response.data.data.carBookingWithDriver[0]?.number_Cars3,
                         person_count: response.data.data.carBookingWithDriver[0]?.person_count,
                         startdate: response.data.data.carBookingWithDriver[0]?.startdate,
                         enddate: response.data.data.carBookingWithDriver[0]?.enddate,
                         locationIn: response.data.data.carBookingWithDriver[0]?.locationIn,
                         timeIn: response.data.data.carBookingWithDriver[0]?.timeIn,
-                        LocationOut: response.data.data.carBookingWithDriver[0]?.plantId,
+                        LocationOut: response.data.data.carBookingWithDriver[0]?.locationOut,
                         timeOut: response.data.data.carBookingWithDriver[0]?.timeOut,
                         operational_area: response.data.data.carBookingWithDriver[0]?.operational_area,
                         upcountry: response.data.data.carBookingWithDriver[0]?.upcountry,
                         overnight_stay: response.data.data.carBookingWithDriver[0]?.overnight_stay,
                         person_responsible_for_expenses: response.data.data.carBookingWithDriver[0]?.person_responsible_for_expenses,
                         other: response.data.data.carBookingWithDriver[0]?.other,
+
                         number_of_trips: response.data.data.carBookingWithDriver[0]?.plantId,
                         province: response.data.data.carBookingWithDriver[0]?.plantId,
-                        GL: response.data.data.carBookingWithDriver[0]?.GL,
-                        cost_enter: response.data.data.carBookingWithDriver[0]?.cost_enter,
+
+                        GL: response.data.data.carBookingWithDriver[0]?.gl,
+                        cost_enter: response.data.data.carBookingWithDriver[0]?.cost_Enter,
                         order: response.data.data.carBookingWithDriver[0]?.order,
                         overnight: response.data.data.carBookingWithDriver[0]?.overnight,
                     })
@@ -937,7 +945,7 @@ const StatusRentCar = () => {
                                             <FormLabel className='lable-rentcar' style={{ marginTop: "10px" }}>จำนวนคัน</FormLabel>
                                             <Stack direction='row' alignItems={"baseline"}>
 
-                                                <Input isDisabled={!ckcar1} style={{ border: '1px #00AAAD solid', margin: "0px 10px" }} maxWidth={"100"} value={form.number_travelers} onChange={handlenumber_travelers} name='number_travelers' type='search' pattern="[0-9]*" />
+                                                <Input isDisabled={!ckcar1} style={{ border: '1px #00AAAD solid', margin: "0px 10px" }} maxWidth={"100"} value={ datasall.cartype != 3 ? form.number_travelers : form.number_cars} onChange={handlenumber_travelers} name={datasall.cartype !== 3 ? 'number_travelers' : 'number_cars'}  type='search' pattern="[0-9]*" />
                                                 {/* <NumberInput isDisabled={!ckcar1} min={0} max={100} style={{ border: '1px #00AAAD solid', margin: "0px 10px" }} onChange={handlenumber_travelers}>
                                         <NumberInputField />
                                         <NumberInputStepper>
@@ -984,6 +992,35 @@ const StatusRentCar = () => {
                             </RadioGroup> */}
                                     </FormControl>
                                 </GridItem>
+                                {datasall.cartype == 3 ?
+                                    <GridItem colSpan={6}>
+                                        <FormControl>
+                                            <Flex>
+                                                <Checkbox disabled={disread} colorScheme='green' marginRight={"20px"} isChecked={ckcar3} onChange={(val) => ckcargg("3")}>
+                                                    รถเก๋ง
+                                                </Checkbox>
+                                                <FormLabel className='lable-rentcar' style={{ marginTop: "10px" }}>จำนวนคัน</FormLabel>
+                                                <Stack direction='row' alignItems={"baseline"}>
+                                                    <Input isDisabled={!ckcar3} style={{ border: '1px #00AAAD solid', margin: "0px 10px" }} maxWidth={"100"} value={form.number_cars3} onChange={handlenumber_cars} type='search' name='number_cars' />
+                                                    {/* <NumberInput isDisabled={!ckcar2} min={0} max={100} style={{ border: '1px #00AAAD solid', margin: "0px 10px" }} value={form.number_cars} onChange={(val) => console.log(val)}>
+                                        <NumberInputField />
+                                        <NumberInputStepper>
+                                            <NumberIncrementStepper />
+                                            <NumberDecrementStepper />
+                                        </NumberInputStepper>
+                                    </NumberInput> */}
+                                                </Stack>
+                                                <Text style={{ marginTop: "10px" }}>คัน</Text>
+                                            </Flex>
+                                            {/* <RadioGroup onChange={setValue} value={value}>
+                                <Stack direction='row'>
+                                    <Radio value='1'>รถตู้</Radio>
+                                    <Radio value='2'>รถกระบะ</Radio>
+                                </Stack>
+                            </RadioGroup> */}
+                                        </FormControl>
+                                    </GridItem>
+                                    : ''}
                                 <GridItem colSpan={2}>
                                     <FormControl>
                                         <Stack direction='row' alignItems={"baseline"}>
@@ -1180,7 +1217,7 @@ const StatusRentCar = () => {
                         </Button>
                     </ModalFooter>
                 </ModalContent>
-            </Modal>
+            </Modal >
             <Head>
                 <title>ตรวจสอบสถานะการจองรถ</title>
                 <meta name="description" content="reservation" />
@@ -1271,7 +1308,7 @@ const StatusRentCar = () => {
                                 </Thead>
                                 <Tbody id='tabledata'>
                                     {datatables.map((x, i) =>
-                                        datasall.cartype != "2" ?
+                                        datasall.cartype == "1" ?
                                             <Tr key={i}>
                                                 <Td>{(i) + 1 + ((pagegination.page - 1) * 30)}</Td>
                                                 <Td>{x.booking_date}</Td>
@@ -1297,6 +1334,7 @@ const StatusRentCar = () => {
                                                 }
                                             </Tr>
                                             :
+                                            datasall.cartype == "2" ?
                                             <Tr key={i}>
                                                 <Td>{(i) + 1 + ((pagegination.page - 1) * 30)}</Td>
                                                 <Td>{x.booking_date}</Td>
@@ -1322,6 +1360,30 @@ const StatusRentCar = () => {
                                                 {x.statusApproved == "1" ? <Td></Td> : me?.data?.data?.myHrEmployee.employeeNo == x.employee_no ? <Td className='text-centers'><a onClick={(e) => { deletes(x.idcarbooking) }} href="#"><AiOutlineDelete /></a></Td> : <Td></Td>
                                                 }
                                             </Tr>
+                                            :  <Tr key={i}>
+                                            <Td>{(i) + 1 + ((pagegination.page - 1) * 30)}</Td>
+                                            <Td>{x.booking_date}</Td>
+                                            <Td>{x.bookingname}</Td>
+                                            <Td className='text-centers'>{x.number_cars == 0 || x.number_cars == null ? "" : "(รถตู้) "} {x.number_cars1 == 0 || x.number_cars1 == null ? "" : "(รถกระบะ)"} {x.number_cars3 == 0 || x.number_cars3 == null ? "" : "(รถเก๋ง)"}</Td>
+                                            <Td className='text-centers'>{x.number_cars == 0 || x.number_cars == null ? "" : "(" + x.number_cars + ")"} {x.number_cars1 == 0 || x.number_cars1 == null ? "" : "(" + x.number_cars1 + ")"} {x.number_cars3 == 0 || x.number_cars3 == null ? "" : "(" + x.number_cars3 + ")"}</Td>
+                                            <Td className='text-centers'>{x.startdate}</Td>
+                                            <Td className='text-centers'>{x.enddate}</Td>
+                                            <Td maxWidth={"200px"} overflow={"hidden"} textOverflow={"ellipsis"}>{x.locationIn}</Td>
+                                            <Td maxWidth={"200px"} overflow={"hidden"} textOverflow={"ellipsis"}>{x.locationOut}</Td>
+                                            {x.statusApproved == "1" ? <Td className='text-centers'><Link onClick={() => { isopen1.onOpen(); getApprovedPerson(x.idcarbooking) }}>อนุมัติ</Link></Td> : <Td className='text-centers'><Link onClick={() => { isopen1.onOpen(); getApprovedPerson(x.idcarbooking) }}>รออนุมัติ</Link></Td>
+                                            }
+                                            {
+                                                x.statusApproved == "1" ? <Td className='text-centers'>รอจัดรถ</Td> : <Td className='text-centers'></Td>
+                                            }
+                                            <Td className='text-centers'></Td>
+                                            <Td className='text-centers'></Td>
+                                            <Td className='text-centers'></Td>
+                                            <Td className='text-centers' ></Td>
+                                            {x.statusApproved == "1" ? <Td></Td> : <Td className='text-centers'><a onClick={(e) => { handleopenedit(x.idcarbooking) }} href="#"><AiOutlineEdit /></a></Td>
+                                            }
+                                            {x.statusApproved == "1" ? <Td></Td> : me?.data?.data?.myHrEmployee.employeeNo == x.employee_no ? <Td className='text-centers'><a onClick={(e) => { deletes(x.idcarbooking) }} href="#"><AiOutlineDelete /></a></Td> : <Td></Td>
+                                            }
+                                        </Tr>
                                     )
 
 
