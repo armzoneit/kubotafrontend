@@ -791,7 +791,7 @@ const StatusRentCar = () => {
                     }
                     console.log(response.data.data.carBookingWithDriver[0]);
                     setform({
-                        idcarbooking: response.data.data.carBookingWithDriver[0]?.idcarbooking,
+                        idcarbooking: response.data.data.carBookingWithDriver[0]?.idCarBooking,
                         PlantId: response.data.data.carBookingWithDriver[0]?.plantId,
                         employee_no: response.data.data.carBookingWithDriver[0]?.employee_no,
                         booking_date: response.data.data.carBookingWithDriver[0]?.booking_date,
