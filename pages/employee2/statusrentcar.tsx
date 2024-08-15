@@ -790,6 +790,7 @@ const StatusRentCar = () => {
                         setdisread(true);
                     }
                     console.log(response.data.data.carBookingWithDriver[0]);
+                    console.log(response.data.data.carBookingWithDriver[0]?.idCarBooking);
                     setform({
                         idcarbooking: response.data.data.carBookingWithDriver[0]?.idCarBooking,
                         PlantId: response.data.data.carBookingWithDriver[0]?.plantId,
