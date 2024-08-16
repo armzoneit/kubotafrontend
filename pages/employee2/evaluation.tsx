@@ -504,10 +504,12 @@ const Evaluation = () => {
                                             <Td>{(i)+1+((pagegination.page-1)*30)}</Td>
                                             <Td>{x.booking_date}</Td>
                                             <Td>{x.bookingname}</Td>
-                                            <Td><Center>กระบะ</Center></Td>
-                                            <Td><Center>{
-                                                x.number_cars == 0 ? x.number_travelers : x.number_cars
-                                            }</Center></Td>
+                                            <Td><Center>
+                                            {x.number_travelers == 0 || x.number_travelers == null ? "" : "(รถตู้) "} { x.number_cars == 0 || x.number_cars == null ? "" : "(รถตู้)"} { x.number_cars2 == 0 || x.number_cars2 == null ? "" : "(รถกระบะ)"} { x.number_cars3 == 0 || x.number_cars3 == null ? "" : "(รถเก๋ง)"}
+                                            </Center></Td>
+                                            <Td><Center>
+                                            {x.number_travelers == 0 || x.number_travelers == null ? "" : "("+x.number_travelers+")"} {x.number_cars == 0 || x.number_cars == null  ? "" : "("+x.number_cars+")"} {x.number_cars2 == 0 || x.number_cars2 == null  ? "" : "("+x.number_cars2+")"} {x.number_cars3 == 0 || x.number_cars3 == null  ? "" : "("+x.number_cars3+")"}
+                                            </Center></Td>
                                             <Td ><Center>{x.startdate} {x.timeIn}</Center></Td>
                                             <Td><Center>{x.enddate} {x.timeOut}</Center></Td>
                                             <Td maxWidth={"200px"} overflow={"hidden"} textOverflow={"ellipsis"}>{x.locationIn}</Td>
@@ -525,10 +527,12 @@ const Evaluation = () => {
                                             <Td>{(i)+1+((pagegination.page-1)*30)}</Td>
                                             <Td>{x.booking_date}</Td>
                                             <Td>{x.bookingname}</Td>
-                                            <Td><Center>กระบะ</Center></Td>
-                                            <Td><Center>{
-                                                x.number_cars == 0 ? x.number_travelers : x.number_cars
-                                            }</Center></Td>
+                                            <Td><Center>
+                                            {x.number_travelers == 0 || x.number_travelers == null ? "" : "(รถตู้) "}  { x.number_cars == 0 || x.number_cars == null ? "" : "(รถกระบะ)"}
+                                            </Center></Td>
+                                            <Td><Center>
+                                            {x.number_travelers == 0 || x.number_travelers == null ? "" : "("+x.number_travelers+")"}  {x.number_cars == 0 || x.number_cars == null  ? "" : "("+x.number_cars+")"}
+                                            </Center></Td>
                                             <Td ><Center>{x.startdate} {x.timeIn}</Center></Td>
                                             <Td><Center>{x.enddate} {x.timeOut}</Center></Td>
                                             <Td maxWidth={"200px"} overflow={"hidden"} textOverflow={"ellipsis"}>{x.locationIn}</Td>
