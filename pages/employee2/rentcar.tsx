@@ -179,10 +179,8 @@ const RentCar = () => {
             "tel":form.tel,
             "note":form.note,
             "typecar":null,
-            "number_cars":parseInt(form.countcar1),
-            "person_count":parseInt(form.countper1),
-            "number_cars2":parseInt(form.countcar2),
-            "person_count2":parseInt(form.countper2),
+            "number_travelers":parseInt(form.countcar1),
+            "number_cars":parseInt(form.number_cars),
             "startdate":form.startdate,
             "enddate":form.enddate,
             "locationIn":form.locationIn,
@@ -212,12 +210,11 @@ const RentCar = () => {
                 duration: 5000,
                 isClosable: false,
               })
-              const vl = new Date(startDate)
               setform({
                 idcarbooking:null,
                 PlantId:me?.data?.data?.myHrEmployee.plantId,
                 employee_no:me?.data?.data?.myHrEmployee.employeeNo,
-                booking_date:[vl.getFullYear(), vl.getMonth()+1, vl.getDate()].join('-')+" 03:54:07.6233333 +00:00",
+                booking_date:"2023-12-06 03:54:07.6233333 +00:00",
                 bookingname:me?.data?.data?.myHrEmployee.firstName+" "+me?.data?.data?.myHrEmployee.lastName,
                 email:me?.data?.data?.myHrEmployee.email,
                 agency:me?.data?.data?.myHrEmployee.jobName,
@@ -368,33 +365,33 @@ const [disbut,setdisbut] = useState<boolean>(false);
         countcar3:0,
         countper3:0
         });
-        // let config = {
-        //     method: 'get',
-        //     maxBodyLength: Infinity,
-        //     url: 'https://d713apsi01-wa01kbtcom.azurewebsites.net/ReserveCar/CheckReserverCar/3',
-        //     headers: { 
-        //       'accept': '*/*', 
-        //       'Authorization': 'Bearer '+tokens
-        //     }
-        //   };
+        let config = {
+            method: 'get',
+            maxBodyLength: Infinity,
+            url: 'https://d713apsi01-wa01kbtcom.azurewebsites.net/ReserveCar/CheckReserverCar/3',
+            headers: { 
+              'accept': '*/*', 
+              'Authorization': 'Bearer '+tokens
+            }
+          };
           
-        //   axios.request(config)
-        //   .then((response) => {
-        //     console.log(response);
-        //     if(response.data.data.length == 0) {
-        //         toast({
-        //             id: "error",
-        //             description: `ไม่มีรถที่พร้อมให้บริการ`,
-        //             status: "warning",
-        //             duration: 5000,
-        //             isClosable: false,
-        //           })
-        //         setdisbut(true);
-        //     }
-        //   })
-        //   .catch((error) => {
-        //     console.log(error);
-        //   });
+          axios.request(config)
+          .then((response) => {
+            console.log(response);
+            if(response.data.data.length == 0) {
+                toast({
+                    id: "error",
+                    description: `ไม่มีรถที่พร้อมให้บริการ`,
+                    status: "warning",
+                    duration: 5000,
+                    isClosable: false,
+                  })
+                setdisbut(true);
+            }
+          })
+          .catch((error) => {
+            console.log(error);
+          });
           console.log(me);
     },[me.isLoading])
     // console.log(value);
@@ -622,29 +619,31 @@ const [disbut,setdisbut] = useState<boolean>(false);
                             </RadioGroup> */}
                         </FormControl>
                     </GridItem>
-                    <GridItem colSpan={12}>
-                        <FormControl>
-                            <Flex>
-                                <Checkbox colorScheme='green' marginRight={"20px"} isChecked={ckcar2} onChange={(val)=>setckcar2(val.target.checked)}>
-                                รถกระบะ
-                                </Checkbox>
-                                <Stack direction='row' alignItems={"baseline"}>
-                                    <FormLabel className='lable-rentcar'>จำนวนคัน</FormLabel>
-                                    <Input type='search' required isDisabled={!ckcar2} style={{ border: '1px #00AAAD solid', margin: "0px 10px" }} maxWidth={"100"} value={form.countcar2} onChange={handlecountcar2} name='number_cars' />
-                                </Stack>
-                                <Stack direction='row' alignItems={"baseline"}>
-                                    <FormLabel className='lable-rentcar'>จำนวนผู้เดินทาง</FormLabel>
-                                    <Input type='search' required isDisabled={!ckcar2} style={{ border: '1px #00AAAD solid', margin: "0px 10px" }} maxWidth={"100"} value={form.countper2} onChange={handlecountper2} />
-                                </Stack>
-                            </Flex>
-                            {/* <RadioGroup onChange={setValue} value={value}>
-                                <Stack direction='row'>
-                                    <Radio value='1'>รถตู้</Radio>
-                                    <Radio value='2'>รถกระบะ</Radio>
-                                </Stack>
-                            </RadioGroup> */}
-                        </FormControl>
-                    </GridItem>
+                    { parseInt(me?.data?.data?.myHrEmployee.plantId) == 2 &&
+                        <GridItem colSpan={12}>
+                            <FormControl>
+                                <Flex>
+                                    <Checkbox colorScheme='green' marginRight={"20px"} isChecked={ckcar2} onChange={(val)=>setckcar2(val.target.checked)}>
+                                    รถกระบะ
+                                    </Checkbox>
+                                    <Stack direction='row' alignItems={"baseline"}>
+                                        <FormLabel className='lable-rentcar'>จำนวนคัน</FormLabel>
+                                        <Input type='search' required isDisabled={!ckcar2} style={{ border: '1px #00AAAD solid', margin: "0px 10px" }} maxWidth={"100"} value={form.countcar2} onChange={handlecountcar2} name='number_cars' />
+                                    </Stack>
+                                    <Stack direction='row' alignItems={"baseline"}>
+                                        <FormLabel className='lable-rentcar'>จำนวนผู้เดินทาง</FormLabel>
+                                        <Input type='search' required isDisabled={!ckcar2} style={{ border: '1px #00AAAD solid', margin: "0px 10px" }} maxWidth={"100"} value={form.countper2} onChange={handlecountper2} />
+                                    </Stack>
+                                </Flex>
+                                {/* <RadioGroup onChange={setValue} value={value}>
+                                    <Stack direction='row'>
+                                        <Radio value='1'>รถตู้</Radio>
+                                        <Radio value='2'>รถกระบะ</Radio>
+                                    </Stack>
+                                </RadioGroup> */}
+                            </FormControl>
+                        </GridItem>
+                    }
                     { parseInt(me?.data?.data?.myHrEmployee.plantId) == 2 &&
                         <GridItem colSpan={12}>
                         <FormControl>
