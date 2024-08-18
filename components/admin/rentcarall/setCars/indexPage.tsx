@@ -219,29 +219,11 @@ const indexPage = ({ mode }) => {
         cartype:0,
         person_responsible_for_expenses:""
     });
-    useEffect(() =>{
-        console.log(form.bookingname);
-    },[form.bookingname])
-    const handleChange = (event: any) => {
-        let value = event.target.value;
-        setDatas({ ...datas, [event.target.name]: event.target.value })
-    }
-    // console.log(datas);
-    const handlecartye = (event:React.ChangeEvent<HTMLInputElement>) => setdatas(prev=> { 
-        console.log(event.target.value);
-        
-        return {...prev,cartype:event.target.value}}
-    )
-    
-    const isError = datas.note === ''
-    const search = (event:any) =>{
+   
+    useEffect(() => {
         const tokens = localStorageLoad("token")
         var res1 = startDate.toISOString().slice(0,10)
         var res2 = startDate1.toISOString().slice(0,10)
-        console.log(res1);
-        console.log("car",datasall.cartype)
-        console.log("start",datasall.startdates)
-        console.log("end",datasall.enddates)
         const axios = require('axios');
         let data = '';
         let config = {
@@ -254,7 +236,47 @@ const indexPage = ({ mode }) => {
         },
         data : data
         };
-
+        axios.request(config)
+        .then((response) => {
+            // console.log(response);
+            // if(response.data.data.length>0){
+            //     console.log("data",response.data.data);
+                setdatatable(response.data.data)
+            //     console.log("table",datatables);
+            // }
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+       
+    }, [me.isLoading])
+    const handleChange = (event: any) => {
+        let value = event.target.value;
+        setDatas({ ...datas, [event.target.name]: event.target.value })
+    }
+    // console.log(datas);
+    const handlecartye = (event:React.ChangeEvent<HTMLInputElement>) => setdatas(prev=> { 
+        console.log(event.target.value);
+        return {...prev,cartype:event.target.value}}
+    )
+    
+    const isError = datas.note === ''
+    const search = (event:any) =>{
+        const tokens = localStorageLoad("token")
+        var res1 = startDate.toISOString().slice(0,10)
+        var res2 = startDate1.toISOString().slice(0,10)
+        const axios = require('axios');
+        let data = '';
+        let config = {
+        method: 'get',
+        maxBodyLength: Infinity,
+        url: 'https://d713apsi01-wa01kbtcom.azurewebsites.net/ReserveCar/GetCheckStatus_ReserveCar2/'+mode+'/'+res1+'/'+res2+'/'+me?.data?.data?.planningBusUser.role+'/'+(bookingnames == "" ? " " : bookingnames)+'/'+datasall.cartype+'?page=1&size=100',
+        headers: { 
+            'Content-Type': 'application/json', 
+            'Authorization': 'Bearer '+tokens
+        },
+        data : data
+        };
         axios.request(config)
         .then((response) => {
             console.log(response);
@@ -265,11 +287,10 @@ const indexPage = ({ mode }) => {
             }
         })
         .catch((error) => {
-        console.log(error);
+            console.log(error);
         });
 
     }
-    console.log(mode,'mode');
     
     return (
         <>

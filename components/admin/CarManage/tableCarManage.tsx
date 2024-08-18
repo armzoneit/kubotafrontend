@@ -161,7 +161,7 @@ const tableCarManage = ({ mode }) => {
         addData.register_date = addData.register_date ? addData.register_date : '';
 
         if(addData.id){
-            axios.put('https://d713apsi01-wa01kbtcom.azurewebsites.net/CarDetail/UpdatetCarDetail',addData).then(async(response) => {
+            axios.put('https://d713apsi01-wa01kbtcom.azurewebsites.net/CarDetail/UpdateCarDetail',addData).then(async(response) => {
                 Swal.fire({
                     icon: "success",
                     title: "บันทึกข้อมูลสำเร็จ!",
