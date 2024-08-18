@@ -48,11 +48,8 @@ import dayjs from 'dayjs';
 import DatePicker from 'react-datepicker';
 import styled, { css, createGlobalStyle } from 'styled-components';
 import { TimePicker } from 'antd';
-<<<<<<< Updated upstream
 import { number } from 'yup';
 import StatusRentCarModal from '../../components/employee2/statusrentcarModal';
-=======
->>>>>>> Stashed changes
 
 const DatePickerWrapperStyles = createGlobalStyle`
     .date_picker.full-width input {
@@ -103,19 +100,14 @@ const StatusRentCar = () => {
     const [disread,setdisread] = useState<boolean>(false);
     const { isOpen, onOpen, onClose } = useDisclosure()
     const isopen1 = useDisclosure()
-<<<<<<< Updated upstream
 
 
-    const [approval, setapproval] = useState([{
-        no: 1,
-=======
     const [carck3,setcarck3] = useState<boolean>(false);
     const [carck4,setcarck4] = useState<boolean>(false);
     const [ckcar1,setckcar1] = useState<boolean>(false)
     const [ckcar2,setckcar2] = useState<boolean>(false)
     const [approval,setapproval] = useState([{
         no:1,
->>>>>>> Stashed changes
         name: "A",
         position:"ผชส",
         status:""
@@ -225,6 +217,8 @@ const [startDate, setStartDate] = useState(new Date());
       const [editbutton,seteditbutton] = React.useState<boolean>(false);
     const [startDate1, setStartDate1] = useState(new Date());
     const [startDate2, setStartDate2] = useState(new Date());
+    const [startDate3, setStartDate3] = useState(new Date());
+    const [startDate4, setStartDate4] = useState(new Date());
     const handlebookingdate = (event:React.ChangeEvent<HTMLInputElement>) => setform(prev=> { 
         const vl = new Date(event)
         setStartDate(event);
@@ -281,6 +275,16 @@ const [startDate, setStartDate] = useState(new Date());
     const handleenddate = (event:React.ChangeEvent<HTMLInputElement>) => setform(prev=> { 
         const vl = new Date(event)
         setStartDate2(event);
+        return {...prev,enddate:[vl.getFullYear(), vl.getMonth()+1, vl.getDate()].join('-')}
+    })
+    const handlestartdate3 = (event:React.ChangeEvent<HTMLInputElement>) => setform(prev=> { 
+        const vl = new Date(event)
+        setStartDate3(event);
+        return {...prev,startdate:[vl.getFullYear(), vl.getMonth()+1, vl.getDate()].join('-')}
+    })
+    const handleenddate4 = (event:React.ChangeEvent<HTMLInputElement>) => setform(prev=> { 
+        const vl = new Date(event)
+        setStartDate4(event);
         return {...prev,enddate:[vl.getFullYear(), vl.getMonth()+1, vl.getDate()].join('-')}
     })
     const handlecountcar1 = (event:React.ChangeEvent<HTMLInputElement>) => setform(prev=> {
@@ -571,10 +575,8 @@ const [startDate, setStartDate] = useState(new Date());
         });
 
     }
-<<<<<<< Updated upstream
 
 
-=======
     
     const handleapproved = (ids: number) => {
         const tokens = localStorageLoad("token")
@@ -609,7 +611,6 @@ const [startDate, setStartDate] = useState(new Date());
                 console.log(error);
             });
     }
->>>>>>> Stashed changes
     const handlereset = (event: any) => {
         setStartDate1(new Date())
         setStartDate2(new Date())
@@ -683,16 +684,12 @@ const [startDate, setStartDate] = useState(new Date());
           
     };
 
-<<<<<<< Updated upstream
-    const handleopenedit = (ids: number) => {
-=======
     const handleChange = (event: any) => {
         let value = event.target.value;
         setDatas({ ...datas, [event.target.name]: event.target.value })
     }
 
     const handleopenedit = (ids:number) =>{
->>>>>>> Stashed changes
         onOpen();
         setcarck3(true);
         setcarck4(false);
@@ -713,15 +710,25 @@ const [startDate, setStartDate] = useState(new Date());
             
             axios.request(config5)
             .then((response) => {
-                console.log(response)
+                console.log("ggg1",response.data.data.carBookingWithDriver[0])
                 setapprovedbutton(true);
                 seteditbutton(false);
+                console.log("ggg2",startDate)
+                let subdate = response.data.data.carBookingWithDriver[0]?.booking_date;
+                let subdate1 = subdate.split('/');
+                let subdate2 = response.data.data.carBookingWithDriver[0]?.startdate;
+                let subdate3 = subdate2.split('/');
+                let subdate4 = response.data.data.carBookingWithDriver[0]?.enddate;
+                let subdate5 = subdate4.split('/');
+                setStartDate(new Date(subdate1[2]+"-"+subdate1[1]+"-"+subdate1[0]))
+                setStartDate3(new Date(subdate3[2]+"-"+subdate3[1]+"-"+subdate3[0]))
+                setStartDate4(new Date(subdate5[2]+"-"+subdate5[1]+"-"+subdate5[0]))
                 if(response.data.data.carBookingWithDriver[0]?.employee_no == me?.data?.data?.myHrEmployee.employeeNo)
                 {
                     setapprovedbutton(true);
                     seteditbutton(false);
-<<<<<<< Updated upstream
                     setdisread(false);
+                    }
                     if (response.data.data.carBookingWithDriver[0]?.employee_no == me?.data?.data?.myHrEmployee.employeeNo) {
 
                         setapprovedbutton(true);
@@ -754,80 +761,8 @@ const [startDate, setStartDate] = useState(new Date());
                         number_travelers: response.data.data.carBookingWithDriver[0]?.number_travelers,
                         number_cars: response.data.data.carBookingWithDriver[0]?.number_cars,
                         person_count: response.data.data.carBookingWithDriver[0]?.person_count,
-                        startdate: response.data.data.carBookingWithDriver[0]?.startdate,
-                        enddate: response.data.data.carBookingWithDriver[0]?.enddate,
-                        locationIn: response.data.data.carBookingWithDriver[0]?.locationIn,
-                        timeIn: response.data.data.carBookingWithDriver[0]?.timeIn,
-                        LocationOut: response.data.data.carBookingWithDriver[0]?.plantId,
-                        timeOut: response.data.data.carBookingWithDriver[0]?.timeOut,
-                        operational_area: response.data.data.carBookingWithDriver[0]?.operational_area,
-                        upcountry: response.data.data.carBookingWithDriver[0]?.upcountry,
-                        overnight_stay: response.data.data.carBookingWithDriver[0]?.overnight_stay,
-                        person_responsible_for_expenses: response.data.data.carBookingWithDriver[0]?.person_responsible_for_expenses,
-                        other: response.data.data.carBookingWithDriver[0]?.other,
-                        number_of_trips: response.data.data.carBookingWithDriver[0]?.plantId,
-                        province: response.data.data.carBookingWithDriver[0]?.plantId,
-                        GL: response.data.data.carBookingWithDriver[0]?.GL,
-                        cost_enter: response.data.data.carBookingWithDriver[0]?.cost_enter,
-                        order: response.data.data.carBookingWithDriver[0]?.order,
-                        overnight: response.data.data.carBookingWithDriver[0]?.overnight,
-                    })
-                })
-                .catch((error) => {
-                    console.log(error);
-                });
-        } else if (datasall.cartype == 2) {
-            let config5 = {
-                method: 'get',
-                maxBodyLength: Infinity,
-                url: 'https://d713apsi01-wa01kbtcom.azurewebsites.net/ReserveCar/GetCarBookingNoDriverById/' + ids,
-                headers: {
-                    'accept': '*/*',
-                    'Authorization': "Bearer " + tokens
-                }
-            };
-
-            console.log(ids);
-
-
-            axios.request(config5)
-                .then((response) => {
-                    settextcc("จองรถเช่าเหมาวัน(ไม่มีคนขับ)");
-                    console.log(response)
-                    setapprovedbutton(true);
-                    seteditbutton(false);
-                    setdisread(false);
-                    if (response.data.data.carBookingWithDriver[0]?.employee_no == me?.data?.data?.myHrEmployee.employeeNo) {
-                        setapprovedbutton(true);
-                        seteditbutton(false);
-                    } else {
-                        seteditbutton(true);
-                        response.data.data.approval.map((e, v) => {
-                            console.log("ggg kuy", e);
-                            if (me?.data?.data?.myHrEmployee.employeeNo == e.employeeApproval) {
-                                setapprovedbutton(false);
-                            }
-                        });
-                    }
-                    if (response.data.data.carBookingWithDriver[0]?.employee_no != me?.data?.data?.myHrEmployee.employeeNo) {
-                        setdisread(true);
-                    }
-                    console.log(response.data.data.carBookingWithDriver[0]);
-                    setform({
-                        idcarbooking: response.data.data.carBookingWithDriver[0]?.idcarbooking,
-                        PlantId: response.data.data.carBookingWithDriver[0]?.plantId,
-                        employee_no: response.data.data.carBookingWithDriver[0]?.employee_no,
-                        booking_date: response.data.data.carBookingWithDriver[0]?.booking_date,
-                        bookingname: response.data.data.carBookingWithDriver[0]?.bookingname,
-                        email: response.data.data.carBookingWithDriver[0]?.email,
-                        agency: response.data.data.carBookingWithDriver[0]?.agency,
-                        division: response.data.data.carBookingWithDriver[0]?.division,
-                        tel: response.data.data.carBookingWithDriver[0]?.tel,
-                        note: response.data.data.carBookingWithDriver[0]?.note,
-                        typecar: response.data.data.carBookingWithDriver[0]?.typecar,
-                        number_travelers: response.data.data.carBookingWithDriver[0]?.number_travelers,
-                        number_cars: response.data.data.carBookingWithDriver[0]?.number_cars,
-                        person_count: response.data.data.carBookingWithDriver[0]?.person_count,
+                        countper1:response.data.data.carBookingWithDriver[0]?.person_count,
+                        countper2:response.data.data.carBookingWithDriver[0]?.person_count2,
                         startdate: response.data.data.carBookingWithDriver[0]?.startdate,
                         enddate: response.data.data.carBookingWithDriver[0]?.enddate,
                         locationIn: response.data.data.carBookingWithDriver[0]?.locationIn,
@@ -846,87 +781,11 @@ const [startDate, setStartDate] = useState(new Date());
                         order: response.data.data.carBookingWithDriver[0]?.order,
                         overnight: response.data.data.carBookingWithDriver[0]?.overnight,
                     })
+                
                 })
                 .catch((error) => {
                     console.log(error);
                 });
-        } else if (datasall.cartype == 3) {
-            let config5 = {
-                method: 'get',
-                maxBodyLength: Infinity,
-                url: 'https://d713apsi01-wa01kbtcom.azurewebsites.net/ReserveCar/GetCarBookingPickupAndDropById/' + ids,
-                headers: {
-                    'accept': '*/*',
-                    'Authorization': "Bearer " + tokens
-                }
-            };
-
-            axios.request(config5)
-                .then((response) => {
-                    settextcc("จองรถรับส่งระหว่างวัน");
-                    console.log(response)
-                    setapprovedbutton(true);
-                    seteditbutton(false);
-                    setdisread(false);
-                    console.log({
-                        employeeNo: response.data.data.carBookingWithDriver[0]?.employee_no,
-                        myHrEmployee: me?.data?.data?.myHrEmployee.employeeNo
-=======
-                }else{
-                    seteditbutton(true);
-                    response.data.data.approval.map((e,v) =>{
-                        console.log("ggg kuy",e);
-                        if(me?.data?.data?.myHrEmployee.employeeNo == e.employeeApproval)
-                        {
-                            setapprovedbutton(false);
-                        }
->>>>>>> Stashed changes
-                    });
-                }
-                if(response.data.data.carBookingWithDriver[0]?.employee_no != me?.data?.data?.myHrEmployee.employeeNo)
-                {
-                    setdisread(true);
-                }
-                console.log(response.data.data.carBookingWithDriver[0]);
-                setform({
-                    idcarbooking:response.data.data.carBookingWithDriver[0]?.idcarbooking,
-                    PlantId:response.data.data.carBookingWithDriver[0]?.plantId,
-                    employee_no:response.data.data.carBookingWithDriver[0]?.employee_no,
-                    booking_date:response.data.data.carBookingWithDriver[0]?.booking_date,
-                    bookingname:response.data.data.carBookingWithDriver[0]?.bookingname,
-                    email:response.data.data.carBookingWithDriver[0]?.email,
-                    agency:response.data.data.carBookingWithDriver[0]?.agency,
-                    division:response.data.data.carBookingWithDriver[0]?.division,
-                    tel:response.data.data.carBookingWithDriver[0]?.tel,
-                    note:response.data.data.carBookingWithDriver[0]?.note,
-                    typecar:response.data.data.carBookingWithDriver[0]?.typecar,
-                    number_travelers:response.data.data.carBookingWithDriver[0]?.number_travelers,
-                    number_cars:response.data.data.carBookingWithDriver[0]?.number_cars,
-                    person_count:response.data.data.carBookingWithDriver[0]?.person_count,
-                    countper1:response.data.data.carBookingWithDriver[0]?.person_count,
-                    countper2:response.data.data.carBookingWithDriver[0]?.person_count2,
-                    startdate:response.data.data.carBookingWithDriver[0]?.startdate,
-                    enddate:response.data.data.carBookingWithDriver[0]?.enddate,
-                    locationIn:response.data.data.carBookingWithDriver[0]?.locationIn,
-                    timeIn:response.data.data.carBookingWithDriver[0]?.timeIn,
-                    LocationOut:response.data.data.carBookingWithDriver[0]?.plantId,
-                    timeOut:response.data.data.carBookingWithDriver[0]?.timeOut,
-                    operational_area:response.data.data.carBookingWithDriver[0]?.operational_area,
-                    upcountry:response.data.data.carBookingWithDriver[0]?.upcountry,
-                    overnight_stay:response.data.data.carBookingWithDriver[0]?.overnight_stay,
-                    person_responsible_for_expenses:response.data.data.carBookingWithDriver[0]?.person_responsible_for_expenses,
-                    other:response.data.data.carBookingWithDriver[0]?.other,
-                    number_of_trips:response.data.data.carBookingWithDriver[0]?.plantId,
-                    province:response.data.data.carBookingWithDriver[0]?.plantId,
-                    GL:response.data.data.carBookingWithDriver[0]?.GL,
-                    cost_enter:response.data.data.carBookingWithDriver[0]?.cost_enter,
-                    order:response.data.data.carBookingWithDriver[0]?.order,
-                    overnight:response.data.data.carBookingWithDriver[0]?.overnight,
-                })
-            })
-            .catch((error) => {
-                console.log(error);
-            });
         }else if(datasall.cartype == 2){
             settextcc("จองรถเช่าเหมาวัน(ไม่มีคนขับ)");
             let config5 = {
@@ -944,6 +803,15 @@ const [startDate, setStartDate] = useState(new Date());
                 console.log("g2",response)
                 setapprovedbutton(true);
                 seteditbutton(false);
+                let subdate = response.data.data.carBookingWithDriver[0]?.booking_date;
+                let subdate1 = subdate.split('/');
+                let subdate2 = response.data.data.carBookingWithDriver[0]?.startdate;
+                let subdate3 = subdate2.split('/');
+                let subdate4 = response.data.data.carBookingWithDriver[0]?.enddate;
+                let subdate5 = subdate4.split('/');
+                setStartDate(new Date(subdate1[2]+"-"+subdate1[1]+"-"+subdate1[0]))
+                setStartDate3(new Date(subdate3[2]+"-"+subdate3[1]+"-"+subdate3[0]))
+                setStartDate4(new Date(subdate5[2]+"-"+subdate5[1]+"-"+subdate5[0]))
                 if(response.data.data.carBookingWithDriver[0]?.employee_no == me?.data?.data?.myHrEmployee.employeeNo)
                 {
                     setapprovedbutton(true);
@@ -1020,10 +888,25 @@ const [startDate, setStartDate] = useState(new Date());
                 console.log(response)
                 setapprovedbutton(true);
                 seteditbutton(false);
+                var ggg11 = response.data.data.carBookingWithDriver[0]?.bookingDate;
+                var ggg12 = response.data.data.carBookingWithDriver[0]?.startDate;
+                var ggg13 = response.data.data.carBookingWithDriver[0]?.endDate;
+                var ggg21 = ggg11.split('T')
+                var ggg22 = ggg12.split('T')
+                var ggg23 = ggg13.split('T')
+                let subdate = response.data.data.carBookingWithDriver[0]?.booking_date;
+                let subdate1 = ggg21[0].split('/');
+                let subdate2 = response.data.data.carBookingWithDriver[0]?.startdate;
+                let subdate3 = ggg22[0].split('/');
+                let subdate4 = response.data.data.carBookingWithDriver[0]?.enddate;
+                let subdate5 = ggg23[0].split('/');
+                setStartDate(new Date(subdate1[2]+"-"+subdate1[1]+"-"+subdate1[0]))
+                setStartDate3(new Date(subdate3[2]+"-"+subdate3[1]+"-"+subdate3[0]))
+                setStartDate4(new Date(subdate5[2]+"-"+subdate5[1]+"-"+subdate5[0]))
                 if(response.data.data.carBookingWithDriver[0]?.plantId == 2)
                 {
                     setcarck3(false);
-                }else if(response.data.data.carBookingWithDriver[0]?.plantId == 1){
+                }else if(parseInt(response.data.data.carBookingWithDriver[0]?.plantId) == 1){
                     setcarck4(true);
                 }
                 if(response.data.data.carBookingWithDriver[0]?.employee_no == me?.data?.data?.myHrEmployee.employeeNo)
@@ -1131,9 +1014,7 @@ const [startDate, setStartDate] = useState(new Date());
                 </ModalFooter>
                 </ModalContent>
             </Modal>
-<<<<<<< Updated upstream
             <StatusRentCarModal datasall={datasall} isOpen={isOpen} onClose={onClose} textcc={textcc} disread={disread} form={form} setform={setform} />
-=======
             <Modal isOpen={isOpen} size={"full"} onClose={onClose}>
             {overlay}
             <ModalContent>
@@ -1189,7 +1070,7 @@ const [startDate, setStartDate] = useState(new Date());
                         </FormControl>
                     </GridItem>
                     <GridItem colSpan={4}>
-                        <FormControl isInvalid={isError}>
+                        <FormControl >
                             <FormLabel className='lable-rentcar'>วัตถุประสงค์ในการจองรถ</FormLabel>
                             <Input disabled={disread} required type='search' placeholder='กรุณากรอกข้อมูล' style={{ border: '1px #00AAAD solid' }} onChange={handlenote} value={form.note} name='note' />
                             {/* {isError &&
@@ -1341,14 +1222,14 @@ const [startDate, setStartDate] = useState(new Date());
                                 }}
                             /> */}
                             {/* <Input style={{ border: '1px #00AAAD solid' }} type="date" value={form.startdate} onChange={handlestartdate} /> */}
-                            <DatePicker disabled={disread} required placeholderText='วัน-เดือน-ปี' dateFormat="dd-MM-yyyy" minDate={new Date()} wrapperClassName='date_picker full-width' selected={startDate1} onChange={handlestartdate} />
+                            <DatePicker disabled={disread} required placeholderText='วัน-เดือน-ปี' dateFormat="dd-MM-yyyy" minDate={new Date()} wrapperClassName='date_picker full-width' selected={startDate3} onChange={handlestartdate3} />
                         </FormControl>
                     </GridItem>
                     <GridItem colSpan={2}>
                         <FormControl >
                             <FormLabel className='lable-rentcar'>วันที่ใช้รถสิ้นสุด</FormLabel>
                             {/* <Input style={{ border: '1px #00AAAD solid' }} type="date" value={form.enddate} onChange={handleenddate} /> */}
-                            <DatePicker disabled={disread} required placeholderText='วัน-เดือน-ปี' dateFormat="dd-MM-yyyy" minDate={new Date()} wrapperClassName='date_picker full-width' selected={startDate2} onChange={handleenddate} />
+                            <DatePicker disabled={disread} required placeholderText='วัน-เดือน-ปี' dateFormat="dd-MM-yyyy" minDate={new Date()} wrapperClassName='date_picker full-width' selected={startDate4} onChange={handleenddate4} />
                         </FormControl>
                     </GridItem>
                     <GridItem colSpan={2} />
@@ -1482,7 +1363,6 @@ const [startDate, setStartDate] = useState(new Date());
                 </ModalFooter>
             </ModalContent>
             </Modal>
->>>>>>> Stashed changes
             <Head>
                 <title>ตรวจสอบสถานะการจองรถ</title>
                 <meta name="description" content="reservation" />
@@ -1572,90 +1452,10 @@ const [startDate, setStartDate] = useState(new Date());
                                     
                                 </Thead>
                                 <Tbody id='tabledata'>
-<<<<<<< Updated upstream
                                     {datatables.map((x, i) =>
                                         datasall.cartype == "1" ?
                                             <Tr key={i}>
                                                 <Td>{(i) + 1 + ((pagegination.page - 1) * 30)}</Td>
-                                                <Td>{x.booking_date}</Td>
-                                                <Td>{x.bookingname}</Td>
-                                                <Td className='text-centers'>{x.number_travelers == 0 || x.number_travelers == null ? "" : "(รถตู้) "} {x.number_cars1 == 0 || x.number_cars1 == null ? "" : "(รถกระบะ)"}</Td>
-                                                <Td className='text-centers'>{x.number_travelers == 0 || x.number_travelers == null ? "" : "(" + x.number_travelers + ")"} {x.number_cars1 == 0 || x.number_cars1 == null ? "" : "(" + x.number_cars1 + ")"}</Td>
-                                                <Td className='text-centers'>{x.startdate}</Td>
-                                                <Td className='text-centers'>{x.enddate}</Td>
-                                                <Td maxWidth={"200px"} overflow={"hidden"} textOverflow={"ellipsis"}>{x.locationIn}</Td>
-                                                <Td maxWidth={"200px"} overflow={"hidden"} textOverflow={"ellipsis"}>{x.locationOut}</Td>
-                                                {x.statusApproved == "1" ? <Td className='text-centers'><Link onClick={() => { isopen1.onOpen(); getApprovedPerson(x.idcarbooking) }}>อนุมัติ</Link></Td> : <Td className='text-centers'><Link onClick={() => { isopen1.onOpen(); getApprovedPerson(x.idcarbooking) }}>รออนุมัติ</Link></Td>
-                                                }
-                                                {
-                                                    x.statusApproved == "1" ? <Td className='text-centers'>รอจัดรถ</Td> : <Td className='text-centers'></Td>
-                                                }
-                                                <Td className='text-centers'></Td>
-                                                <Td className='text-centers'></Td>
-                                                <Td className='text-centers'></Td>
-                                                <Td className='text-centers' ></Td>
-                                                {x.statusApproved == "1" ? <Td></Td> : <Td className='text-centers'><a onClick={(e) => { handleopenedit(x.idcarbooking) }} href="#"><AiOutlineEdit /></a></Td>
-                                                }
-                                                {x.statusApproved == "1" ? <Td></Td> : me?.data?.data?.myHrEmployee.employeeNo == x.employee_no ? <Td className='text-centers'><a onClick={(e) => { deletes(x.idcarbooking) }} href="#"><AiOutlineDelete /></a></Td> : <Td></Td>
-                                                }
-                                            </Tr>
-                                            :
-                                            datasall.cartype == "2" ?
-                                                <Tr key={i}>
-                                                    <Td>{(i) + 1 + ((pagegination.page - 1) * 30)}</Td>
-                                                    <Td>{x.booking_date}</Td>
-                                                    <Td>{x.bookingname}</Td>
-
-                                                    <Td className='text-centers'>{x.number_travelers == 0 || x.number_travelers == null ? "" : "(รถตู้) "} {x.number_cars1 == 0 || x.number_cars1 == null ? "" : "(รถเก๋ง)"}</Td>
-                                                    <Td className='text-centers'>{x.number_travelers == 0 || x.number_travelers == null ? "" : "(" + x.number_travelers + ")"} {x.number_cars1 == 0 || x.number_cars1 == null ? "" : "(" + x.number_cars1 + ")"}</Td>
-                                                    <Td className='text-centers'>{x.startdate}</Td>
-                                                    <Td className='text-centers'>{x.enddate}</Td>
-                                                    <Td maxWidth={"200px"} overflow={"hidden"} textOverflow={"ellipsis"}>{x.locationIn}</Td>
-                                                    <Td maxWidth={"200px"} overflow={"hidden"} textOverflow={"ellipsis"}>{x.locationOut}</Td>
-                                                    {x.statusApproved == "1" ? <Td></Td> : <Td className='text-centers'><Link onClick={() => { isopen1.onOpen(); getApprovedPerson(x.idcarbooking) }}>รออนุมัติ</Link></Td>
-                                                    }
-                                                    {
-                                                        x.statusApproved == "1" ? <Td className='text-centers'>รอจัดรถ</Td> : <Td className='text-centers'></Td>
-                                                    }
-                                                    <Td className='text-centers'></Td>
-                                                    <Td className='text-centers'></Td>
-                                                    <Td className='text-centers'></Td>
-                                                    <Td className='text-centers'></Td>
-                                                    {x.statusApproved == "1" ? <Td></Td> : <Td className='text-centers'><a onClick={(e) => { handleopenedit(x.idcarbooking) }} href="#"><AiOutlineEdit /></a></Td>
-                                                    }
-                                                    {x.statusApproved == "1" ? <Td></Td> : me?.data?.data?.myHrEmployee.employeeNo == x.employee_no ? <Td className='text-centers'><a onClick={(e) => { deletes(x.idcarbooking) }} href="#"><AiOutlineDelete /></a></Td> : <Td></Td>
-                                                    }
-                                                </Tr>
-                                                : <Tr key={i}>
-                                                    <Td>{(i) + 1 + ((pagegination.page - 1) * 30)}</Td>
-                                                    <Td>{x.booking_date}</Td>
-                                                    <Td>{x.bookingname}</Td>
-                                                    <Td className='text-centers'>{x.number_cars == 0 || x.number_cars == null ? "" : "(รถตู้) "} {x.number_cars1 == 0 || x.number_cars1 == null ? "" : "(รถกระบะ)"} {x.number_cars3 == 0 || x.number_cars3 == null ? "" : "(รถเก๋ง)"}</Td>
-                                                    <Td className='text-centers'>{x.number_cars == 0 || x.number_cars == null ? "" : "(" + x.number_cars + ")"} {x.number_cars1 == 0 || x.number_cars1 == null ? "" : "(" + x.number_cars1 + ")"} {x.number_cars3 == 0 || x.number_cars3 == null ? "" : "(" + x.number_cars3 + ")"}</Td>
-                                                    <Td className='text-centers'>{x.startdate}</Td>
-                                                    <Td className='text-centers'>{x.enddate}</Td>
-                                                    <Td maxWidth={"200px"} overflow={"hidden"} textOverflow={"ellipsis"}>{x.locationIn}</Td>
-                                                    <Td maxWidth={"200px"} overflow={"hidden"} textOverflow={"ellipsis"}>{x.locationOut}</Td>
-                                                    {x.statusApproved == "1" ? <Td className='text-centers'><Link onClick={() => { isopen1.onOpen(); getApprovedPerson(x.idcarbooking) }}>อนุมัติ</Link></Td> : <Td className='text-centers'><Link onClick={() => { isopen1.onOpen(); getApprovedPerson(x.idcarbooking) }}>รออนุมัติ</Link></Td>
-                                                    }
-                                                    {
-                                                        x.statusApproved == "1" ? <Td className='text-centers'>รอจัดรถ</Td> : <Td className='text-centers'></Td>
-                                                    }
-                                                    <Td className='text-centers'></Td>
-                                                    <Td className='text-centers'></Td>
-                                                    <Td className='text-centers'></Td>
-                                                    <Td className='text-centers' ></Td>
-                                                    {x.statusApproved == "1" ? <Td></Td> : <Td className='text-centers'><a onClick={(e) => { handleopenedit(x.idcarbooking) }} href="#"><AiOutlineEdit /></a></Td>
-                                                    }
-                                                    {x.statusApproved == "1" ? <Td></Td> : me?.data?.data?.myHrEmployee.employeeNo == x.employee_no ? <Td className='text-centers'><a onClick={(e) => { deletes(x.idcarbooking) }} href="#"><AiOutlineDelete /></a></Td> : <Td></Td>
-                                                    }
-                                                </Tr>
-=======
-                                    {datatables.map((x,i) => 
-                                    datasall.cartype != "2" ?
-                                    <Tr key={i}>
-                                        <Td>{(i)+1+((pagegination.page-1)*30)}</Td>
-                                        <Td>{x.booking_date}</Td>
                                         <Td>{x.bookingname}</Td>
                                         <Td className='text-centers'>{x.number_travelers == 0 || x.number_travelers == null ? "" : "(รถตู้) "} { x.number_cars == 0 || x.number_cars == null ? "" : "(รถเก๋ง)"} { x.number_cars1 == 0 || x.number_cars1 == null ? "" : "(รถกระบะ)"}</Td>
                                         <Td className='text-centers'>{x.number_travelers == 0 || x.number_travelers == null ? "" : "("+x.number_travelers+")"} {x.number_cars == 0 || x.number_cars == null  ? "" : "("+x.number_cars+")"} {x.number_cars1 == 0 || x.number_cars1 == null  ? "" : "("+x.number_cars1+")"}</Td>
@@ -1703,9 +1503,7 @@ const [startDate, setStartDate] = useState(new Date());
                                         {x.statusApproved == "1" ? <Td></Td> : me?.data?.data?.myHrEmployee.employeeNo ==  x.employee_no ? <Td className='text-centers'><a onClick={(e)=>{deletes(x.idcarbooking)}} href="#"><AiOutlineDelete /></a></Td>: <Td></Td>
                                         }
                                     </Tr>
->>>>>>> Stashed changes
                                     )
-                                    
                                     
                                     
                                     

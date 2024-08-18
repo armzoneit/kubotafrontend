@@ -12,6 +12,7 @@ import { localStorageLoad } from '../../utils/localStrorage';
 import { ChevronRightIcon, ChevronLeftIcon } from "@chakra-ui/icons"
 import { getMe } from "../../data-hooks/me/getMe"
 import { AiOutlineSearch, AiOutlineEdit, AiOutlineDelete, AiOutlineMessage } from "react-icons/ai";
+import moment from 'moment';
 import {
     Table,
     Thead,
@@ -505,7 +506,7 @@ const Evaluation = () => {
                                             <Td>{x.booking_date}</Td>
                                             <Td>{x.bookingname}</Td>
                                             <Td><Center>
-                                            {x.number_travelers == 0 || x.number_travelers == null ? "" : "(รถตู้) "} { x.number_cars == 0 || x.number_cars == null ? "" : "(รถตู้)"} { x.number_cars2 == 0 || x.number_cars2 == null ? "" : "(รถกระบะ)"} { x.number_cars3 == 0 || x.number_cars3 == null ? "" : "(รถเก๋ง)"}
+                                            {x.number_travelers == 0 || x.number_travelers == null ? "" : "(รถตู้) "} { x.number_cars == 0 || x.number_cars == null ? "" : x.number_travelers != 0 ? "(รถเก๋ง)" : "(รถตู้)"} { x.number_cars2 == 0 || x.number_cars2 == null ? "" : "(รถกระบะ)"} { x.number_cars3 == 0 || x.number_cars3 == null ? "" : "(รถเก๋ง)"}
                                             </Center></Td>
                                             <Td><Center>
                                             {x.number_travelers == 0 || x.number_travelers == null ? "" : "("+x.number_travelers+")"} {x.number_cars == 0 || x.number_cars == null  ? "" : "("+x.number_cars+")"} {x.number_cars2 == 0 || x.number_cars2 == null  ? "" : "("+x.number_cars2+")"} {x.number_cars3 == 0 || x.number_cars3 == null  ? "" : "("+x.number_cars3+")"}
@@ -519,7 +520,14 @@ const Evaluation = () => {
                                             <Td><Center></Center></Td>
                                             <Td><Center></Center></Td>
                                             {
-                                                x.googleform == 1 ? <Td></Td> : <Td><Center><Button onClick={() => clickgoogleform(x.idcarbooking)} fontSize={'12px'}><AiOutlineMessage />&nbsp; แบบประเมิน</Button></Center></Td>
+                                                x.googleform == 1 ? <Td>ประเมินความพึงพอใจแล้ว</Td> : 
+                                                <Td><Center>
+                                                    {
+                                                        moment() > moment(x.enddate.split('/')[2]+"-"+x.enddate.split('/')[1]+"-"+x.enddate.split('/')[0]) ? <Button onClick={() => clickgoogleform(x.idcarbooking)} fontSize={'12px'}><AiOutlineMessage />&nbsp; แบบประเมิน</Button>
+                                                        : <Td><Center>รอสิ้นสุดใช้รถ</Center></Td>
+                                                    }
+                                                    
+                                                </Center></Td>
                                             }
                                         </Tr>
                                         :
@@ -539,7 +547,14 @@ const Evaluation = () => {
                                             <Td maxWidth={"200px"} overflow={"hidden"} textOverflow={"ellipsis"}>{x.locationOut}</Td>
                                             <Td ><Center></Center></Td>
                                             {
-                                                x.googleform == 1 ? <Td></Td> : <Td><Center><Button onClick={() => clickgoogleform(x.idcarbooking)} fontSize={'12px'}><AiOutlineMessage />&nbsp; แบบประเมิน</Button></Center></Td>
+                                                x.googleform == 1 ? <Td>ประเมินความพึงพอใจแล้ว</Td> : 
+                                                <Td><Center>
+                                                    {
+                                                        moment() > moment(x.enddate.split('/')[2]+"-"+x.enddate.split('/')[1]+"-"+x.enddate.split('/')[0]) ? <Button onClick={() => clickgoogleform(x.idcarbooking)} fontSize={'12px'}><AiOutlineMessage />&nbsp; แบบประเมิน</Button>
+                                                        : <Td><Center>รอสิ้นสุดใช้รถ</Center></Td>
+                                                    }
+                                                    
+                                                </Center></Td>
                                             }
                                         </Tr>
                                         
