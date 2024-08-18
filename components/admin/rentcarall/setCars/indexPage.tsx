@@ -229,13 +229,15 @@ const indexPage = ({ mode }) => {
         let config = {
         method: 'get',
         maxBodyLength: Infinity,
-        url: 'https://d713apsi01-wa01kbtcom.azurewebsites.net/ReserveCar/GetCheckStatus_ReserveCar2/'+mode+'/'+res1+'/'+res2+'/'+me?.data?.data?.planningBusUser.role+'/'+(bookingnames == "" ? " " : bookingnames)+'/'+datasall.cartype+'?page=1&size=100',
+        url: 'https://d713apsi01-wa01kbtcom.azurewebsites.net/ReserveCar/GetCheckStatus_ReserveCar2/'+mode+'/'+res1+'/'+res2+'/'+me?.data?.data?.planningBusUser.role+'/'+(bookingnames == "" ? " " : bookingnames)+'/'+datasall.cartype+'/1?page=1&size=100',
         headers: { 
             'Content-Type': 'application/json', 
             'Authorization': 'Bearer '+tokens
         },
         data : data
         };
+        console.log(config.url);
+        
         axios.request(config)
         .then((response) => {
             // console.log(response);
@@ -270,7 +272,7 @@ const indexPage = ({ mode }) => {
         let config = {
         method: 'get',
         maxBodyLength: Infinity,
-        url: 'https://d713apsi01-wa01kbtcom.azurewebsites.net/ReserveCar/GetCheckStatus_ReserveCar2/'+mode+'/'+res1+'/'+res2+'/'+me?.data?.data?.planningBusUser.role+'/'+(bookingnames == "" ? " " : bookingnames)+'/'+datasall.cartype+'?page=1&size=100',
+        url: 'https://d713apsi01-wa01kbtcom.azurewebsites.net/ReserveCar/GetCheckStatus_ReserveCar2/'+mode+'/'+res1+'/'+res2+'/'+me?.data?.data?.planningBusUser.role+'/'+(bookingnames == "" ? " " : bookingnames)+'/'+datasall.cartype+'/0?page=1&size=100',
         headers: { 
             'Content-Type': 'application/json', 
             'Authorization': 'Bearer '+tokens
@@ -387,7 +389,11 @@ const indexPage = ({ mode }) => {
                                             <Td>{row.agency}</Td>
                                             <Td>{row.division}</Td>
                                             <Td>{row.tel}</Td>
-                                            <Td>{row.number_travelers == 0 || row.number_travelers == null ? "" : "(รถตู้) "} { row.number_cars == 0 || row.number_cars == null ? "" : "(รถเก๋ง)"} { row.number_cars1 == 0 || row.number_cars1 == null ? "" : "(รถเก๋ง)"}</Td>
+                                            <Td>
+                                                {row.number_travelers == 0 || row.number_travelers == null ? "" : "(รถตู้) "}
+                                                { row.number_cars == 0 || row.number_cars == null ? "" : "(รถเก๋ง)"} 
+                                                { row.number_cars1 == 0 || row.number_cars1 == null ? "" : "(รถกระบะ)"}
+                                            </Td>
                                             <Td>{row.number_travelers}</Td>
                                             <Td>{row.startdate}</Td>
                                             <Td>{row.enddate}</Td>

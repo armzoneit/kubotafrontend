@@ -159,7 +159,28 @@ const tableCarManage = ({ mode }) => {
         addData.driver = addData.driver ? addData.driver : '';
         addData.driver_phone = addData.driver_phone ? addData.driver_phone : '';
         addData.register_date = addData.register_date ? addData.register_date : '';
+        let check_form = false;
+        for(let x in fillForm){
+            if(fillForm[x] == true){
+                if(!addData[x]){
+                    check_form = true;
+                    break;
+                }
+            }
+        }
+        if(check_form){
+            Swal.fire({
+                icon: "error",
+                title: "กรุณากรอกข้อมูลให้ครบถ้วน!",
+                text: ""
+            });
+            return false;
 
+        }
+        // console.log(check_form);
+
+        // return false;
+        
         if(addData.id){
             axios.put('https://d713apsi01-wa01kbtcom.azurewebsites.net/CarDetail/UpdateCarDetail',addData).then(async(response) => {
                 Swal.fire({
