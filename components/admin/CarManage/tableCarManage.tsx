@@ -286,7 +286,7 @@ const tableCarManage = ({ mode }) => {
                             </Select> 
                            
                             { fillForm.register_date ? <FormLabel className='lable-rentcar'>วันที่จดทะเบียนรถ</FormLabel> : ''}
-                            { fillForm.register_date ? <Input type="date" style={{ border: '1px #00AAAD solid' }} name="register_date" value={addData.register_date.slice(0,10)} onChange={handleChange}/> : ''}
+                            { fillForm.register_date ? <Input type="date" style={{ border: '1px #00AAAD solid' }} name="register_date" value={addData.register_date ? addData.register_date.slice(0,10) : ''} onChange={handleChange}/> : ''}
 
                             { fillForm.driver ? <FormLabel className='lable-rentcar'>ชื่อคนขับรถ</FormLabel> : ''}
                             { fillForm.driver ? <Input style={{ border: '1px #00AAAD solid' }} name="driver" value={addData.driver} onChange={handleChange}/> : ''}
@@ -321,6 +321,7 @@ const tableCarManage = ({ mode }) => {
                             { fillForm.serv ?  <Th color={"white"}>ผู้ให้บริการ</Th> : ""}
                             <Th color={"white"}>ประเภทรถ</Th>
                             <Th color={"white"}>รุ่นรถ</Th>
+                            { fillForm.license ? <Th color={"white"}>ทะเบียนรถ</Th> : ""}
 
                             { fillForm.register_date ? <Th color={"white"}>วันที่จดทะเบียนรถ</Th> : ""}
                             { fillForm.driver ? <Th color={"white"}>ชื่อคนขับ</Th> : "" }
@@ -337,7 +338,7 @@ const tableCarManage = ({ mode }) => {
                                     { fillForm.serv ?  <Td>{row.serv}</Td> :"" }
                                     <Td>{ fillForm.type_group[row.type]}</Td>
                                     <Td>{ row.carModel }</Td>
-
+                                    { fillForm.license ? <Td>{ row.license }</Td> :""}
                                     { fillForm.register_date ? <Td>{ new Date(row.dateRegisterCar).toLocaleDateString() }</Td> : ""}
                                     { fillForm.driver ? <Td>{row.driver}</Td> : "" }
                                     { fillForm.driver_phone ? <Td>{row.driverPhone}</Td> : "" }
