@@ -323,7 +323,7 @@ const RentCarAllDayDriver = () => {
             {
                 toast({
                     id: toastId4,
-                    description: `กรุณาใส่จำนวนรถกระบะ`,
+                    description: `กรุณาใส่จำนวนรถเก๋ง`,
                     status: "error",
                     duration: 5000,
                     isClosable: false,

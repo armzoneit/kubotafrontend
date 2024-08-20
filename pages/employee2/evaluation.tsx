@@ -240,7 +240,19 @@ const Evaluation = () => {
             .then((response) => {
                 console.log(response.data.data);
                 setdatatables(response.data.data.data)
-                window.open("https://docs.google.com/forms/d/e/1FAIpQLSeRcplUfUdDGfrAQX0k_B62aSTa47ISd5fCfPLzn1RJAAUBjQ/formrestricted");
+                if(datasall.cartype == "1")
+                {
+                    window.open("https://forms.gle/LXdqQLjvxWohENUV7");
+
+                }else if(datasall.cartype == "2")
+                {
+                    window.open("https://forms.gle/1BMXsrZ8eo6LhQ6M8");
+
+                }else if(datasall.cartype == "3")
+                {
+                    window.open("https://forms.gle/NC9UWkbZ215QvGhp9");
+
+                }
             })
             .catch((error) => {
             console.log(error);
@@ -506,7 +518,7 @@ const Evaluation = () => {
                                             <Td>{x.booking_date}</Td>
                                             <Td>{x.bookingname}</Td>
                                             <Td><Center>
-                                            {x.number_travelers == 0 || x.number_travelers == null ? "" : "(รถตู้) "} { x.number_cars == 0 || x.number_cars == null ? "" : x.number_travelers != 0 ? "(รถเก๋ง)" : "(รถตู้)"} { x.number_cars2 == 0 || x.number_cars2 == null ? "" : "(รถกระบะ)"} { x.number_cars3 == 0 || x.number_cars3 == null ? "" : "(รถเก๋ง)"}
+                                            {x.number_travelers == 0 || x.number_travelers == null ? "" : "(รถตู้) "} { x.number_cars == 0 || x.number_cars == null ? "" : x.number_travelers != null && x.number_travelers != 0  ? "(รถเก๋ง)" : "(รถตู้)"} { x.number_cars2 == 0 || x.number_cars2 == null ? "" : "(รถกระบะ)"} { x.number_cars3 == 0 || x.number_cars3 == null ? "" : "(รถเก๋ง)"}
                                             </Center></Td>
                                             <Td><Center>
                                             {x.number_travelers == 0 || x.number_travelers == null ? "" : "("+x.number_travelers+")"} {x.number_cars == 0 || x.number_cars == null  ? "" : "("+x.number_cars+")"} {x.number_cars2 == 0 || x.number_cars2 == null  ? "" : "("+x.number_cars2+")"} {x.number_cars3 == 0 || x.number_cars3 == null  ? "" : "("+x.number_cars3+")"}

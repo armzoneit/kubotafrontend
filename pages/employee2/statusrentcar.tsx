@@ -104,6 +104,7 @@ const StatusRentCar = () => {
 
     const [carck3,setcarck3] = useState<boolean>(false);
     const [carck4,setcarck4] = useState<boolean>(false);
+    const [carck5,setcarck5] = useState<boolean>(false);
     const [ckcar1,setckcar1] = useState<boolean>(false)
     const [ckcar2,setckcar2] = useState<boolean>(false)
     const [approval,setapproval] = useState([{
@@ -157,6 +158,202 @@ const StatusRentCar = () => {
             
 
         })
+    }
+    const editdata = () =>{
+        if(datasall.cartype == "1"){
+            let data = JSON.stringify({
+                "idcarbooking": form.idcarbooking,
+                "plantId": form.PlantId,
+                "employee_no": form.employee_no,
+                "drivername": "string",
+                "booking_date": form.booking_date,
+                "bookingname": form.bookingname,
+                "email": form.email,
+                "agency": form.agency,
+                "division": form.division,
+                "tel": form.tel,
+                "note": form.note,
+                "typecar": form.typecar,
+                "number_travelers": form.number_travelers,
+                "number_cars": form.number_cars1,
+                "person_count": form.countcar1,
+                "person_count2": form.countcar3,
+                "startdate": form.startdate,
+                "enddate": form.enddate,
+                "locationIn": form.locationIn,
+                "timeIn": form.timeIn,
+                "LocationOut": form.LocationOut,
+                "timeOut": form.timeOut,
+                "operational_area": form.operational_area,
+                "upcountry": form.upcountry,
+                "overnight_stay": form.overnight_stay,
+                "person_responsible_for_expenses": form.person_responsible_for_expenses,
+                "other": form.other,
+                "GL": form.GL,
+                "cost_enter": form.cost_enter,
+                "order": form.order,
+                "status": 0,
+                "status_approved": 0,
+                "googleform": 0,
+                "overnight": form.overnight,
+                "employeeapproval": "string"
+              });
+              
+              let config = {
+                method: 'put',
+                maxBodyLength: Infinity,
+                url: 'https://d713apsi01-wa01kbtcom.azurewebsites.net/ReserveCar/UpdatetCarBookingWithDriver',
+                headers: { 
+                  'accept': '*/*', 
+                  'Content-Type': 'application/json'
+                },
+                data : data
+              };
+              
+              axios.request(config)
+              .then((response) => {
+                toast({
+                    id: toastId4,
+                    description: `แก้ไขข้อมูลสำเร็จ`,
+                    status: "success",
+                    duration: 3000,
+                    isClosable: false,
+                })
+              })
+              .catch((error) => {
+                console.log(error);
+              });
+              
+        }else if(datasall.cartype == "2"){
+            let data = JSON.stringify({
+                "idcarbooking": ,
+                "plantId": 0,
+                "employee_no": "string",
+                "drivername": "string",
+                "booking_date": "string",
+                "bookingname": "string",
+                "email": "string",
+                "agency": "string",
+                "division": "string",
+                "tel": "string",
+                "code_employee": "string",
+                "name_use_car": "string",
+                "use_email": "string",
+                "use_agency": "string",
+                "use_division": "string",
+                "tel_use_car": "string",
+                "type_idcar": "string",
+                "brand": "string",
+                "idcar": "string",
+                "pathfile": "string",
+                "note": "string",
+                "typecar": "string",
+                "number_travelers": 0,
+                "brand_cars1": "string",
+                "person_count": 0,
+                "number_cars": 0,
+                "brand_cars2": "string",
+                "person_count2": 0,
+                "startdate": "string",
+                "enddate": "string",
+                "locationIn": "string",
+                "timeIn": "string",
+                "LocationOut": "string",
+                "timeOut": "string",
+                "operational_area": "string",
+                "upcountry": "string",
+                "overnight_stay": "string",
+                "person_responsible_for_expenses": "string",
+                "other": "string",
+                "GL": "string",
+                "cost_enter": "string",
+                "order": "string",
+                "status": 0,
+                "status_approved": 0,
+                "googleform": 0,
+                "overnight": 0,
+                "license_number": "string",
+                "employeeapproval": "string"
+              });
+              
+              let config = {
+                method: 'put',
+                maxBodyLength: Infinity,
+                url: 'https://d713apsi01-wa01kbtcom.azurewebsites.net/ReserveCar/UpdateReserveCar_NoDriver',
+                headers: { 
+                  'accept': '*/*', 
+                  'Content-Type': 'application/json'
+                },
+                data : data
+              };
+              
+              axios.request(config)
+              .then((response) => {
+                console.log(JSON.stringify(response.data));
+              })
+              .catch((error) => {
+                console.log(error);
+              });
+        }else if(datasall.cartype == "3"){
+            let data = JSON.stringify({
+                "idcarbooking": 0,
+                "plantId": 0,
+                "employee_no": "string",
+                "driverName": "string",
+                "booking_date": "string",
+                "bookingname": "string",
+                "email": "string",
+                "agency": "string",
+                "division": "string",
+                "tel": "string",
+                "note": "string",
+                "typecar": "string",
+                "number_travelers": 0,
+                "person_count": 0,
+                "number_cars": 0,
+                "number_cars2": 0,
+                "person_count2": 0,
+                "startdate": "string",
+                "enddate": "string",
+                "locationIn": "string",
+                "timeIn": "string",
+                "LocationOut": "string",
+                "timeOut": "string",
+                "person_responsible_for_expenses": "string",
+                "other": "string",
+                "GL": "string",
+                "cost_enter": "string",
+                "order": "string",
+                "status": 0,
+                "status_approved": 0,
+                "googleform": 0,
+                "employeeapproval": "string",
+                "person_count3": 0,
+                "number_cars3": 0,
+                "operational_area": "string",
+                "upcountry": "string",
+                "overnight_stay": "string"
+              });
+              
+              let config = {
+                method: 'put',
+                maxBodyLength: Infinity,
+                url: 'https://d713apsi01-wa01kbtcom.azurewebsites.net/ReserveCar/UpdateReserveCar_Pickup_and_drop',
+                headers: { 
+                  'accept': '*/*', 
+                  'Content-Type': 'application/json'
+                },
+                data : data
+              };
+              
+              axios.request(config)
+              .then((response) => {
+                console.log(JSON.stringify(response.data));
+              })
+              .catch((error) => {
+                console.log(error);
+              });
+        }
     }
     const [form, setform] = useState({
         idcarbooking:null,
@@ -693,7 +890,8 @@ const [startDate, setStartDate] = useState(new Date());
         onOpen();
         setcarck3(true);
         setcarck4(false);
-
+        setcarck5(false);
+        setdisread(false);
         const tokens = localStorageLoad("token")
         if(datasall.cartype == 1)
         {
@@ -787,6 +985,7 @@ const [startDate, setStartDate] = useState(new Date());
                     console.log(error);
                 });
         }else if(datasall.cartype == 2){
+            setcarck5(true);
             settextcc("จองรถเช่าเหมาวัน(ไม่มีคนขับ)");
             let config5 = {
             method: 'get',
@@ -872,6 +1071,7 @@ const [startDate, setStartDate] = useState(new Date());
             });
         }else if(datasall.cartype == 3)
         {
+            setcarck5(true);
             settextcc("จองรถรับส่งระหว่างวัน");
             let config5 = {
             method: 'get',
@@ -1261,7 +1461,7 @@ const [startDate, setStartDate] = useState(new Date());
                         </FormControl>
                     </GridItem>
                     <GridItem colSpan={2} />
-                    <GridItem colSpan={2}>
+                    <GridItem colSpan={2} hidden={carck5}>
                         <FormControl>
                             <FormLabel className='lable-rentcar'>พื้นที่การปฏิบัติงาน</FormLabel>
                             <Select disabled={disread} required placeholder='เลือกพื้นที่การปฏิบัติงาน' style={{ border: '1px #00AAAD solid' }} value={form.operational_area} onChange={handleoperational_area}>
@@ -1272,17 +1472,17 @@ const [startDate, setStartDate] = useState(new Date());
                     </GridItem>
                     {
                         form.operational_area == "option2" ? 
-                        <GridItem colSpan={2}>
+                        <GridItem colSpan={2} hidden={carck5}>
                             <FormControl>
                                 <FormLabel className='lable-rentcar'>จังหวัด</FormLabel>
-                                <Input disabled={disread} type='search' required placeholder='กรุณากรอกข้อมูล' style={{ border: '1px #00AAAD solid' }} value={form.province} onChange={handlerovince} />
+                                <Input disabled={disread} type='search' required placeholder='กรุณากรอกข้อมูล' style={{ border: '1px #00AAAD solid' }} value={form.upcountry} onChange={handlerovince} />
                             </FormControl>
                         </GridItem>
                         :
                         <GridItem colSpan={2} />
                     }
                     <GridItem colSpan={2} />
-                    <GridItem colSpan={2}>
+                    <GridItem colSpan={2} hidden={carck5}>
                         <FormControl>
                             <FormLabel className='lable-rentcar'>ข้อมูลการพักค้างคืน</FormLabel>
                             <Select disabled={disread} required placeholder='เลือกข้อมูลการพักค้างคืน' style={{ border: '1px #00AAAD solid' }} value={form.overnight_stay} onChange={handleovernight_stay}>
@@ -1293,7 +1493,7 @@ const [startDate, setStartDate] = useState(new Date());
                     </GridItem>
                     {
                         form.overnight_stay == "option1" ? 
-                        <GridItem colSpan={2}>
+                        <GridItem colSpan={2} hidden={carck5}>
                             <FormControl>
                                 <FormLabel className='lable-rentcar'>จำนวนวันที่ค้างคืน (วัน)</FormLabel>
                                 <Input disabled={disread} type='search' required placeholder='กรุณากรอกข้อมูล' style={{ border: '1px #00AAAD solid' }} value={form.overnight} onChange={handleovernight} />
@@ -1303,7 +1503,7 @@ const [startDate, setStartDate] = useState(new Date());
                         <GridItem colSpan={2} />
                     }
                     
-                    <GridItem colSpan={2} />
+                    <GridItem colSpan={2} hidden={carck5} />
                     <GridItem colSpan={2}>
                         <FormControl>
                             <FormLabel className='lable-rentcar'>ผู้รับผิดชอบค่าใช้จ่าย</FormLabel>
@@ -1344,7 +1544,7 @@ const [startDate, setStartDate] = useState(new Date());
                         </FormControl>
                     </GridItem>
                     <GridItem colSpan={4}>
-                        <Button hidden={editbutton} className='lable-rentcar' type='submit' colorScheme='teal' size='md' px={'10'} py={'5'} mb={"20px"}>
+                        <Button hidden={editbutton} onClick={editdata} className='lable-rentcar' type='submit' colorScheme='teal' size='md' px={'10'} py={'5'} mb={"20px"}>
                             แก้ไขข้อมูล
                         </Button>
                         <Button onClick={handleapproved} hidden={approvedbutton} className='lable-rentcar' type='submit' colorScheme='teal' size='md' px={'10'} py={'5'} mx={"3"} mb={"20px"}>
@@ -1453,12 +1653,23 @@ const [startDate, setStartDate] = useState(new Date());
                                 </Thead>
                                 <Tbody id='tabledata'>
                                     {datatables.map((x, i) =>
-                                        datasall.cartype == "1" ?
+                                        datasall.cartype != "2" ?
                                             <Tr key={i}>
                                                 <Td>{(i) + 1 + ((pagegination.page - 1) * 30)}</Td>
+                                        <Td>{x.booking_date}</Td>
                                         <Td>{x.bookingname}</Td>
-                                        <Td className='text-centers'>{x.number_travelers == 0 || x.number_travelers == null ? "" : "(รถตู้) "} { x.number_cars == 0 || x.number_cars == null ? "" : "(รถเก๋ง)"} { x.number_cars1 == 0 || x.number_cars1 == null ? "" : "(รถกระบะ)"}</Td>
-                                        <Td className='text-centers'>{x.number_travelers == 0 || x.number_travelers == null ? "" : "("+x.number_travelers+")"} {x.number_cars == 0 || x.number_cars == null  ? "" : "("+x.number_cars+")"} {x.number_cars1 == 0 || x.number_cars1 == null  ? "" : "("+x.number_cars1+")"}</Td>
+                                        { datasall.cartype == "3" ?
+                                             <Td className='text-centers'>{x.number_travelers == 0 || x.number_travelers == null ? "" : "(รถตู้) "} {x.number_cars == 0 || x.number_cars == null ? "" : "(รถตู้) "} { x.number_cars1 == 0 || x.number_cars1 == null ? "" : "(รถเก๋ง)"} { x.number_cars3 == 0 || x.number_cars3 == null ? "" : "(รถกระบะ)"}</Td>
+                                            :
+                                            <Td className='text-centers'>{x.number_travelers == 0 || x.number_travelers == null ? "" : "(รถตู้) "} { x.number_cars1 == 0 || x.number_cars1 == null ? "" : "(รถเก๋ง)"} </Td>
+                                        }
+                                        {
+                                            datasall.cartype == "3" ?
+                                            <Td className='text-centers'>{x.number_travelers == 0 || x.number_travelers == null ? "" : "("+x.number_travelers+")"} {x.number_cars == 0 || x.number_cars == null ? "" : "("+x.number_cars+")"} {x.number_cars1 == 0 || x.number_cars1 == null  ? "" : "("+x.number_cars1+")"} {x.number_cars3 == 0 || x.number_cars3 == null  ? "" : "("+x.number_cars3+")"}</Td>
+                                            :
+                                            <Td className='text-centers'>{x.number_travelers == 0 || x.number_travelers == null ? "" : "("+x.number_travelers+")"} {x.number_cars1 == 0 || x.number_cars1 == null  ? "" : "("+x.number_cars1+")"}  </Td>
+                                        }
+                                        
                                         <Td className='text-centers'>{x.startdate}</Td>
                                         <Td className='text-centers'>{x.enddate}</Td>
                                         <Td maxWidth={"200px"} overflow={"hidden"} textOverflow={"ellipsis"}>{x.locationIn}</Td>
@@ -1489,7 +1700,7 @@ const [startDate, setStartDate] = useState(new Date());
                                         <Td className='text-centers'>{x.enddate}</Td>
                                         <Td maxWidth={"200px"} overflow={"hidden"} textOverflow={"ellipsis"}>{x.locationIn}</Td>
                                         <Td maxWidth={"200px"} overflow={"hidden"} textOverflow={"ellipsis"}>{x.locationOut}</Td>
-                                        {x.statusApproved == "1" ? <Td></Td> : <Td className='text-centers'><Link onClick={() => {isopen1.onOpen();getApprovedPerson(x.idcarbooking)}}>รออนุมัติ</Link></Td>
+                                        {x.statusApproved == "1" ? <Td className='text-centers'><Link onClick={() => {isopen1.onOpen();getApprovedPerson(x.idcarbooking)}}>อนุมัติ</Link></Td> : <Td className='text-centers'><Link onClick={() => {isopen1.onOpen();getApprovedPerson(x.idcarbooking)}}>รออนุมัติ</Link></Td>
                                         }
                                         {
                                         x.statusApproved == "1" ? <Td className='text-centers'>รอจัดรถ</Td> : <Td className='text-centers'></Td>
