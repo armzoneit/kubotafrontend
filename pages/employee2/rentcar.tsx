@@ -179,8 +179,13 @@ const RentCar = () => {
             "tel":form.tel,
             "note":form.note,
             "typecar":null,
-            "number_travelers":parseInt(form.countcar1),
-            "number_cars":parseInt(form.number_cars),
+            "number_travelers": parseInt(form.countcar1),
+            "person_count": parseInt(form.countper1),
+            "number_cars": parseInt(form.countcar1),
+            "number_cars2": parseInt(form.countcar2),
+            "person_count2": parseInt(form.countper2),
+            "person_count3": parseInt(form.countper3),
+            "number_cars3": parseInt(form.countcar3),
             "startdate":form.startdate,
             "enddate":form.enddate,
             "locationIn":form.locationIn,
@@ -196,8 +201,7 @@ const RentCar = () => {
             "status": 0,
             "status_approved": 0,
             "googleform": 0,
-            "person_count3":form.countper3,
-            "number_cars3":form.countcar3
+            "other": form.other
         }];
         console.log([JSON.stringify(form)]);
         console.log("aaaa",jsonref);
@@ -241,7 +245,9 @@ const RentCar = () => {
                 countcar2:0,
                 countper2:0,
                 countcar3:0,
-                countper3:0
+                countper3:0,
+                other: ""
+                
               });
               setStartDate1(undefined)
               setStartDate2(undefined)
@@ -284,6 +290,7 @@ const RentCar = () => {
         GL:"",
         cost_enter:"",
         order:"",
+        other:"",
         countcar1:0,
         countper1:0,
         countcar2:0,
@@ -324,6 +331,7 @@ const handlereset = (event:any) => {
         GL:"",
         cost_enter:"",
         order:"",
+        other:"",
       });
       setStartDate1(undefined)
         setStartDate2(undefined)
@@ -363,7 +371,8 @@ const [disbut,setdisbut] = useState<boolean>(false);
         countcar2:0,
         countper2:0,
         countcar3:0,
-        countper3:0
+        countper3:0,
+        other:""
         });
         let config = {
             method: 'get',
@@ -423,6 +432,8 @@ const [disbut,setdisbut] = useState<boolean>(false);
     const handleGL = (event:React.ChangeEvent<HTMLInputElement>) => setform(prev=> { return {...prev,GL:event.target.value}})
     const handlecost_enter = (event:React.ChangeEvent<HTMLInputElement>) => setform(prev=> { return {...prev,cost_enter:event.target.value}})
     const handleorder = (event:React.ChangeEvent<HTMLInputElement>) => setform(prev=> { return {...prev,order:event.target.value}})
+    const handleother = (event:React.ChangeEvent<HTMLInputElement>) => setform(prev=> { return {...prev,other:event.target.value}})
+    
     const handlecountcar1 = (event:React.ChangeEvent<HTMLInputElement>) => setform(prev=> {
         let isnumber = /^[0-9\b]*$/;
         console.log("countcar1")
@@ -766,7 +777,7 @@ const [disbut,setdisbut] = useState<boolean>(false);
                         <GridItem colSpan={8}>
                             <FormControl isRequired>
                                 <FormLabel className='lable-rentcar'>รายละเอียด</FormLabel>
-                                <Input type='search' required placeholder='กรุณากรอกข้อมูล' style={{ border: '1px #00AAAD solid' }}  />
+                                <Input type='search' required placeholder='กรุณากรอกข้อมูล' value={form.other} onChange={handleother} style={{ border: '1px #00AAAD solid' }}  />
                             </FormControl>
                         </GridItem>
                         

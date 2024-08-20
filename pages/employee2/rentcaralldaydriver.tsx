@@ -376,7 +376,7 @@ const RentCarAllDayDriver = () => {
             "number_travelers":parseInt(form.number_travelers),
             "number_cars":parseInt(form.number_cars),
             "person_count":parseInt(form.person_count),
-            "person_count1":parseInt(form.person_count1),
+            "person_count2":parseInt(form.person_count1),
             "startdate":form.startdate,
             "enddate":form.enddate,
             "locationIn":form.locationIn,

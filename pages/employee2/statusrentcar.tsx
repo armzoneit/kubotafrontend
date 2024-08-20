@@ -218,6 +218,8 @@ const StatusRentCar = () => {
                     status: "success",
                     duration: 3000,
                     isClosable: false,
+                }).then((e)=>{
+                    onClose();
                 })
               })
               .catch((error) => {
@@ -226,7 +228,7 @@ const StatusRentCar = () => {
               
         }else if(datasall.cartype == "2"){
             let data = JSON.stringify({
-                "idcarbooking": ,
+                "idcarbooking": 0,
                 "plantId": 0,
                 "employee_no": "string",
                 "drivername": "string",
@@ -895,6 +897,8 @@ const [startDate, setStartDate] = useState(new Date());
         const tokens = localStorageLoad("token")
         if(datasall.cartype == 1)
         {
+            setcarck3(false);
+            setcarck4(true);
             settextcc("จองรถเช่าเหมาวัน(พร้อมคนขับ)");
             let config5 = {
             method: 'get',
@@ -958,9 +962,11 @@ const [startDate, setStartDate] = useState(new Date());
                         typecar: response.data.data.carBookingWithDriver[0]?.typecar,
                         number_travelers: response.data.data.carBookingWithDriver[0]?.number_travelers,
                         number_cars: response.data.data.carBookingWithDriver[0]?.number_cars,
+                        number_cars1: response.data.data.carBookingWithDriver[0]?.number_cars,
                         person_count: response.data.data.carBookingWithDriver[0]?.person_count,
                         countper1:response.data.data.carBookingWithDriver[0]?.person_count,
                         countper2:response.data.data.carBookingWithDriver[0]?.person_count2,
+                        countper3:response.data.data.carBookingWithDriver[0]?.person_count2,
                         startdate: response.data.data.carBookingWithDriver[0]?.startdate,
                         enddate: response.data.data.carBookingWithDriver[0]?.enddate,
                         locationIn: response.data.data.carBookingWithDriver[0]?.locationIn,
@@ -1659,13 +1665,13 @@ const [startDate, setStartDate] = useState(new Date());
                                         <Td>{x.booking_date}</Td>
                                         <Td>{x.bookingname}</Td>
                                         { datasall.cartype == "3" ?
-                                             <Td className='text-centers'>{x.number_travelers == 0 || x.number_travelers == null ? "" : "(รถตู้) "} {x.number_cars == 0 || x.number_cars == null ? "" : "(รถตู้) "} { x.number_cars1 == 0 || x.number_cars1 == null ? "" : "(รถเก๋ง)"} { x.number_cars3 == 0 || x.number_cars3 == null ? "" : "(รถกระบะ)"}</Td>
+                                             <Td className='text-centers'>{x.number_cars == 0 || x.number_cars == null ? "" : "(รถตู้) "} { x.number_cars1 == 0 || x.number_cars1 == null ? "" : "(รถเก๋ง)"} { x.number_cars3 == 0 || x.number_cars3 == null ? "" : "(รถกระบะ)"}</Td>
                                             :
                                             <Td className='text-centers'>{x.number_travelers == 0 || x.number_travelers == null ? "" : "(รถตู้) "} { x.number_cars1 == 0 || x.number_cars1 == null ? "" : "(รถเก๋ง)"} </Td>
                                         }
                                         {
                                             datasall.cartype == "3" ?
-                                            <Td className='text-centers'>{x.number_travelers == 0 || x.number_travelers == null ? "" : "("+x.number_travelers+")"} {x.number_cars == 0 || x.number_cars == null ? "" : "("+x.number_cars+")"} {x.number_cars1 == 0 || x.number_cars1 == null  ? "" : "("+x.number_cars1+")"} {x.number_cars3 == 0 || x.number_cars3 == null  ? "" : "("+x.number_cars3+")"}</Td>
+                                            <Td className='text-centers'> {x.number_cars == 0 || x.number_cars == null ? "" : "("+x.number_cars+")"} {x.number_cars1 == 0 || x.number_cars1 == null  ? "" : "("+x.number_cars1+")"} {x.number_cars3 == 0 || x.number_cars3 == null  ? "" : "("+x.number_cars3+")"}</Td>
                                             :
                                             <Td className='text-centers'>{x.number_travelers == 0 || x.number_travelers == null ? "" : "("+x.number_travelers+")"} {x.number_cars1 == 0 || x.number_cars1 == null  ? "" : "("+x.number_cars1+")"}  </Td>
                                         }
