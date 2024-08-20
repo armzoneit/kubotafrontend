@@ -183,7 +183,7 @@ const ReportRentCar = ({ mode }) => {
                 'Authorization': 'Bearer '+tokens,
                 'Content-Type': 'application/json'
             },
-            data:dataTable
+            data:data
         }).then((res) => {
             FileDownload(res.data,title_name[mode]+".xlsx");
 

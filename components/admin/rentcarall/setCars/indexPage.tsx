@@ -394,7 +394,7 @@ const indexPage = ({ mode }) => {
                                                 { row.number_cars == 0 || row.number_cars == null ? "" : "(รถเก๋ง)"} 
                                                 { row.number_cars1 == 0 || row.number_cars1 == null ? "" : "(รถกระบะ)"}
                                             </Td>
-                                            <Td>{row.number_travelers}</Td>
+                                            <Td>{ parseInt(row.number_travelers) + parseInt(row.number_cars) + parseInt(row.number_cars1) }</Td>
                                             <Td>{row.startdate}</Td>
                                             <Td>{row.enddate}</Td>
                                             {/* <Td>{row.locationIn}</Td>
