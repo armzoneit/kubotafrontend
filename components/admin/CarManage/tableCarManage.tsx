@@ -71,7 +71,7 @@ const tableCarManage = ({ mode }) => {
             serv: true,
             type: true,
             type_group:['รถเก๋ง','รถกระบะ'],
-            license: true,
+            license: false,
             register_date: false,
             driver: false,
             driver_phone:false
@@ -115,6 +115,7 @@ const tableCarManage = ({ mode }) => {
     }, [me.isLoading]);
 
     const handleChange = async (event: any) => {
+        console.log(event.target.value);
         
         await setaddData({ ...addData, [event.target.name]: event.target.value })
     }
@@ -165,10 +166,13 @@ const tableCarManage = ({ mode }) => {
         addData.driver_phone = addData.driver_phone ? addData.driver_phone : '';
         addData.register_date = addData.register_date ? addData.register_date : '';
         let check_form = false;
+        console.log(fillForm,addData);
+
         for(let x in fillForm){
             if(fillForm[x] == true){
-                if(!addData[x]){
+                if(!addData[x] && x != 'type'){
                     check_form = true;
+                    
                     break;
                 }
             }
@@ -273,16 +277,16 @@ const tableCarManage = ({ mode }) => {
                             { fillForm.license ? <Input style={{ border: '1px #00AAAD solid' }} name="license" value={addData.license} onChange={handleChange}/> : ''}
                             <FormLabel className='lable-rentcar'>รุ่นรถ</FormLabel> 
                             <Select name='car_model' placeholder='เลือกรุ่นรถ' style={{ border: '1px #00AAAD solid' }} onChange={handleChange}>
-                                    { carModel((type_name,index) => { 
+                                    { carModel.map((type_name,index) => { 
                                         return ( 
-                                            <option value={type_name} selected={index == addData.car_model}>{type_name}</option> 
+                                            <option value={type_name} selected={type_name == addData.car_model}>{type_name}</option> 
                                             )
                                         }) 
                                     }
                             </Select> 
                            
                             { fillForm.register_date ? <FormLabel className='lable-rentcar'>วันที่จดทะเบียนรถ</FormLabel> : ''}
-                            { fillForm.register_date ? <Input type="date" style={{ border: '1px #00AAAD solid' }} name="register_date" value={addData.register_date} onChange={handleChange}/> : ''}
+                            { fillForm.register_date ? <Input type="date" style={{ border: '1px #00AAAD solid' }} name="register_date" value={addData.register_date.slice(0,10)} onChange={handleChange}/> : ''}
 
                             { fillForm.driver ? <FormLabel className='lable-rentcar'>ชื่อคนขับรถ</FormLabel> : ''}
                             { fillForm.driver ? <Input style={{ border: '1px #00AAAD solid' }} name="driver" value={addData.driver} onChange={handleChange}/> : ''}
@@ -314,11 +318,13 @@ const tableCarManage = ({ mode }) => {
                     <Thead bgColor={'#00A5A8'} height={"40px"}  >
                         <Tr>
                             <Th color={"white"}>ลำดับ</Th>
-                            <Th color={"white"}>ผู้ให้บริการ</Th>
+                            { fillForm.serv ?  <Th color={"white"}>ผู้ให้บริการ</Th> : ""}
                             <Th color={"white"}>ประเภทรถ</Th>
-                            <Th color={"white"}>วันที่จดทะเบียนรถ</Th>
-                            <Th color={"white"}>ชื่อคนขับ</Th>
-                            <Th color={"white"}>เบอร์โทร</Th>
+                            <Th color={"white"}>รุ่นรถ</Th>
+
+                            { fillForm.register_date ? <Th color={"white"}>วันที่จดทะเบียนรถ</Th> : ""}
+                            { fillForm.driver ? <Th color={"white"}>ชื่อคนขับ</Th> : "" }
+                            { fillForm.driver_phone ? <Th color={"white"}>เบอร์โทร</Th> : ""}
                             <Th color={"white"} colSpan={2}>จัดการ</Th>
                         </Tr>
                     </Thead>
@@ -328,11 +334,13 @@ const tableCarManage = ({ mode }) => {
                             return (
                                 <Tr>
                                     <Td>{index+1}</Td>
-                                    <Td>{row.serv}</Td>
+                                    { fillForm.serv ?  <Td>{row.serv}</Td> :"" }
                                     <Td>{ fillForm.type_group[row.type]}</Td>
-                                    <Td>{ new Date(row.dateRegisterCar).toLocaleDateString() }</Td>
-                                    <Td>{row.driver}</Td>
-                                    <Td>{row.driverPhone}</Td>
+                                    <Td>{ row.carModel }</Td>
+
+                                    { fillForm.register_date ? <Td>{ new Date(row.dateRegisterCar).toLocaleDateString() }</Td> : ""}
+                                    { fillForm.driver ? <Td>{row.driver}</Td> : "" }
+                                    { fillForm.driver_phone ? <Td>{row.driverPhone}</Td> : "" }
                                   
                                     <Td >
                                          <a onClick={(e)=>{resetData(index);isopen.onOpen();}} href="#">
