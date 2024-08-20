@@ -51,6 +51,11 @@ const tableCarManage = ({ mode }) => {
     const [overlay, setOverlay] = React.useState(<OverlayOne />);
     const [fillForm, setfillForm] = useState<any>([]);
     const [allCars, setallCars] = useState<any>([]);
+    const [carModel, setcarModel] = useState<any>([
+        'Yaris 1.2','Vios 1.5','Altis 1.6','Altis 1.8','Camry 2.0 G','Camry 2.5 Hybird / Premium',
+        'Fortuner 4WD','Revo Double Cab 4WD','Revo Smart Cab 2.4J/E','Ventury','Hiace','Velfire / Alphard 2.5',
+        'Invona','BR-V','City','Civic','Accord','ISUZU V','Coss','Mitsubishi Pajero'
+    ]);
 
     const [addForm, setaddForm] = useState<any>([
         {
@@ -267,7 +272,14 @@ const tableCarManage = ({ mode }) => {
                             { fillForm.license ? <FormLabel className='lable-rentcar'>ทะเบียนรถ</FormLabel> : ''}
                             { fillForm.license ? <Input style={{ border: '1px #00AAAD solid' }} name="license" value={addData.license} onChange={handleChange}/> : ''}
                             <FormLabel className='lable-rentcar'>รุ่นรถ</FormLabel> 
-                            <Input style={{ border: '1px #00AAAD solid' }} name="car_model" value={addData.car_model} onChange={handleChange}/> 
+                            <Select name='car_model' placeholder='เลือกรุ่นรถ' style={{ border: '1px #00AAAD solid' }} onChange={handleChange}>
+                                    { carModel((type_name,index) => { 
+                                        return ( 
+                                            <option value={type_name} selected={index == addData.car_model}>{type_name}</option> 
+                                            )
+                                        }) 
+                                    }
+                            </Select> 
                            
                             { fillForm.register_date ? <FormLabel className='lable-rentcar'>วันที่จดทะเบียนรถ</FormLabel> : ''}
                             { fillForm.register_date ? <Input type="date" style={{ border: '1px #00AAAD solid' }} name="register_date" value={addData.register_date} onChange={handleChange}/> : ''}
