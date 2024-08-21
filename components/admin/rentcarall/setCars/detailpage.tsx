@@ -62,6 +62,8 @@ const detailpage = ({ mode }) => {
     const id = router?.query?.id
     const type = ['','จัดรถเช่าเหมาวัน (พร้อมคนขับรถ)','จัดรถเช่าเหมาวัน (ไม่มีคนขับรถ)','งานรับส่งระหว่างวัน'];
     const edit_url = ['','GetCarBookingWithDriverById','GetCarBookingNoDriverById','GetCarBookingPickupAndDropById'];
+    const cartype = [['รถตู้','รถเก๋ง'],['รถเก๋ง','รถกระบะ'],['รถเก๋ง','รถกระบะ','รถตู้']];
+
 
     const type_text = type[mode];
     // console.log(value);
@@ -130,10 +132,10 @@ const detailpage = ({ mode }) => {
 
 
                             <FormLabel className='lable-rentcar'>วันที่จองรถ : </FormLabel>
-                            <Input value={datas.booking_date} disabled style={{ border: '1px #00AAAD solid' }} />
+                            <Input value={datas.booking_date ? datas.booking_date : new Date(datas.bookingDate).toLocaleDateString()} disabled style={{ border: '1px #00AAAD solid' }} />
 
                             <FormLabel className='lable-rentcar'>ชื่อผู้จองรถ :</FormLabel>
-                            <Input value={datas.bookingname} disabled style={{ border: '1px #00AAAD solid' }} />
+                            <Input value={datas.bookingname ? datas.bookingname : datas.bookingName} disabled style={{ border: '1px #00AAAD solid' }} />
 
                             <FormLabel className='lable-rentcar'>Email :</FormLabel>
                             <Input value={datas.email} disabled style={{ border: '1px #00AAAD solid' }} />
@@ -161,26 +163,33 @@ const detailpage = ({ mode }) => {
                             <FormLabel className='lable-rentcar'>เบอร์โทรศัพท์ผู้ใช้รถ : </FormLabel>
                             <Input value={datas.tel} disabled style={{ border: '1px #00AAAD solid' }} />
 
-                            <FormLabel className='lable-rentcar'>ใบขับขี่เลขที่ : </FormLabel>
-                            <Input value={datas.license_number} disabled style={{ border: '1px #00AAAD solid' }} />
+                            { mode == 2 ? <FormLabel className='lable-rentcar'>ใบขับขี่เลขที่ : </FormLabel> : "" }
+                            { mode == 2 ? <Input value={datas.license_number} disabled style={{ border: '1px #00AAAD solid' }} /> : "" }
 
                             <FormLabel className='lable-rentcar'>วัตถุประสงค์ในการจองรถ : </FormLabel>
                             <Input value={datas.note} disabled style={{ border: '1px #00AAAD solid' }} />
 
 
 
-                            {datas.number_cars ? <FormLabel className='lable-rentcar'>รถเก๋ง {datas.number_cars} คัน <br /> จำนวนผู้เดินทาง {datas.person_count} </FormLabel> : ''}
+                            {datas.number_cars ? <FormLabel className='lable-rentcar'>{ cartype[mode-1][0] } {datas.number_cars} คัน <br /> จำนวนผู้เดินทาง {datas.person_count} </FormLabel> : ''}
                             <hr />
-                            {datas.number_travelers ? <FormLabel className='lable-rentcar'>รถกระบะ {datas.number_travelers} คัน :<br /> จำนวนผู้เดินทาง {datas.person_count2} </FormLabel> : ''}
+                            {datas.number_travelers ? <FormLabel className='lable-rentcar'>{ cartype[mode-1][1] } {datas.number_travelers} คัน :<br /> จำนวนผู้เดินทาง {datas.person_count2} </FormLabel> : ''}
+                            <hr />
+                            {datas.number_Cars ? <FormLabel className='lable-rentcar'>{ cartype[mode-1][0] } {datas.number_Cars} คัน <br /> จำนวนผู้เดินทาง {datas.person_count} </FormLabel> : ''}
+                            <hr />
+                            {datas.number_Cars2 ? <FormLabel className='lable-rentcar'>{ cartype[mode-1][1] } {datas.number_Cars2} คัน <br /> จำนวนผู้เดินทาง {datas.person_count2} </FormLabel> : ''}
+                            <hr />
+                            {datas.number_Cars3 ? <FormLabel className='lable-rentcar'>{ cartype[mode-1][2] } {datas.number_Cars3} คัน <br /> จำนวนผู้เดินทาง {datas.person_count3} </FormLabel> : ''}
 
+                            <hr />
                             <FormLabel className='lable-rentcar'>วันที่ใช้รถเริ่มต้น : </FormLabel>
-                            <Input value={datas.startdate + " " + datas.timeIn} disabled style={{ border: '1px #00AAAD solid' }} />
+                            <Input value={datas.startdate ? datas.startdate + " " + datas.timeIn : new Date(datas.startDate).toLocaleDateString() + " " + datas.timeIn} disabled style={{ border: '1px #00AAAD solid' }} />
 
                             <FormLabel className='lable-rentcar'>วันที่ใช้รถสิ้นสุด : </FormLabel>
-                            <Input value={datas.enddate + " " + datas.timeOut} disabled style={{ border: '1px #00AAAD solid' }} />
+                            <Input value={datas.enddate ? datas.enddate + " " + datas.timeOut : new Date(datas.endDate).toLocaleDateString() + " " + datas.timeOut} disabled style={{ border: '1px #00AAAD solid' }} />
 
                             <FormLabel className='lable-rentcar'>สถานที่รับ : </FormLabel>
-                            <Input value={datas.LocationOut} disabled style={{ border: '1px #00AAAD solid' }} />
+                            <Input value={datas.LocationOut ? datas.LocationOut : datas.locationOut} disabled style={{ border: '1px #00AAAD solid' }} />
 
                             <FormLabel className='lable-rentcar'>สถานที่ส่ง : </FormLabel>
                             <Input value={datas.locationIn} disabled style={{ border: '1px #00AAAD solid' }} />
@@ -189,10 +198,10 @@ const detailpage = ({ mode }) => {
                             <Input value={datas.person_responsible_for_expenses === '1' ? 'SKC' : 'อื่น ๆ'} disabled style={{ border: '1px #00AAAD solid' }} />
 
                             <FormLabel className='lable-rentcar'>GL : </FormLabel>
-                            <Input value={datas.GL} disabled style={{ border: '1px #00AAAD solid' }} />
+                            <Input value={datas.GL ? datas.GL : datas.gl} disabled style={{ border: '1px #00AAAD solid' }} />
 
                             <FormLabel className='lable-rentcar'>Cost Center : </FormLabel>
-                            <Input value={datas.cost_enter} disabled style={{ border: '1px #00AAAD solid' }} />
+                            <Input value={datas.cost_enter ? datas.cost_enter : datas.cost_Enter} disabled style={{ border: '1px #00AAAD solid' }} />
 
                             <FormLabel className='lable-rentcar'>Order : </FormLabel>
                             <Input value={datas.order} disabled style={{ border: '1px #00AAAD solid' }} />
