@@ -873,6 +873,12 @@ const [startDate, setStartDate] = useState(new Date());
                         position:postions,
                         status:k.statusApproved
                     });
+                }else{
+                    dumper.push({
+                        name:k.approvedName,
+                        position:k.bossPositionId,
+                        status:k.statusApproved
+                    });
                 }
             })
             setapproval(dumper)
