@@ -23,6 +23,7 @@ import styled, { css, createGlobalStyle } from 'styled-components';
 import { SearchIcon } from '@chakra-ui/icons';
 import { TimePicker } from 'antd';
 import InfoCars from '../../../../components/admin/rentcarall/setCars/InfoCars';
+import Driver from '../../../../components/admin/rentcarall/setCars/driver';
 
 const DatePickerWrapperStyles = createGlobalStyle`
     .date_picker.full-width input {
@@ -123,8 +124,9 @@ const detailpage = ({ mode }) => {
                     templateRows='repeat(2, 1fr)'
                     templateColumns='repeat(12, 1fr)'
                     gap={4}>
-                    <GridItem colSpan={3}>
-                        <FormControl>
+                    <GridItem colSpan={6}>
+                       {/* <Driver data={datas}/> */}
+                       <FormControl>
 
 
                             <FormLabel className='lable-rentcar'>วันที่จองรถ : </FormLabel>
@@ -196,7 +198,7 @@ const detailpage = ({ mode }) => {
                             <Input value={datas.order} disabled style={{ border: '1px #00AAAD solid' }} />
                         </FormControl>
                     </GridItem>
-                    <GridItem colSpan={9} style={{ padding: '1%' }}>
+                    <GridItem colSpan={6} style={{ padding: '1%' }}>
                         <InfoCars mode={mode} idcarbooking={id} booking={datas} />
                     </GridItem>
 
