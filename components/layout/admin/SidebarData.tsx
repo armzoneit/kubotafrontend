@@ -169,6 +169,20 @@ export const SidebarData = [
       }
     ]
   },
+  {
+    title: 'Setting',
+    path: '/setting',
+    icon: <FaIcons.FaCarAlt  />,
+    iconClosed: <IoIcons.IoIosArrowDown  />,
+    iconOpened: <IoIcons.IoIosArrowUp />,
+
+    subNav: [
+      {
+        title: 'การเข้าถึงเมนู',
+        path: '/setting/account',
+      },
+    ]
+  },
   
  
 ];
