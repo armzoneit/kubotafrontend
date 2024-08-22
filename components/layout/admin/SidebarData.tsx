@@ -171,7 +171,7 @@ export const SidebarData = [
   },
   {
     title: 'Setting',
-    path: '/setting',
+    path: '/admin/setting',
     icon: <FaIcons.FaCarAlt  />,
     iconClosed: <IoIcons.IoIosArrowDown  />,
     iconOpened: <IoIcons.IoIosArrowUp />,
@@ -179,7 +179,7 @@ export const SidebarData = [
     subNav: [
       {
         title: 'การเข้าถึงเมนู',
-        path: '/setting/account',
+        path: '/admin/setting/account',
       },
     ]
   },
