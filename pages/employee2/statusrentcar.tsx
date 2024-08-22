@@ -220,6 +220,7 @@ const StatusRentCar = () => {
                     isClosable: false,
                 }).then((e)=>{
                     onClose();
+                    search()
                 })
               })
               .catch((error) => {
@@ -1624,7 +1625,7 @@ const [startDate, setStartDate] = useState(new Date());
                                     <Tr>
                                     <Th color={"white"}>ลำดับ</Th>
                                     <Th color={"white"}>วันจอง/เวลา</Th>
-                                    <Th color={"white"}>ชื่อผู้จองรถ</Th>
+                                    <Th color={"white"}>ชื่อผู้ใช้รถ</Th>
                                     <Th color={"white"}>ประเภทรถ</Th>
                                     <Th color={"white"}>จำนวน(คัน)</Th>
                                     <Th color={"white"}>วันที่ใช้รถเริ่มต้น/เวลา</Th>
@@ -1644,7 +1645,7 @@ const [startDate, setStartDate] = useState(new Date());
                                 <Tr>
                                         <Th color={"white"}>ลำดับ</Th>
                                         <Th color={"white"}>วันจอง/เวลา</Th>
-                                        <Th color={"white"}>ผู้ใช้รถ</Th>
+                                        <Th color={"white"}>ชื่อผู้จองรถ</Th>
                                         <Th color={"white"} className='text-centers'>ประเภทรถ</Th>
                                         <Th color={"white"} className='text-centers'>จำนวน(คัน)</Th>
                                         <Th color={"white"} className='text-centers'>วันที่ใช้รถเริ่มต้น/เวลา</Th>
