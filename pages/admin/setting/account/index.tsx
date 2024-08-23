@@ -63,14 +63,21 @@ const settingaccount = () => {
     )
     const [overlay, setOverlay] = React.useState(<OverlayOne />);
 
-    const [user, setuser] = useState([]);
-    const [user_menu, setuser_menur] = useState([]);
-   
+    const [user, setuser] = useState<any>([]);
+    const [user_menu, setuser_menu] = useState<any>([]);
+    const [userEdit, setuserEdit] = useState<any>({
+        
+    });
 
 
     
 
     useEffect(() => {
+        if(me.data){
+            if(me.data.data.planningBusUser.role != 'admin'){
+                router.push("/admin/users")
+            }
+        }
         let config = {
         method: 'get',
         maxBodyLength: Infinity,
@@ -80,8 +87,6 @@ const settingaccount = () => {
             'Authorization': 'Bearer '+tokens
         }
         };
-        console.log(config.url);
-        
         axios.request(config)
         .then((response) => {
            setuser(response.data.data);
@@ -91,11 +96,44 @@ const settingaccount = () => {
         .catch((error) => {
             console.log(error);
         });
-        console.log(me);
+        let um = new Array();
+        for(let x =1;x<=3;x++){
+            for(let y =1;y<=3;y++){
+                um.push({
+                    idPermissionReserve:0,
+                    plantId:0,
+                    employeeNo:0,
+                    menu:y,
+                    mode:x,
+                    approved:false
+                });
+            }
+        }
+        setuser_menu(um);
+        
         
     }, [me.isLoading]);
-
-   
+    const setMenu = async (mod,men,app) => {
+        let umenu = user_menu;
+        if(umenu.find(x => x.mode == mod && x.menu == men)){
+            umenu.find(x => x.mode == mod && x.menu == men).approved = app;
+        }else{
+            umenu.push({
+                idPermissionReserve:0,
+                plantId:userEdit.plantId,
+                employeeNo:userEdit.employeeNo,
+                menu:men,
+                mode:mod,
+                approved:app
+            });
+        }
+        await setuser_menu(umenu);
+        
+    }
+   const savMenu = async () => {
+        console.log(user_menu);
+        
+   }
     return (
         <>
         <Modal blockScrollOnMount={false} size={"xl"} isOpen={isopen.isOpen} onClose={isopen.onClose}>
@@ -107,43 +145,43 @@ const settingaccount = () => {
                 <ModalBody>
                     <b>งานรถเช่าเหมาวัน (พร้อมคนขับรถ)</b>
                     <br />
-                    <Checkbox colorScheme='green' marginRight={"30px"} isChecked={menua1}  onChange={(val) => setmenua1(val.target.checked)}>
+                    <Checkbox colorScheme='green' marginRight={"30px"}  onChange={(val) => setMenu(1,1,val.target.checked) }>
                         จัดรถเช่าเหมาวัน (พร้อมคนขับรถ)
                     </Checkbox>
                     <br />
-                    <Checkbox colorScheme='green' marginRight={"30px"} isChecked={menua2}  onChange={(val) => setmenua2(val.target.checked)}>
+                    <Checkbox colorScheme='green' marginRight={"30px"}  onChange={(val) => setMenu(1,2,val.target.checked) }>
                         เพิ่มข้อมูลรถและคนขับรถ
                     </Checkbox>
                     <br />
-                    <Checkbox colorScheme='green' marginRight={"30px"} isChecked={menua3}  onChange={(val) => setmenua3(val.target.checked)}>
+                    <Checkbox colorScheme='green' marginRight={"30px"}  onChange={(val) => setMenu(1,3,val.target.checked) }>
                         รายงานการขอใช้รถเช่าเหมาวัน (พร้อมคนขับ)
                     </Checkbox>
                     <hr />
                     <b>งานรถเช่าเหมาวัน (ไม่มีคนขับรถ)</b>
                     <br />
-                    <Checkbox colorScheme='green' marginRight={"30px"} isChecked={menub1}  onChange={(val) => setmenub1(val.target.checked)}>
+                    <Checkbox colorScheme='green' marginRight={"30px"}  onChange={(val) => setMenu(2,1,val.target.checked) }>
                         จัดรถเช่าเหมาวัน (ไม่มีคนขับรถ)
                     </Checkbox>
                     <br />
-                    <Checkbox colorScheme='green' marginRight={"30px"} isChecked={menub2}  onChange={(val) => setmenub2(val.target.checked)}>
+                    <Checkbox colorScheme='green' marginRight={"30px"}  onChange={(val) => setMenu(2,2,val.target.checked) }>
                         เพิ่มข้อมูลรถ
                     </Checkbox>
                     <br />
-                    <Checkbox colorScheme='green' marginRight={"30px"} isChecked={menub3}  onChange={(val) => setmenub3(val.target.checked)}>
+                    <Checkbox colorScheme='green' marginRight={"30px"}  onChange={(val) => setMenu(2,3,val.target.checked) }>
                         รายงานการขอใช้รถเช่าเหมาวัน (ไม่มีคนขับรถ)
                     </Checkbox>
                     <hr />
                     <b>งานรถรับส่งระหว่างวัน</b>
                     <br />
-                    <Checkbox colorScheme='green' marginRight={"30px"} isChecked={menuc1}  onChange={(val) => setmenuc1(val.target.checked)}>
+                    <Checkbox colorScheme='green' marginRight={"30px"}  onChange={(val) => setMenu(3,1,val.target.checked) }>
                             งานรถรับส่งระหว่างวัน
                     </Checkbox>
                     <br />
-                    <Checkbox colorScheme='green' marginRight={"30px"} isChecked={menuc2}  onChange={(val) => setmenuc2(val.target.checked)}>
+                    <Checkbox colorScheme='green' marginRight={"30px"} onChange={(val) => setMenu(3,2,val.target.checked) }>
                         เพิ่มข้อมูลรถและคนขับรถ
                     </Checkbox>
                     <br />
-                    <Checkbox colorScheme='green' marginRight={"30px"} isChecked={menuc3}  onChange={(val) => setmenuc3(val.target.checked)}>
+                    <Checkbox colorScheme='green' marginRight={"30px"} onChange={(val) => setMenu(3,3,val.target.checked) }>
                         รายงานการขอใช้รถรับส่งระหว่างวัน
                     </Checkbox>          
                 </ModalBody>
@@ -152,6 +190,7 @@ const settingaccount = () => {
                     <Button colorScheme='blue' backgroundColor={"#00A5A8"} mr={3}
                         onClick={() => {
                             isopen.onClose();
+                            savMenu();
                         }}>
                         บันทึก
                     </Button>
@@ -176,9 +215,7 @@ const settingaccount = () => {
                         <Td>{row.firstName} {row.lastName}</Td>
                         
                         <Td >
-                        <a onClick={(e)=>{isopen.onOpen();}} href="#">
-                                            <AiOutlineEdit />
-                                        </a>
+                        <a onClick={(e)=>{isopen.onOpen();setuserEdit(row)}} href="#"><AiOutlineEdit /></a>
                         </Td>
                     </Tr>
                     );

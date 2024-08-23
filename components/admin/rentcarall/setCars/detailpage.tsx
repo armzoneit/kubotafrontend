@@ -87,6 +87,8 @@ const detailpage = ({ mode }) => {
         await setDatas({ ...datas, [event.target.name]: event.target.value })
     }
     useEffect(() => {
+        console.log(router.asPath);
+
         axios({
             url: 'https://d713apsi01-wa01kbtcom.azurewebsites.net/ReserveCar/'+edit_url[mode]+'/' + id,
             method: 'GET',
