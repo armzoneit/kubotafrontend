@@ -240,12 +240,7 @@ const indexPage = ({ mode }) => {
         
         axios.request(config)
         .then((response) => {
-            // console.log(response);
-            // if(response.data.data.length>0){
-            //     console.log("data",response.data.data);
-                setdatatable(response.data.data)
-            //     console.log("table",datatables);
-            // }
+            setdatatable(response.data.data)
         })
         .catch((error) => {
             console.log(error);
@@ -281,12 +276,7 @@ const indexPage = ({ mode }) => {
         };
         axios.request(config)
         .then((response) => {
-            console.log(response);
-            if(response.data.data.length>0){
-                console.log("data",response.data.data);
-                setdatatable(response.data.data)
-                console.log("table",datatables);
-            }
+            setdatatable(response.data.data);
         })
         .catch((error) => {
             console.log(error);
