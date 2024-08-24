@@ -38,13 +38,19 @@ import IndexPage from '../../../../components/admin/rentcarall/setCars/indexPage
 import { getMe } from "../../../../data-hooks/me/getMe";
 import { useRouter } from "next/router"
 
-const List = () => {
+const List =  () => {
     const me = getMe()
     const router = useRouter()
 
     if(me.data){
-       console.log();
-       
+        if(me.data.data.permissionReserve){
+            let pass =  me.data.data.permissionReserve.find(x => x.mode == 1 && x.menu == 1)?.approved;
+            if(!pass){
+                router.push("/admin/users");
+            }
+        }else{
+            router.push("/admin/users");
+        }
     }
     return (
         <>

@@ -45,14 +45,18 @@ const settingaccount = () => {
     const [menua1,setmenua1] = useState<boolean>(false);
     const [menua2,setmenua2] = useState<boolean>(false);
     const [menua3,setmenua3] = useState<boolean>(false);
+    const [menua4,setmenua4] = useState<boolean>(false);
+
 
     const [menub1,setmenub1] = useState<boolean>(false);
     const [menub2,setmenub2] = useState<boolean>(false);
     const [menub3,setmenub3] = useState<boolean>(false);
+    const [menub4,setmenub4] = useState<boolean>(false);
 
     const [menuc1,setmenuc1] = useState<boolean>(false);
     const [menuc2,setmenuc2] = useState<boolean>(false);
     const [menuc3,setmenuc3] = useState<boolean>(false);
+    const [menuc4,setmenuc4] = useState<boolean>(false);
 
 
     const OverlayOne = () => (
@@ -147,6 +151,9 @@ const settingaccount = () => {
         setmenua3(menu.find(x => x.mode == 1 && x.menu == 3)? menu.find(x => x.mode == 1 && x.menu == 3).approved : false);
         setMenu(row,1,3,menua3);
 
+        setmenua4(menu.find(x => x.mode == 1 && x.menu == 4)? menu.find(x => x.mode == 1 && x.menu == 4).approved : false);
+        setMenu(row,1,4,menua3);
+
         setmenub1(menu.find(x => x.mode == 2 && x.menu == 1)? menu.find(x => x.mode == 2 && x.menu == 1).approved : false);
         setMenu(row,2,1,menub1);
 
@@ -156,6 +163,9 @@ const settingaccount = () => {
         setmenub3(menu.find(x => x.mode == 2 && x.menu == 3)? menu.find(x => x.mode == 2 && x.menu == 3).approved : false);
         setMenu(row,2,3,menub3);
 
+        setmenub4(menu.find(x => x.mode == 2 && x.menu == 4)? menu.find(x => x.mode == 2 && x.menu == 4).approved : false);
+        setMenu(row,2,4,menub3);
+
         setmenuc1(menu.find(x => x.mode == 3 && x.menu == 1)? menu.find(x => x.mode == 3 && x.menu == 1).approved : false);
         setMenu(row,3,1,menuc1);
 
@@ -164,6 +174,9 @@ const settingaccount = () => {
 
         setmenuc3(menu.find(x => x.mode == 3 && x.menu == 3)? menu.find(x => x.mode == 3 && x.menu == 3).approved : false);
         setMenu(row,3,3,menuc3);
+
+        setmenuc4(menu.find(x => x.mode == 3 && x.menu == 4)? menu.find(x => x.mode == 3 && x.menu == 4).approved : false);
+        setMenu(row,3,4,menuc3);
 
         isopen.onOpen();
     }
@@ -215,6 +228,10 @@ const settingaccount = () => {
                     <Checkbox colorScheme='green' marginRight={"30px"} isChecked={menua3}  onChange={(val) => { setMenu(userEdit,1,3,val.target.checked);setmenua3(val.target.checked); } }>
                         รายงานการขอใช้รถเช่าเหมาวัน (พร้อมคนขับ)
                     </Checkbox>
+                    <br />
+                    <Checkbox colorScheme='green' marginRight={"30px"} isChecked={menua4}  onChange={(val) => { setMenu(userEdit,1,4,val.target.checked);setmenua4(val.target.checked); } }>
+                        สรุปผลการประเมินความพึงพอใจรถเช่าเหมาวัน
+                    </Checkbox>
                     <hr />
                     <b>งานรถเช่าเหมาวัน (ไม่มีคนขับรถ)</b>
                     <br />
@@ -229,6 +246,10 @@ const settingaccount = () => {
                     <Checkbox colorScheme='green' marginRight={"30px"} isChecked={menub3}  onChange={(val) => { setMenu(userEdit,2,3,val.target.checked);setmenub3(val.target.checked); } }>
                         รายงานการขอใช้รถเช่าเหมาวัน (ไม่มีคนขับรถ)
                     </Checkbox>
+                    <br />
+                    <Checkbox colorScheme='green' marginRight={"30px"} isChecked={menub4}  onChange={(val) => { setMenu(userEdit,2,4,val.target.checked);setmenub4(val.target.checked); } }>
+                        สรุปผลการประเมินความพึงพอใจรถเช่าเหมาวัน
+                    </Checkbox>
                     <hr />
                     <b>งานรถรับส่งระหว่างวัน</b>
                     <br />
@@ -242,7 +263,11 @@ const settingaccount = () => {
                     <br />
                     <Checkbox colorScheme='green' marginRight={"30px"} isChecked={menuc3}  onChange={(val) => { setMenu(userEdit,3,3,val.target.checked);setmenuc3(val.target.checked); } }>
                         รายงานการขอใช้รถรับส่งระหว่างวัน
-                    </Checkbox>          
+                    </Checkbox>  
+                    <br />
+                    <Checkbox colorScheme='green' marginRight={"30px"} isChecked={menuc4}  onChange={(val) => { setMenu(userEdit,3,4,val.target.checked);setmenuc4(val.target.checked); } }>
+                        สรุปผลการประเมินความพึงพอใจ รถรับส่งระหว่างวัน
+                    </Checkbox>            
                 </ModalBody>
 
                 <ModalFooter>
