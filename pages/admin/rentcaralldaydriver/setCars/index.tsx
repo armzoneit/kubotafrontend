@@ -21,7 +21,6 @@ import DatePicker from 'react-datepicker';
 import styled, { css, createGlobalStyle } from 'styled-components';
 import { Controller } from 'react-hook-form';
 import { localStorageLoad } from '../../../../utils/localStrorage';
-import { getMe } from "../../../../data-hooks/me/getMe"
 import { AiOutlineSearch, AiOutlineEdit, AiOutlineDelete } from "react-icons/ai";
 import {
     Table,
@@ -36,9 +35,17 @@ import {
 } from '@chakra-ui/react'
 import { TimePicker } from 'antd';
 import IndexPage from '../../../../components/admin/rentcarall/setCars/indexPage';
+import { getMe } from "../../../../data-hooks/me/getMe";
+import { useRouter } from "next/router"
 
 const List = () => {
-   
+    const me = getMe()
+    const router = useRouter()
+
+    if(me.data){
+       console.log();
+       
+    }
     return (
         <>
             <IndexPage mode={1} />
