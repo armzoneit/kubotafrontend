@@ -21,12 +21,12 @@ import Head from 'next/head';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { Controller } from 'react-hook-form';
-import DatePickerInput from '../../components/input/Datepicker';
+import DatePickerInput from '../../../components/input/Datepicker';
 import { AiOutlineSearch, AiOutlineEdit, AiOutlineDelete } from "react-icons/ai";
 import { ChevronRightIcon, ChevronLeftIcon } from "@chakra-ui/icons"
 import { DataGrid, GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
-import { localStorageLoad } from '../../utils/localStrorage';
-import { getMe } from "../../data-hooks/me/getMe"
+import { localStorageLoad } from '../../../utils/localStrorage';
+import { getMe } from "../../../data-hooks/me/getMe"
 import DataTable from "react-data-table-component";
 import SortIcon from "@material-ui/icons/ArrowDownward";
 import Swal from 'sweetalert2';
@@ -49,7 +49,7 @@ import DatePicker from 'react-datepicker';
 import styled, { css, createGlobalStyle } from 'styled-components';
 import { TimePicker } from 'antd';
 import { number } from 'yup';
-import StatusRentCarModal from '../../components/employee2/statusrentcarModal';
+import StatusRentCarModal from '../../../components/employee2/statusrentcarModal';
 
 const DatePickerWrapperStyles = createGlobalStyle`
     .date_picker.full-width input {
@@ -1696,7 +1696,7 @@ const [startDate, setStartDate] = useState(new Date());
                                         <Td className='text-centers'></Td>
                                         <Td className='text-centers'></Td>
                                         <Td className='text-centers' ></Td>
-                                        {x.statusApproved == "1" ? <Td></Td> : <Td className='text-centers'><a onClick={(e) => {handleopenedit(x.idcarbooking)}} href="#"><AiOutlineEdit /></a></Td>
+                                        {x.statusApproved == "1" ? <Td></Td> : <Td className='text-centers'><a onClick={(e) => {handleopenedit(x.idcarbooking)}} href="#"><AiOutlineEdit /></a>  <Link target="_blank" href={ `${x.idcarbooking}?cartype=${datasall.cartype}` }><AiOutlineEdit /></Link> </Td>
                                         }
                                         {x.statusApproved == "1" ? <Td></Td> : me?.data?.data?.myHrEmployee.employeeNo ==  x.employee_no ? <Td className='text-centers'><a onClick={(e)=>{deletes(x.idcarbooking)}} href="#"><AiOutlineDelete /></a></Td>: <Td></Td>
                                         }
@@ -1722,7 +1722,7 @@ const [startDate, setStartDate] = useState(new Date());
                                         <Td className='text-centers'></Td>
                                         <Td className='text-centers'></Td>
                                         <Td className='text-centers'></Td>
-                                        {x.statusApproved == "1" ? <Td></Td> : <Td className='text-centers'><a onClick={(e) => {handleopenedit(x.idcarbooking)}} href="#"><AiOutlineEdit /></a></Td>
+                                        {x.statusApproved == "1" ? <Td></Td> : <Td className='text-centers'><a onClick={(e) => {handleopenedit(x.idcarbooking)}} href="#"><AiOutlineEdit /></a>  <Link target="_blank" href={ `${x.idcarbooking}?cartype=${datasall.cartype}` }><AiOutlineEdit /></Link>  </Td>
                                         }
                                         {x.statusApproved == "1" ? <Td></Td> : me?.data?.data?.myHrEmployee.employeeNo ==  x.employee_no ? <Td className='text-centers'><a onClick={(e)=>{deletes(x.idcarbooking)}} href="#"><AiOutlineDelete /></a></Td>: <Td></Td>
                                         }
