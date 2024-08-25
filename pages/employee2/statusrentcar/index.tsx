@@ -1738,59 +1738,11 @@ const [startDate, setStartDate] = useState(new Date());
                                             
                                         </Tr>
                                     }
-                                    {/* <Tr>
-                                        <Td colSpan={16}>ไม่มีข้อมูล</Td>
-                                        
-                                    </Tr> */}
-                                    {/* <Tr>
-                                        <Td>2</Td>
-                                        <Td>centimetres (cm)</Td>
-                                        <Td isNumeric>30.48</Td>
-                                        <Td>feet</Td>
-                                        <Td>centimetres (cm)</Td>
-                                        <Td isNumeric>30.48</Td>
-                                        <Td>feet</Td>
-                                        <Td>centimetres (cm)</Td>
-                                        <Td isNumeric>30.48</Td>
-                                        <Td>centimetres (cm)</Td>
-                                        <Td isNumeric>30.48</Td>
-                                        <Td>feet</Td>
-                                        <Td>centimetres (cm)</Td>
-                                        <Td isNumeric>30.48</Td>
-                                        <Td ><a href="#"><AiOutlineEdit /></a></Td>
-                                        <Td ><a href="#"><AiOutlineDelete /></a></Td>
-                                    </Tr>
-                                    <Tr>
-                                        <Td>3</Td>
-                                        <Td>metres (m)</Td>
-                                        <Td isNumeric>0.91444</Td>
-                                        <Td>yards</Td>
-                                        <Td>metres (m)</Td>
-                                        <Td isNumeric>0.91444</Td>
-                                        <Td>yards</Td>
-                                        <Td>metres (m)</Td>
-                                        <Td isNumeric>0.91444</Td>
-                                        <Td>centimetres (cm)</Td>
-                                        <Td isNumeric>30.48</Td>
-                                        <Td>feet</Td>
-                                        <Td>centimetres (cm)</Td>
-                                        <Td isNumeric>30.48</Td>
-                                        <Td ><a href="#"><AiOutlineEdit /></a></Td>
-                                        <Td ><a href="#"><AiOutlineDelete /></a></Td>
-                                    </Tr> */}
                                 </Tbody>
                                 
                             </Table>
                             
                         </TableContainer>
-                        {/* <DataTable
-                            title="Movies"
-                            columns={columns}
-                            data={movies}
-                            defaultSortField="title"
-                            sortIcon={<SortIcon />}
-                            pagination
-                            /> */}
                     </Box>
                     <Box>
                         <Flex justifyContent="flex-end" m={4} alignItems="center">

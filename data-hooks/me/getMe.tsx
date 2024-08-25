@@ -2,6 +2,7 @@
 import { useQuery } from "react-query"
 import { EmployeeUsageInfoDataTypes } from "./types"
 import { useAxios } from "../../providers/http-client"
+import {localStorageSave} from "../../utils/localStrorage"
 
 export const getMe = () => {
   const axios = useAxios()
@@ -37,6 +38,8 @@ export const getMe = () => {
       if (employeeUsageInfo) {
         data.data.bookingBusUser.employeeUsageInfo = employeeUsageInfo
       }
+      console.log('localStorageSave userId:',data.data.planningBusUser.employeeNo);
+      localStorageSave("userId", data.data.planningBusUser.employeeNo);
       return data
     },
     {
