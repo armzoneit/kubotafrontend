@@ -67,9 +67,10 @@ const StatusRentCarDetail = (data: any=false) => {
     const toastId4 = "success"
 
     const router = useRouter()
-    const ids = data.id ? data.id : router.query?.ids;
-    const cartype = data.type ? data.type : router.query?.cartype;
+    const ids = data.booking_id ? data.booking_id : router.query?.ids;
+    const cartype = data.typecar ? data.typecar : router.query?.cartype;
 
+    console.log('data', data);
     console.log('ids', ids);
     console.log('cartype', cartype);
     useEffect(() => {
@@ -109,10 +110,18 @@ const StatusRentCarDetail = (data: any=false) => {
                         if (response.data.data.carBookingWithDriver[0]?.employee_no == userId) {
                             seteditbutton(false);
                         } else {
-                            seteditbutton(true);
+                            if(data.fix){
+                                seteditbutton(false);
+                            }else{
+                                seteditbutton(true);
+                            }
                         }
                         if (response.data.data.carBookingWithDriver[0]?.employee_no != userId) {
-                            setdisread(true);
+                            if(data.fix){
+                                setdisread(false);
+                            }else{
+                                setdisread(true);
+                            }
                         }
                         // @ts-ignore
                         setform({
