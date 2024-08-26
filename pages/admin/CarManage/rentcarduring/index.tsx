@@ -36,7 +36,6 @@ import {
 } from '@chakra-ui/react'
 import { TimePicker } from 'antd';
 import CarManagetable from '../../../../components/admin/CarManage/tableCarManage';
-import { getMe } from "../../../../data-hooks/me/getMe";
 import { useRouter } from "next/router"
 const DatePickerWrapperStyles = createGlobalStyle`
     .date_picker.full-width input {
