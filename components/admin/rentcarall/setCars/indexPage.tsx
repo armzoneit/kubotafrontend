@@ -358,14 +358,9 @@ const indexPage = ({ mode }) => {
                                         <Th color={"white"}>จำนวน(คัน)</Th>
                                         <Th color={"white"}>วันที่ใช้รถเริ่มต้น/เวลา</Th>
                                         <Th color={"white"}>วันที่ใช้รถสิ้นสุด/เวลา</Th>
-                                        {/* <Th color={"white"}>สถานที่รับ</Th>
-                                        <Th color={"white"}>สถานที่ส่ง</Th>
-                                        <Th color={"white"}>GL</Th>
-                                        <Th color={"white"}>Cost Center</Th>
-                                        <Th color={"white"}>Order</Th> */}
+                                       
                                         <Th color={"white"}>สถานะการอนุมัติ</Th>
                                         <Th color={"white"}>สถานะการจัดรถ</Th>
-                                        {/* <Th color={"white"}>แก้ไข</Th> */}
                                     </Tr>
                                 </Thead>
                                 <Tbody >
@@ -391,13 +386,13 @@ const indexPage = ({ mode }) => {
                                             : '' }
                                             
                                             { mode == 2 ? <Td>
-                                                { row.number_cars2 == 0 || row.number_cars2 == null ? "" : "(รถเก๋ง)"} 
-                                                { row.number_cars3 == 0 || row.number_cars3 == null ? "" : "(รถกระบะ)"}
+                                                { row.number_travelers == 0 || row.number_travelers == null ? "" : "(รถเก๋ง)"} 
+                                                { row.number_cars2 == 0 || row.number_cars2 == null ? "" : "(รถกระบะ)"}
                                             </Td>
                                            
                                             : '' }
                                              { mode == 2 ? 
-                                            <Td>{ parseInt(row.number_cars2) + parseInt(row.number_cars3)  }</Td>
+                                            <Td>{ parseInt(row.number_travelers) + parseInt(row.number_cars2)  }</Td>
 
                                             : '' }
                                             { mode == 3 ? <Td>
