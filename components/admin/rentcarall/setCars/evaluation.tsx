@@ -58,7 +58,7 @@ const DatePickerWrapperStyles = createGlobalStyle`
     }
 `;
 
-const indexPage = ({ mode }) => {
+const evaluation = ({ mode }) => {
     const me = getMe()
     const [value, setValue] = useState("1")
     const [datas, setDatas] = useState<any>([])
@@ -320,26 +320,13 @@ const indexPage = ({ mode }) => {
                                     <Button className='lable-rentcar' type='button' onClick={search} colorScheme='teal' size='md' ml={5}><AiOutlineSearch />ค้นหา</Button>
                             </Flex>
                             <Flex p={2} justifyContent={"center"} >
-                                {/* <Button className='lable-rentcar' type='submit' colorScheme='teal' size='md' ml={5}><AiOutlineSearch onClick={downloadpdf} />PDF</Button>
-                                <Button onClick={downloadexcel} className='lable-rentcar' type='submit' colorScheme='teal' size='md' ml={5}><AiOutlineSearch  />Excel</Button> */}
+                            <Button className='lable-rentcar' type='button' colorScheme='teal' size='md' ml={5}>ดูสรุปการประเมิน</Button>          
                             </Flex>
                         </Grid>
                     </Box>
                 </GridItem>
                 <GridItem colSpan={6} mt={"50px"} ml={"10px"}>
-                    <Flex p={2} display={"flex"} justifyContent={"space-between"}>
-                        {/* <p>จำนวนที่ใช้งานทั้งหมด 1 คัน</p> */}
-                        {/* <span >จำนวนแสดง: 
-                            <span style={{display:"inline-block",marginTop:"-8px"}}>
-                                <Select placeholder='' width={"105px"} >
-                                    <option value='5' selected>5</option>
-                                    <option value='10'>10</option>
-                                    <option value='30'>30</option>
-                                    <option value='-1'>ทั้งหมด</option>
-                                </Select>
-                            </span>
-                        </span> */}
-                    </Flex> 
+                      
                 </GridItem>
                 <GridItem colSpan={6}>
 
@@ -354,18 +341,7 @@ const indexPage = ({ mode }) => {
                                         <Th color={"white"}>หน่วยงาน</Th>
                                         <Th color={"white"}>ส่วนงาน</Th>
                                         <Th color={"white"}>เบอร์โทร</Th>
-                                        <Th color={"white"}>ประเภทรถที่ขอ</Th>
-                                        <Th color={"white"}>จำนวน(คัน)</Th>
-                                        <Th color={"white"}>วันที่ใช้รถเริ่มต้น/เวลา</Th>
-                                        <Th color={"white"}>วันที่ใช้รถสิ้นสุด/เวลา</Th>
-                                        {/* <Th color={"white"}>สถานที่รับ</Th>
-                                        <Th color={"white"}>สถานที่ส่ง</Th>
-                                        <Th color={"white"}>GL</Th>
-                                        <Th color={"white"}>Cost Center</Th>
-                                        <Th color={"white"}>Order</Th> */}
-                                        <Th color={"white"}>สถานะการอนุมัติ</Th>
-                                        <Th color={"white"}>สถานะการจัดรถ</Th>
-                                        {/* <Th color={"white"}>แก้ไข</Th> */}
+                                        <Th color={"white"}>การประเมิน</Th>
                                     </Tr>
                                 </Thead>
                                 <Tbody >
@@ -379,43 +355,8 @@ const indexPage = ({ mode }) => {
                                             <Td>{row.agency}</Td>
                                             <Td>{row.division}</Td>
                                             <Td>{row.tel}</Td>
-                                            { mode == 1 ?
-                                            <Td> 
-                                                { row.number_travelers == 0 || row.number_travelers == null ? "" : "(รถตู้)"} 
-                                                { row.number_cars1 == 0 || row.number_cars1 == null ? "" : "(รถเก๋ง)"}
-                                            </Td>
-                                            <Td>{ parseInt(row.number_travelers) + parseInt(row.number_cars1)  }</Td>
-                                            : '' }
-                                            { mode == 2 ? <Td>
-                                                { row.number_cars1 == 0 || row.number_cars1 == null ? "" : "(รถเก๋ง)"} 
-                                                { row.number_cars == 0 || row.number_cars == null ? "" : "(รถกระบะ)"}
-                                            </Td>
-                                            <Td>{ parseInt(row.number_cars) + parseInt(row.number_cars1)  }</Td>
-
-                                            : '' }
-                                            { mode == 3 ? <Td>
-                                                { row.number_travelers == 0 || row.number_travelers == null ? "" : "(รถตู้)"} 
-                                                { row.number_cars == 0 || row.number_cars == null ? "" : "(รถกระบะ)"}
-                                                { row.number_cars1 == 0 || row.number_cars1 == null ? "" : "(รถเก๋ง)"}
-
-                                            </Td>
-                                            <Td>{ parseInt(row.number_cars) + parseInt(row.number_cars1) + parseInt(row.number_travelers) }</Td>
-
-                                            : '' }
-                                          
-                                            <Td>{row.startdate}</Td>
-                                            <Td>{row.enddate}</Td>
-                                            {/* <Td>{row.locationIn}</Td>
-                                            <Td>{row.locationOut}</Td>
-                                            <Td>{row.GL}</Td>
-                                            <Td>{row.cost_enter}</Td>
-                                            <Td>{row.order}</Td> */}
-                                            {row.statusApproved == "1" ? <Td className='text-centers'>อนุมัติ</Td> : <Td className='text-centers'>รออนุมัติ</Td> }
-                                        
-                                        
-                                            <Td className='text-centers'> <a href={"/admin/"+edit_url[mode]+"/setCars/"+row.idcarbooking}> { status[row.status]} </a></Td> 
+                                            <Td>{row.googleForm ? 'ประเมินแล้ว':'ยังไม่ได้ประเมิน'}</Td>
                                            
-                                            {/* <Td ><a href={`${row.idcarbooking}`}><AiOutlineEdit /></a></Td> */}
                                         </Tr>
                                         );
                                     })} {datatables.length == 0 && 
@@ -436,4 +377,4 @@ const indexPage = ({ mode }) => {
     )
 }
 
-export default indexPage
+export default evaluation

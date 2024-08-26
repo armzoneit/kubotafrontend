@@ -21,7 +21,6 @@ import DatePicker from 'react-datepicker';
 import styled, { css, createGlobalStyle } from 'styled-components';
 import { Controller } from 'react-hook-form';
 import { localStorageLoad } from '../../../../utils/localStrorage';
-import { getMe } from "../../../../data-hooks/me/getMe"
 import { AiOutlineSearch, AiOutlineEdit, AiOutlineDelete } from "react-icons/ai";
 import {
     Table,
@@ -36,6 +35,8 @@ import {
 } from '@chakra-ui/react'
 import { TimePicker } from 'antd';
 import CarManagetable from '../../../../components/admin/CarManage/tableCarManage';
+import { getMe } from "../../../../data-hooks/me/getMe";
+import { useRouter } from "next/router"
 const DatePickerWrapperStyles = createGlobalStyle`
     .date_picker.full-width input {
         border: 1px #00AAAD solid;
@@ -60,7 +61,19 @@ const DatePickerWrapperStyles = createGlobalStyle`
 `;
 
 const CarManage = () => {
-   
+    const me = getMe()
+    const router = useRouter()
+
+    if(me.data){
+        if(me.data.data.permissionReserve){
+            let pass =  me.data.data.permissionReserve.find(x => x.mode == 1 && x.menu == 2)?.approved;
+            if(!pass){
+                router.push("/admin/users");
+            }
+        }else{
+            router.push("/admin/users");
+        }
+    }
     
     return (
         <>

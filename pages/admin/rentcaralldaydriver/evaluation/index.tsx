@@ -34,16 +34,17 @@ import {
     TableContainer,
 } from '@chakra-ui/react'
 import { TimePicker } from 'antd';
-import IndexPage from '../../../../components/admin/rentcarall/setCars/indexPage';
+import Evaluation from '../../../../components/admin/rentcarall/setCars/evaluation';
 import { getMe } from "../../../../data-hooks/me/getMe";
 import { useRouter } from "next/router"
-const List = () => {
+
+const evaluation =  () => {
     const me = getMe()
     const router = useRouter()
 
     // if(me.data){
     //     if(me.data.data.permissionReserve){
-    //         let pass =  me.data.data.permissionReserve.find(x => x.mode == 2 && x.menu == 1)?.approved;
+    //         let pass =  me.data.data.permissionReserve.find(x => x.mode == 1 && x.menu == 4)?.approved;
     //         if(!pass){
     //             router.push("/admin/users");
     //         }
@@ -53,9 +54,9 @@ const List = () => {
     // }
     return (
         <>
-            <IndexPage mode={2} />
+            <Evaluation mode={1} />
         </>
     )
 }
 
-export default List
+export default evaluation

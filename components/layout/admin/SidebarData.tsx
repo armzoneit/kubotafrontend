@@ -103,7 +103,7 @@ export const SidebarData = [
       
       {
         title: 'สรุปผลการประเมินความพึงพอใจรถเช่าเหมาวัน',
-        path: '/overview/revenue',
+        path: '/admin/rentcaralldaydriver/evaluation',
       }
     ]
   },
@@ -134,7 +134,7 @@ export const SidebarData = [
       
       {
         title: 'สรุปผลการประเมินความพึงพอใจรถเช่าเหมาวัน',
-        path: '/overview/revenue',
+        path: '/admin/rentcaralldaynodriver/evaluation',
       }
     ]
   },
@@ -165,7 +165,7 @@ export const SidebarData = [
       
       {
         title: 'สรุปผลการประเมินความพึงพอใจ รถรับส่งระหว่างวัน',
-        path: '/overview/revenue',
+        path: '/admin/rentcarduring/evaluation',
       }
     ]
   },

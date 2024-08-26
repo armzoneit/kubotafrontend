@@ -34,40 +34,17 @@ import {
     TableContainer,
 } from '@chakra-ui/react'
 import { TimePicker } from 'antd';
-import CarManagetable from '../../../../components/admin/CarManage/tableCarManage';
+import IndexPage from '../../../../components/admin/rentcarall/setCars/indexPage';
 import { getMe } from "../../../../data-hooks/me/getMe";
 import { useRouter } from "next/router"
-const DatePickerWrapperStyles = createGlobalStyle`
-    .date_picker.full-width input {
-        border: 1px #00AAAD solid;
-        padding-top: 7px;
-        padding-bottom: 7px;
-        padding-left: 17px;
-        padding-right: 17px;
-        border-radius: 5px;
-    }
-    .date_picker.full-width input:focus {
-        z-index: 1;
-        box-shadow: 0 0 0 1px #3182ce !important;
-    }
-    .ant-picker.ant-picker-outlined{
-        border: 1px #00AAAD solid;
-        padding-top: 7px;
-        padding-bottom: 7px;
-        padding-left: 17px;
-        padding-right: 17px;
-        border-radius: 5px;
-    }
-`;
 
-const CarManage = () => {
-   
+const List =  () => {
     const me = getMe()
     const router = useRouter()
 
     if(me.data){
         if(me.data.data.permissionReserve){
-            let pass =  me.data.data.permissionReserve.find(x => x.mode == 2 && x.menu == 2)?.approved;
+            let pass =  me.data.data.permissionReserve.find(x => x.mode == 3 && x.menu == 4)?.approved;
             if(!pass){
                 router.push("/admin/users");
             }
@@ -77,17 +54,9 @@ const CarManage = () => {
     }
     return (
         <>
-            <Grid templateColumns='repeat(6, 1fr)'>
-            
-                <GridItem colSpan={6}>
-
-                    <Box mt={"0px"}  >
-                        <CarManagetable mode={1} />
-                    </Box>
-                </GridItem>
-            </Grid>
+            <IndexPage mode={3} />
         </>
     )
 }
 
-export default CarManage
+export default List
