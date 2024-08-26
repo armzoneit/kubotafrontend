@@ -65,6 +65,7 @@ const RentCarAllDay = () => {
     const { isOpen, onOpen, onClose } = useDisclosure()
     console.log(tokens)
     const [dateminend, setdateminend] = useState(new Date())
+    const [namefile,setnamefile] = useState<string>("");
     // console.log(value);
     const [form, setform] = useState({
         idcarbooking:null,
@@ -115,6 +116,7 @@ const RentCarAllDay = () => {
         license_number:"",
 })
 const [imageshow,setimageshow] = useState("gibbresh.png");
+
 const ckcargg = (event:string) => {
         
     if(event == "1")
@@ -333,6 +335,7 @@ const ckcargg = (event:string) => {
     const pictureChangeHandler = event => {
         console.log(event.target.files[0])
         setpictureFile(event.target.files[0]);
+        setnamefile(event.target.files[0].name)
         setimageshow(URL.createObjectURL(event.target.files[0]))
         setshowfile(false);
     };
@@ -367,7 +370,7 @@ const ckcargg = (event:string) => {
             {
                 toast({
                     id: toastId4,
-                    description: `กรุณาใส่จำนวนรถตู้`,
+                    description: `กรุณาใส่จำนวนรถเก๋ง`,
                     status: "error",
                     duration: 5000,
                     isClosable: false,
@@ -492,7 +495,7 @@ const ckcargg = (event:string) => {
         }];
         console.log([JSON.stringify(form)]);
         console.log("aaaa",jsonref);
-        // console.log(data.get('cost-enter'));
+        console.log(data.get('cost-enter'));
         axios.post('https://d713apsi01-wa01kbtcom.azurewebsites.net/ReserveCar/InsertReserveCar_NoDriver',jsonref,{headers:headers1}).then((response) => {
             toast({
                 id: toastId4,
@@ -554,6 +557,9 @@ const ckcargg = (event:string) => {
               setckcar1(false);
               setckcar2(false);
               setpictureFile(null);
+              setnamefile("")
+              setimageshow("gibbresh.png")
+              setshowfile(true);
         }).catch((error) => {
             toast({
                 id: toastId4,
@@ -700,6 +706,10 @@ const ckcargg = (event:string) => {
               setStartDate2(undefined)
               setckcar1(false);
               setckcar2(false);
+              setpictureFile(null);
+        setnamefile("")
+        setimageshow("gibbresh.png")
+        setshowfile(true);
     }
     const isError = datas.note === ''
     return (
@@ -725,7 +735,7 @@ const ckcargg = (event:string) => {
                 </ModalFooter>
                 </ModalContent>
             </Modal>
-            <form onSubmit={handleSubmit}>
+            <form >
                 <Text className='head-text' >จองรถเช่าเหมาวัน(ไม่มีคนขับ)</Text>
                 <Grid h='200px'
                     templateRows='repeat(2, 1fr)'
@@ -817,14 +827,15 @@ const ckcargg = (event:string) => {
                             </RadioGroup>
                         </FormControl>
                     </GridItem>
-                    <GridItem colSpan={3}>
+                    <GridItem colSpan={5}>
                         <FormControl isRequired>
                             <FormLabel style={{display:"inline-block"}} htmlFor="file-input" id='file-input-label' className='lable-rentcar'>แนบไฟล์ใบขับขี่</FormLabel>
-                            <Input type='file' style={{ border: '0px solid', color: '#00AAAD' }}  id="file-input" name="file-input"  onChange={pictureChangeHandler}/>
+                            <Input type='file' style={{ border: '0px solid', color: '#00AAAD' }}  id="file-input" name="file-input" required  onChange={pictureChangeHandler}/>
                             {/* <label id="file-input-label" htmlFor="file-input">แนบไฟล์ใบขับขี่ </label> */}
-                            <Button isDisabled={showfile} onClick={onOpen} className='lable-rentcar'  colorScheme='teal' size='md' px={'5'} py={'5'} mb={"10px"} type="button"><SearchIcon /></Button>
+                            <Button isDisabled={showfile} onClick={(e)=>{window.open(imageshow,"_blank")}} className='lable-rentcar'  colorScheme='teal' size='md' px={'2'} py={'2'} mb={"10px"} type="button"><SearchIcon /></Button>
 
                         </FormControl>
+                        <FormLabel className='lable-rentcar'>{namefile}</FormLabel>
                     </GridItem>
                     <GridItem colSpan={1}>
                         <FormControl pt={"8"}>
@@ -1021,7 +1032,7 @@ const ckcargg = (event:string) => {
                     </GridItem>
 
                     <GridItem colSpan={6}>
-                        <Button disabled={disbut} className='lable-rentcar' type='submit' colorScheme='teal' size='md' px={'10'} py={'5'} mb={"20px"}>
+                        <Button disabled={disbut} onClick={handleSubmit} className='lable-rentcar' type='submit' colorScheme='teal' size='md' px={'10'} py={'5'} mb={"20px"}>
                             ส่งแบบฟอร์ม
                         </Button>
                         <Button style={{marginLeft:"30px"}} onClick={handlereset} className='lable-rentcar'  colorScheme='teal' size='md' px={'10'} py={'5'} mb={"20px"}>
