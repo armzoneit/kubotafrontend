@@ -1696,7 +1696,7 @@ const [startDate, setStartDate] = useState(new Date());
                                         <Td className='text-centers'></Td>
                                         <Td className='text-centers'></Td>
                                         <Td className='text-centers' ></Td>
-                                        {x.statusApproved == "1" ? <Td></Td> : <Td className='text-centers'><a onClick={(e) => {handleopenedit(x.idcarbooking)}} href="#"><AiOutlineEdit /></a>  <Link target="_blank" href={ `${x.idcarbooking}?cartype=${datasall.cartype}` }><AiOutlineEdit /></Link> </Td>
+                                        {x.statusApproved == "1" ? <Td></Td> : <Td className='text-centers'> <Link target="_blank" href={ `${x.idcarbooking}?cartype=${datasall.cartype}` }><AiOutlineEdit /></Link> </Td>
                                         }
                                         {x.statusApproved == "1" ? <Td></Td> : me?.data?.data?.myHrEmployee.employeeNo ==  x.employee_no ? <Td className='text-centers'><a onClick={(e)=>{deletes(x.idcarbooking)}} href="#"><AiOutlineDelete /></a></Td>: <Td></Td>
                                         }
@@ -1722,7 +1722,7 @@ const [startDate, setStartDate] = useState(new Date());
                                         <Td className='text-centers'></Td>
                                         <Td className='text-centers'></Td>
                                         <Td className='text-centers'></Td>
-                                        {x.statusApproved == "1" ? <Td></Td> : <Td className='text-centers'><a onClick={(e) => {handleopenedit(x.idcarbooking)}} href="#"><AiOutlineEdit /></a>  <Link target="_blank" href={ `${x.idcarbooking}?cartype=${datasall.cartype}` }><AiOutlineEdit /></Link>  </Td>
+                                        {x.statusApproved == "1" ? <Td></Td> : <Td className='text-centers'> <Link target="_blank" href={ `${x.idcarbooking}?cartype=${datasall.cartype}` }><AiOutlineEdit /></Link>  </Td>
                                         }
                                         {x.statusApproved == "1" ? <Td></Td> : me?.data?.data?.myHrEmployee.employeeNo ==  x.employee_no ? <Td className='text-centers'><a onClick={(e)=>{deletes(x.idcarbooking)}} href="#"><AiOutlineDelete /></a></Td>: <Td></Td>
                                         }

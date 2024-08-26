@@ -1,4 +1,4 @@
-import { Box, Button, Flex, FormControl, Checkbox, FormLabel, Grid, GridItem, Input, Radio, RadioGroup, Select, Stack, useToast, Text, ModalOverlay, Container } from '@chakra-ui/react'
+import { Box, Button, Flex, FormControl, Checkbox, FormLabel, Grid,useDisclosure, GridItem, Input, Radio, RadioGroup, Select, Stack, useToast, Text, ModalOverlay, Container } from '@chakra-ui/react'
 import axios, { AxiosRequestConfig } from 'axios';
 import React, { useEffect, useState } from 'react'
 import { localStorageLoad } from '../../../utils/localStrorage';
@@ -9,7 +9,7 @@ import DatePicker from 'react-datepicker';
 import styled, { css, createGlobalStyle } from 'styled-components';
 import { TimePicker } from 'antd';
 import { useRouter } from "next/router"
-
+import { SearchIcon } from '@chakra-ui/icons';
 const DatePickerWrapperStyles = createGlobalStyle`
     .date_picker.full-width input {
         border: 1px #00AAAD solid;
@@ -56,19 +56,37 @@ const StatusRentCarDetail = (data: any=false) => {
     const tokens = localStorageLoad("token")
     const [textcc, settextcc] = useState<string>("");
     const [disread, setdisread] = useState<boolean>(false);
+    const [cards,setcards] = useState<boolean>(true);
 
 
     const [carck3, setcarck3] = useState<boolean>(false);
     const [carck4, setcarck4] = useState<boolean>(false);
     const [carck5, setcarck5] = useState<boolean>(false);
-    const [ckcar1, setckcar1] = useState<boolean>(false)
-    const [ckcar2, setckcar2] = useState<boolean>(false)
+    const [ckcar1, setckcar1] = useState<boolean>(false);
+    const [ckcar2, setckcar2] = useState<boolean>(false);
+    const [namefile,setnamefile] = useState<string>("");
+
     const toast = useToast()
+    const { isOpen, onOpen, onClose } = useDisclosure()
     const toastId4 = "success"
 
     const router = useRouter()
     const ids = data.booking_id ? data.booking_id : router.query?.ids;
     const cartype = data.typecar ? data.typecar : router.query?.cartype;
+    const handle_idcar = (event:React.ChangeEvent<HTMLInputElement>) => setform(prev=> { 
+        return {...prev,idcar:event.target.value}
+
+
+    });
+    const [showfile,setshowfile] = useState<boolean>(true)
+    const [pictureFile, setpictureFile] = useState(null);
+    const [imageshow,setimageshow] = useState("gibbresh.png");
+    const pictureChangeHandler = event => {
+        setpictureFile(event.target.files[0]);
+        setnamefile(event.target.files[0].name)
+        setimageshow(URL.createObjectURL(event.target.files[0]));
+        setshowfile(false);
+    };
 
     console.log('data', data);
     console.log('ids', ids);
@@ -76,6 +94,7 @@ const StatusRentCarDetail = (data: any=false) => {
     useEffect(() => {
         const handleopenedit = (ids: any) => {
             console.log('userId', userId);
+            setcards(true)
             setcarck3(true);
             setcarck4(false);
             setcarck5(false);
@@ -168,6 +187,7 @@ const StatusRentCarDetail = (data: any=false) => {
                     });
             } else if (cartype == '2') {
                 setcarck5(true);
+                setcards(false)
                 settextcc("จองรถเช่าเหมาวัน(ไม่มีคนขับ)");
                 let config5: AxiosRequestConfig = {
                     method: 'get',
@@ -181,7 +201,7 @@ const StatusRentCarDetail = (data: any=false) => {
 
                 axios.request(config5)
                     .then((response) => {
-
+                        console.log(response);
                         seteditbutton(false);
                         let subdate = response.data.data.carBookingWithDriver[0]?.booking_date;
                         let subdate1 = subdate.split('/');
@@ -200,6 +220,7 @@ const StatusRentCarDetail = (data: any=false) => {
                         // @ts-ignore
                         setform({
                             idcarbooking: response.data.data.carBookingWithDriver[0]?.idcarbooking,
+                            license_number:response.data.data.carBookingWithDriver[0]?.license_number,
                             PlantId: response.data.data.carBookingWithDriver[0]?.plantId,
                             employee_no: response.data.data.carBookingWithDriver[0]?.employee_no,
                             booking_date: response.data.data.carBookingWithDriver[0]?.booking_date,
@@ -564,7 +585,8 @@ const StatusRentCarDetail = (data: any=false) => {
         countcar2: 0,
         countper2: 0,
         countcar3: 0,
-        countper3: 0
+        countper3: 0,
+        license_number:""
     })
 
     const [startDate, setStartDate] = useState(new Date());
@@ -760,7 +782,7 @@ const StatusRentCarDetail = (data: any=false) => {
                                         <Input disabled={disread} required placeholder='กรุณากรอกข้อมูล' style={{ border: '1px #00AAAD solid' }} type='search' onChange={handletel} name='search' pattern="[0-9]*" value={form.tel} />
                                     </FormControl>
                                 </GridItem>
-                                <GridItem colSpan={4}>
+                                <GridItem colSpan={4} hidden={cards}>
                                     <FormControl >
                                         <FormLabel className='lable-rentcar'>วัตถุประสงค์ในการจองรถ</FormLabel>
                                         <Input disabled={disread} required type='search' placeholder='กรุณากรอกข้อมูล' style={{ border: '1px #00AAAD solid' }} onChange={handlenote} value={form.note} name='note' />
@@ -768,6 +790,27 @@ const StatusRentCarDetail = (data: any=false) => {
                                 <FormErrorMessage>Email is required.</FormErrorMessage>
                             } */}
                                     </FormControl>
+                                </GridItem>
+                                <GridItem colSpan={4} hidden={cards}>
+                                    <FormControl isRequired>
+                                        <FormLabel className='lable-rentcar'>ข้อมูลใบขับขี่บริษัท</FormLabel>
+                                        <RadioGroup value={"1"} >
+                                            <Stack direction='row' alignItems={"baseline"} >
+                                                <Radio value='1' defaultChecked>มีใบขับขี่ เลขที่ </Radio><Input style={{ border: '1px #00AAAD solid', width: '150px' }} value={form.license_number} onChange={handle_idcar}  required />
+                                            </Stack>
+                                        </RadioGroup>
+                                    </FormControl>
+                                </GridItem>
+                                <GridItem colSpan={3} hidden={cards} >
+                                <FormLabel className='lable-rentcar'>แนบไฟล์ใบขับขี่</FormLabel>
+                                    <FormControl isRequired my={"-1.5"} style={{marginTop:"-30px"}}>
+                                        <FormLabel style={{display:"inline-block"}} htmlFor="file-input" id='file-input-label' className='lable-rentcar'>แนบไฟล์ใบขับขี่</FormLabel>
+                                        <Input type='file' style={{ border: '0px solid', color: '#00AAAD' }}  id="file-input" name="file-input"  onChange={pictureChangeHandler}/>
+                                        {/* <label id="file-input-label" htmlFor="file-input">แนบไฟล์ใบขับขี่ </label> */}
+                                        <Button isDisabled={showfile} onClick={(e)=>{window.open(imageshow,"_blank")}} className='lable-rentcar'  colorScheme='teal' size='md' px={'2'} py={'2'} mb={"10px"} type="button"><SearchIcon /></Button>
+                                        
+                                    </FormControl>
+                                    <FormLabel className='lable-rentcar'>{namefile}</FormLabel>
                                 </GridItem>
                                 <GridItem colSpan={6}>
 
