@@ -21,7 +21,6 @@ import DatePicker from 'react-datepicker';
 import styled, { css, createGlobalStyle } from 'styled-components';
 import { Controller } from 'react-hook-form';
 import { localStorageLoad } from '../../../../utils/localStrorage';
-import { getMe } from "../../../../data-hooks/me/getMe"
 import { AiOutlineSearch, AiOutlineEdit, AiOutlineDelete } from "react-icons/ai";
 import {
     Table,

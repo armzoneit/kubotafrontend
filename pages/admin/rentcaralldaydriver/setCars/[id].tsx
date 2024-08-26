@@ -2,7 +2,9 @@ import React, { useEffect, useState } from 'react'
 import Detailpage from '../../../../components/admin/rentcarall/setCars/detailpage';
 import { getMe } from "../../../../data-hooks/me/getMe";
 import { useRouter } from "next/router"
-const me = getMe()
+
+const SetRentCarAllDayDriver = () => {
+    const me = getMe()
     const router = useRouter()
 
     if(me.data){
@@ -15,7 +17,6 @@ const me = getMe()
             router.push("/admin/users");
         }
     }
-const SetRentCarAllDayDriver = () => {
     return (
         <>
             <Detailpage mode={1} />

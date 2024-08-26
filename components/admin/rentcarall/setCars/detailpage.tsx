@@ -87,28 +87,28 @@ const detailpage = ({ mode }) => {
         await setDatas({ ...datas, [event.target.name]: event.target.value })
     }
     useEffect(() => {
-        console.log(router.asPath);
+        // console.log(router.asPath);
 
-        axios({
-            url: 'https://d713apsi01-wa01kbtcom.azurewebsites.net/ReserveCar/'+edit_url[mode]+'/' + id,
-            method: 'GET',
-            headers: {
-                'accept': '*/*',
-                'Authorization': 'Bearer ' + tokens,
-            }
-        }).then(async (res) => {
-            console.log(res.data.data.carBookingWithDriver[0]); 
+        // axios({
+        //     url: 'https://d713apsi01-wa01kbtcom.azurewebsites.net/ReserveCar/'+edit_url[mode]+'/' + id,
+        //     method: 'GET',
+        //     headers: {
+        //         'accept': '*/*',
+        //         'Authorization': 'Bearer ' + tokens,
+        //     }
+        // }).then(async (res) => {
+        //     console.log(res.data.data.carBookingWithDriver[0]); 
 
-            let detail = res.data.data.carBookingWithDriver[0];
-            // detail.booking_date = new Date(detail.booking_date).toISOString().slice(0, 10);
-            // detail.startdate = new Date(detail.startdate).toISOString().slice(0, 10);
-            // detail.enddate = new Date(detail.enddate).toISOString().slice(0, 10);
-            setDatas(detail);
-            // console.log("Hello");
+        //     let detail = res.data.data.carBookingWithDriver[0];
+        //     // detail.booking_date = new Date(detail.booking_date).toISOString().slice(0, 10);
+        //     // detail.startdate = new Date(detail.startdate).toISOString().slice(0, 10);
+        //     // detail.enddate = new Date(detail.enddate).toISOString().slice(0, 10);
+        //     setDatas(detail);
+        //     // console.log("Hello");
 
-        }).catch(error => {
-            console.log(error);
-        });
+        // }).catch(error => {
+        //     console.log(error);
+        // });
 
        
     }, [me.isLoading])
