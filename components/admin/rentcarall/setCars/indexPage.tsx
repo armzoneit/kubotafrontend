@@ -381,27 +381,28 @@ const indexPage = ({ mode }) => {
                                             <Td>{row.tel}</Td>
                                             { mode == 1 ?
                                             <Td> 
-                                                { row.number_cars2 == 0 || row.number_cars2 == null ? "" : "(รถตู้)"} 
-                                                { row.number_cars3 == 0 || row.number_cars3 == null ? "" : "(รถเก๋ง)"}
+                                                { row.number_travelers == 0 || row.number_travelers == null ? "" : "(รถตู้)"} 
+                                                { row.number_cars1 == 0 || row.number_cars1 == null ? "" : "(รถเก๋ง)"}
                                             </Td>
+                                            <Td>{ parseInt(row.number_travelers) + parseInt(row.number_cars1)  }</Td>
                                             : '' }
                                             { mode == 2 ? <Td>
-                                                { row.number_cars2 == 0 || row.number_cars2 == null ? "" : "(รถเก๋ง)"} 
-                                                { row.number_cars3 == 0 || row.number_cars3 == null ? "" : "(รถกระบะ)"}
+                                                { row.number_cars1 == 0 || row.number_cars1 == null ? "" : "(รถเก๋ง)"} 
+                                                { row.number_cars == 0 || row.number_cars == null ? "" : "(รถกระบะ)"}
                                             </Td>
+                                            <Td>{ parseInt(row.number_cars) + parseInt(row.number_cars1)  }</Td>
+
                                             : '' }
                                             { mode == 3 ? <Td>
-                                                { row.number_cars2 == 0 || row.number_cars2 == null ? "" : "(รถตู้)"} 
-                                                { row.number_cars3 == 0 || row.number_cars3 == null ? "" : "(รถกระบะ)"}
-                                                { row.number_travelers == 0 || row.number_travelers == null ? "" : "(รถเก๋ง)"}
+                                                { row.number_travelers == 0 || row.number_travelers == null ? "" : "(รถตู้)"} 
+                                                { row.number_cars == 0 || row.number_cars == null ? "" : "(รถกระบะ)"}
+                                                { row.number_cars1 == 0 || row.number_cars1 == null ? "" : "(รถเก๋ง)"}
 
                                             </Td>
+                                            <Td>{ parseInt(row.number_cars) + parseInt(row.number_cars1) + parseInt(row.number_travelers) }</Td>
+
                                             : '' }
-                                            { mode == 3 ? 
-                                            <Td>{ parseInt(row.number_travelers) + parseInt(row.number_cars2) + parseInt(row.number_cars3) }</Td>
-                                            :
-                                            <Td>{ parseInt(row.number_cars2) + parseInt(row.number_cars3) }</Td>
-                                            }
+                                          
                                             <Td>{row.startdate}</Td>
                                             <Td>{row.enddate}</Td>
                                             {/* <Td>{row.locationIn}</Td>
