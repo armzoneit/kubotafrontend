@@ -8,8 +8,8 @@ const CarsAndDriver = () => {
     const router = useRouter()
 
     if(me.data){
-        if(me.data.data.permissionReserve){
-            let pass =  me.data.data.permissionReserve.find(x => x.mode == 3 && x.menu == 3)?.approved;
+        if(me.data.data.permissionReser){
+            let pass =  me.data.data.permissionReser.find(x => x.mode == 3 && x.menu == 3)?.approved;
             if(!pass){
                 router.push("/admin/users");
             }
