@@ -243,15 +243,16 @@ const Evaluation = () => {
                 if(datasall.cartype == "1")
                 {
                     window.open("https://forms.gle/LXdqQLjvxWohENUV7");
+                    window.location.reload();
 
                 }else if(datasall.cartype == "2")
                 {
                     window.open("https://forms.gle/1BMXsrZ8eo6LhQ6M8");
-
+                    window.location.reload();
                 }else if(datasall.cartype == "3")
                 {
                     window.open("https://forms.gle/NC9UWkbZ215QvGhp9");
-
+                    window.location.reload();
                 }
             })
             .catch((error) => {
