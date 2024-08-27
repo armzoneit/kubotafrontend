@@ -358,7 +358,8 @@ const indexPage = ({ mode }) => {
                                         <Th color={"white"}>จำนวน(คัน)</Th>
                                         <Th color={"white"}>วันที่ใช้รถเริ่มต้น/เวลา</Th>
                                         <Th color={"white"}>วันที่ใช้รถสิ้นสุด/เวลา</Th>
-                                       
+                                        <Th color={"white"}>สถานที่รับ</Th>
+                                        <Th color={"white"}>สถานที่ส่ง</Th>
                                         <Th color={"white"}>สถานะการอนุมัติ</Th>
                                         <Th color={"white"}>สถานะการจัดรถ</Th>
                                     </Tr>
@@ -410,6 +411,8 @@ const indexPage = ({ mode }) => {
                                           
                                             <Td>{row.startdate}</Td>
                                             <Td>{row.enddate}</Td>
+                                            <Td style={ white-space: 'nowrap',text-overflow: 'ellipsis'}>{row.locationIn}</Td>
+                                            <Td style={ white-space: 'nowrap',text-overflow: 'ellipsis'}>{row.locationOut}</Td>
                                             {/* <Td>{row.locationIn}</Td>
                                             <Td>{row.locationOut}</Td>
                                             <Td>{row.GL}</Td>

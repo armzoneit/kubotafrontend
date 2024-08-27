@@ -440,6 +440,7 @@ const InfoCars = ({ mode, idcarbooking,booking }) => {
                             <Th color={"white"}>อายุรถ</Th>
                             <Th color={"white"}>ชื่อคนขับ</Th>
                             <Th color={"white"}>เบอร์โทรศัพท์</Th>
+                    
                             <Th color={"white"} colSpan={2}>จัดการ</Th>
                         </Tr>
                     </Thead>

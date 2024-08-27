@@ -214,8 +214,12 @@ const StatusRentCarDetail = (data: any=false) => {
                         setStartDate4(new Date(subdate5[2] + "-" + subdate5[1] + "-" + subdate5[0]))
                         if (response.data.data.carBookingWithDriver[0]?.employee_no == userId) {
                             seteditbutton(false);
-                        } else {
-                            seteditbutton(true);
+                        }else {
+                            if(data.fix){
+                                seteditbutton(false);
+                            }else{
+                                seteditbutton(true);
+                            }
                         }
                         // @ts-ignore
                         setform({
@@ -298,8 +302,12 @@ const StatusRentCarDetail = (data: any=false) => {
                         }
                         if (response.data.data.carBookingWithDriver[0]?.employee_no == userId) {
                             seteditbutton(false);
-                        } else {
-                            seteditbutton(true);
+                        }else {
+                            if(data.fix){
+                                seteditbutton(false);
+                            }else{
+                                seteditbutton(true);
+                            }
                         }
                         // @ts-ignore
                         setform({

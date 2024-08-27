@@ -129,7 +129,7 @@ const detailpage = ({ mode }) => {
                     templateColumns='repeat(12, 1fr)'
                     gap={4}>
                     <GridItem colSpan={6}>
-                        <CarDetailpage booking_id={id} typecar={1} fix={true}/>
+                        <CarDetailpage booking_id={id} typecar={mode} fix={true}/>
                     </GridItem>
                     <GridItem colSpan={6} style={{ padding: '1%' }}>
                         <InfoCars mode={mode} idcarbooking={id} booking={datas} />
