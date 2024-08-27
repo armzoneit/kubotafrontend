@@ -299,7 +299,7 @@ const InfoCars = ({ mode, idcarbooking,booking }) => {
     }
 
     const chgStatus = async () => {
-        if(!cars.length){
+        if(!cars.length && chgstat == 1){
             Swal.fire({
                 icon: "error",
                 title: "กรุณาเพิ่มรถเข้ารายการจองก่อนค่ะ!",
