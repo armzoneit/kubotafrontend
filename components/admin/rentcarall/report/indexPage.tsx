@@ -159,7 +159,7 @@ const ReportRentCar = ({ mode }) => {
             filter:[
                 {
                     bookingname:bookingname,
-                    status:status.toString(),
+                    status:'1',
                     serv:serv,
                     license:license,
                     driver:driver,
@@ -235,13 +235,13 @@ const ReportRentCar = ({ mode }) => {
 
                             </GridItem>
                             <GridItem colSpan={6}>
-                            <label className='lable-statusrentcar' style={{ width: "90%" }}>วันที่ใช้รถสิ้นสุด</label>
+                                <label className='lable-statusrentcar' style={{ width: "90%" }}>วันที่ใช้รถสิ้นสุด</label>
                                 <span>
                                 <DatePicker required dateFormat="dd-MM-yyyy" wrapperClassName='date_picker full-width' selected={startDate1} onChange={(event)=>{setStartDate1(event)}} />
                                 </span>
                                 <DatePickerWrapperStyles />
 
-                                <label className='lable-statusrentcar' style={{ width: "90%" }}>สถานะการจัดรถ</label>
+                                {/* <label className='lable-statusrentcar' style={{ width: "90%" }}>สถานะการจัดรถ</label>
                                 <Select name='type_manage' placeholder='เลือกประเภทการจัดรถ' style={{ border: '1px #00AAAD solid' }} 
                                     onChange={(event)=>{
                                         setstatus(event.target.value)
@@ -254,7 +254,7 @@ const ReportRentCar = ({ mode }) => {
                                             )})
                                     }
                                     
-                                </Select>
+                                </Select> */}
 
                                 <FormLabel className='lable-rentcar'>ทะเบียนรถ : </FormLabel>
                                 <Input style={{ border: '1px #00A5A8 solid', width: '90%' }} type="text" onChange={(event)=>{setlicense(event.target.value)}}/>
