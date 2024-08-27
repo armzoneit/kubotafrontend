@@ -382,7 +382,7 @@ const indexPage = ({ mode }) => {
                                           
                                             : '' }
                                             { mode == 1 ?
-                                            <Td>{ parseInt(row.number_travelers) + parseInt(row.number_cars1)  }</Td>
+                                            <Td>{ parseInt(row.number_travelers) + parseInt(row.number_cars2)  }</Td>
                                             : '' }
                                             
                                             { mode == 2 ? <Td>
