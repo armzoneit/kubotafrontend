@@ -296,7 +296,7 @@ const settingaccount = () => {
                     return (
                         <Tr>
                         <Td>{row.employeeNo}</Td>
-                        <Td>{row.firstName} {row.lastName}</Td>
+                        <Td>{row.name}</Td>
                         
                         <Td >
                         <a onClick={async(e)=>{
