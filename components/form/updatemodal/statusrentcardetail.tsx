@@ -10,6 +10,7 @@ import styled, { css, createGlobalStyle } from 'styled-components';
 import { TimePicker } from 'antd';
 import { useRouter } from "next/router"
 import { SearchIcon } from '@chakra-ui/icons';
+import { getMe } from "../../../data-hooks/me/getMe"
 const DatePickerWrapperStyles = createGlobalStyle`
     .date_picker.full-width input {
         border: 1px #00AAAD solid;
@@ -54,10 +55,11 @@ const DatePickerWrapperStyles = createGlobalStyle`
 const StatusRentCarDetail = (data: any=false) => {
     const userId = localStorageLoad("userId")
     const tokens = localStorageLoad("token")
+    const me = getMe()
     const [textcc, settextcc] = useState<string>("");
     const [disread, setdisread] = useState<boolean>(false);
     const [cards,setcards] = useState<boolean>(true);
-
+    const [approvedbutton, setapprovedbutton] = React.useState<boolean>(false);
 
     const [carck3, setcarck3] = useState<boolean>(false);
     const [carck4, setcarck4] = useState<boolean>(false);
@@ -89,6 +91,40 @@ const StatusRentCarDetail = (data: any=false) => {
         setshowfile(false);
     };
 
+    const handleapproved = (ids: number) => {
+        const tokens = localStorageLoad("token")
+        let data = JSON.stringify({
+            "type": datasall.cartype,
+            "BookingNo": form.idcarbooking,
+        });
+        let config = {
+            method: 'post',
+            maxBodyLength: Infinity,
+            url: 'https://d713apsi01-wa01kbtcom.azurewebsites.net/ReserveCar/ApprovalStatus/' + datasall.cartype + '/' + form.idcarbooking,
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + tokens
+            },
+            data: data
+        };
+
+        axios.request(config)
+            .then((response) => {
+                onClose();
+                search(1);
+                toast({
+                    id: toastId4,
+                    description: `อนุมัติสำเร็จ`,
+                    status: "success",
+                    duration: 3000,
+                    isClosable: false,
+                })
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    }
+
     console.log('data', data);
     console.log('ids', ids);
     console.log('cartype', cartype);
@@ -118,6 +154,7 @@ const StatusRentCarDetail = (data: any=false) => {
                     .then((response) => {
 
                         seteditbutton(false);
+                        setapprovedbutton(true);
                         let subdate = response.data.data.carBookingWithDriver[0]?.booking_date;
                         let subdate1 = subdate.split('/');
                         let subdate2 = response.data.data.carBookingWithDriver[0]?.startdate;
@@ -129,11 +166,17 @@ const StatusRentCarDetail = (data: any=false) => {
                         setStartDate4(new Date(subdate5[2] + "-" + subdate5[1] + "-" + subdate5[0]))
                         if (response.data.data.carBookingWithDriver[0]?.employee_no == userId) {
                             seteditbutton(false);
+                            setapprovedbutton(true);
                         } else {
                             if(data.fix){
                                 seteditbutton(false);
                             }else{
                                 seteditbutton(true);
+                                response.data.data.approval.map((e, v) => {
+                                    if (me?.data?.data?.myHrEmployee.employeeNo == e.employeeApproval) {
+                                        setapprovedbutton(false);
+                                    }
+                                });
                             }
                         }
                         if (response.data.data.carBookingWithDriver[0]?.employee_no != userId) {
@@ -213,13 +256,20 @@ const StatusRentCarDetail = (data: any=false) => {
                         setStartDate(new Date(subdate1[2] + "-" + subdate1[1] + "-" + subdate1[0]))
                         setStartDate3(new Date(subdate3[2] + "-" + subdate3[1] + "-" + subdate3[0]))
                         setStartDate4(new Date(subdate5[2] + "-" + subdate5[1] + "-" + subdate5[0]))
+                        setapprovedbutton(true);
                         if (response.data.data.carBookingWithDriver[0]?.employee_no == userId) {
                             seteditbutton(false);
+                            setapprovedbutton(true);
                         }else {
                             if(data.fix){
                                 seteditbutton(false);
                             }else{
                                 seteditbutton(true);
+                                response.data.data.approval.map((e, v) => {
+                                    if (me?.data?.data?.myHrEmployee.employeeNo == e.employeeApproval) {
+                                        setapprovedbutton(false);
+                                    }
+                                });
                             }
                         }
                         if(response.data.data.carBookingWithDriver[0]?.pathfile != ""){
@@ -315,6 +365,7 @@ const StatusRentCarDetail = (data: any=false) => {
                         var ggg22 = ggg12.split('T')
                         var ggg23 = ggg13.split('T')
                         let subdate = response.data.data.carBookingWithDriver[0]?.booking_date;
+                        setapprovedbutton(true);
                         let subdate1 = ggg21[0].split('/');
                         let subdate2 = response.data.data.carBookingWithDriver[0]?.startdate;
                         let subdate3 = ggg22[0].split('/');
@@ -330,11 +381,17 @@ const StatusRentCarDetail = (data: any=false) => {
                         }
                         if (response.data.data.carBookingWithDriver[0]?.employee_no == userId) {
                             seteditbutton(false);
+                            setapprovedbutton(true);
                         }else {
                             if(data.fix){
                                 seteditbutton(false);
                             }else{
                                 seteditbutton(true);
+                                response.data.data.approval.map((e, v) => {
+                                    if (me?.data?.data?.myHrEmployee.employeeNo == e.employeeApproval) {
+                                        setapprovedbutton(false);
+                                    }
+                                });
                             }
                         }
                         // @ts-ignore
@@ -875,7 +932,7 @@ const StatusRentCarDetail = (data: any=false) => {
                                     </FormControl>
                                 </GridItem>
                                 <GridItem colSpan={2}>
-                        <FormControl isRequired>
+                        <FormControl isRequired hidden={cards}>
                             <FormLabel className='lable-rentcar'>รหัสพนักงานผู้ใช้งาน</FormLabel>
                             <Input type='search' placeholder='กรุณากรอกข้อมูล'  style={{ border: '1px #00AAAD solid' }}  required value={form.code_employee} onChange={handlecode_employee} />
                         </FormControl>
@@ -911,7 +968,7 @@ const StatusRentCarDetail = (data: any=false) => {
                         </FormControl>
                     </GridItem>
                                 
-                                <GridItem colSpan={4} hidden={cards}>
+                                <GridItem colSpan={3} hidden={cards}>
                                     <FormControl isRequired>
                                         <FormLabel className='lable-rentcar'>ข้อมูลใบขับขี่บริษัท</FormLabel>
                                         <RadioGroup value={"1"} >
@@ -932,7 +989,7 @@ const StatusRentCarDetail = (data: any=false) => {
                                     </FormControl>
                                     <FormLabel className='lable-rentcar'>{namefile}</FormLabel>
                                 </GridItem>
-                                <GridItem colSpan={4} hidden={cards}>
+                                <GridItem colSpan={6} >
                                     <FormControl >
                                         <FormLabel className='lable-rentcar'>วัตถุประสงค์ในการจองรถ</FormLabel>
                                         <Input disabled={disread} required type='search' placeholder='กรุณากรอกข้อมูล' style={{ border: '1px #00AAAD solid' }} onChange={handlenote} value={form.note} name='note' />
@@ -1131,7 +1188,9 @@ const StatusRentCarDetail = (data: any=false) => {
                                     <Button hidden={editbutton} onClick={editdata} className='lable-rentcar' type='submit' colorScheme='teal' size='md' px={'10'} py={'5'} mb={"20px"}>
                                         แก้ไขข้อมูล
                                     </Button>
-
+                                    <Button onClick={handleapproved} hidden={approvedbutton} className='lable-rentcar' type='submit' colorScheme='teal' size='md' px={'10'} py={'5'} mx={"3"} mb={"20px"}>
+                                        อนุมัติ
+                                    </Button>
                                 </GridItem>
                             </Grid>
                         </Container>
