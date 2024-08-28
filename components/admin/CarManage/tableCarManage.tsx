@@ -71,7 +71,7 @@ const tableCarManage = ({ mode }) => {
             serv: true,
             type: true,
             type_group:['รถเก๋ง','รถกระบะ'],
-            license: false,
+            license: true,
             register_date: false,
             driver: false,
             driver_phone:false
@@ -230,7 +230,7 @@ const tableCarManage = ({ mode }) => {
 
           }).then((result) => {
             if (result.isConfirmed) {
-                axios.delete('https://d713apsi01-wa01kbtcom.azurewebsites.net/CarDetail/DeletetCarDetail/'+id).then(async(response) => {
+                axios.delete('https://d713apsi01-wa01kbtcom.azurewebsites.net/CarDetail/DeleteCarDetail/'+id).then(async(response) => {
                     Swal.fire({
                         icon: "success",
                         title: "ลบข้อมูลสำเร็จ!",

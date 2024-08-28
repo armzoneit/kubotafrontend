@@ -68,7 +68,7 @@ const evaluation = ({ mode }) => {
     const [ckcar1,setckcar1] = useState<boolean>(false)
     const [ckcar2,setckcar2] = useState<boolean>(false)
     const [startDate2, setStartDate2] = useState(new Date());
-    const title_name = ['','จัดรถเช่าเหมาวัน (พร้อมคนขับรถ)','จัดรถเช่าเหมาวัน (ไม่มีคนขับรถ)','งานรับส่งระหว่างวัน'];
+    const title_name = ['','สรุปผลการประเมินความพึงพอใจรถเช่าเหมาวันพร้อมคนขับ','สรุปผลการประเมินความพึงพอใจรถเช่าเหมาวันไม่มีคนขับ','สรุปผลการประเมินความพึงพอใจงานรับส่งระหว่างวัน'];
     const edit_url = ['','rentcaralldaydriver','rentcaralldaynodriver','rentcarduring'];
     const [status, setstatus] = useState(['รอจัดรถ','จัดเสร็จแล้ว','ยกเลิก']);
 

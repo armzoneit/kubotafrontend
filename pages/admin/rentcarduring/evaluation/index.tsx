@@ -34,7 +34,7 @@ import {
     TableContainer,
 } from '@chakra-ui/react'
 import { TimePicker } from 'antd';
-import IndexPage from '../../../../components/admin/rentcarall/setCars/indexPage';
+import Evaluation from '../../../../components/admin/rentcarall/setCars/evaluation';
 import { getMe } from "../../../../data-hooks/me/getMe";
 import { useRouter } from "next/router"
 
@@ -54,7 +54,7 @@ const List =  () => {
     }
     return (
         <>
-            <IndexPage mode={3} />
+            <Evaluation mode={3} />
         </>
     )
 }

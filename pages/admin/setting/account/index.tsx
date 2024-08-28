@@ -118,9 +118,8 @@ const settingaccount = () => {
         
     }, [me.isLoading]);
     const setMenu = async (row,mod,men,app) => {
-        // console.log('userEdit',row);
         
-        let umenu = row.permissionReserve;
+        let umenu = row;
         if(umenu.find(x => x.mode == mod && x.menu == men)){
             umenu.find(x => x.mode == mod && x.menu == men).approved = app;
         }else{
@@ -133,55 +132,66 @@ const settingaccount = () => {
                 approved:app
             });
         }
+        // await setuserEdit(umenu);
         await setuser_menu(umenu);
         
     }
     const checkApprove = async (row) => {
         await setuserEdit(row);
-        await setuser_menu(row.permissionReserve);
-
         let menu = row.permissionReserve;
+        if(!menu.length){
+            let menu = new Array();
+            for(let x =1;x<=3;x++){
+                for(let y =1;y<=3;y++){
+                    menu.push({
+                        idPermissionReserve:0,
+                        plantId:row.plantId,
+                        employeeNo:row.employeeNo,
+                        menu:y,
+                        mode:x,
+                        approved:false
+                    });
+                }
+            }
+            await setuser_menu(menu);
+            setmenua1(false);
+            setmenua2(false);
+            setmenua3(false);
+            setmenua4(false);
 
-        setmenua1(menu.find(x => x.mode == 1 && x.menu == 1)? menu.find(x => x.mode == 1 && x.menu == 1).approved : false);
-        setMenu(row,1,1,menua1);
+            setmenub1(false);
+            setmenub2(false);
+            setmenub3(false);
+            setmenub4(false);
 
-        setmenua2(menu.find(x => x.mode == 1 && x.menu == 2)? menu.find(x => x.mode == 1 && x.menu == 2).approved : false);
-        setMenu(row,1,2,menua2);
+            setmenuc1(false);
+            setmenuc2(false);
+            setmenuc3(false);
+            setmenuc4(false);
+            console.log(1);
+        }else{
+            console.log(2);
+            await setuser_menu(menu);
+            setmenua1(menu[0].approved);
+            setmenua2(menu[1].approved);
+            setmenua3(menu[2].approved);
+            setmenua4(menu[3].approved);
 
-        setmenua3(menu.find(x => x.mode == 1 && x.menu == 3)? menu.find(x => x.mode == 1 && x.menu == 3).approved : false);
-        setMenu(row,1,3,menua3);
+            setmenub1(menu[4].approved);
+            setmenub2(menu[5].approved);
+            setmenub3(menu[6].approved);
+            setmenub4(menu[7].approved);
 
-        setmenua4(menu.find(x => x.mode == 1 && x.menu == 4)? menu.find(x => x.mode == 1 && x.menu == 4).approved : false);
-        setMenu(row,1,4,menua3);
+            setmenuc1(menu[8].approved);
+            setmenuc2(menu[9].approved);
+            setmenuc3(menu[10].approved);
+            setmenuc4(menu[11].approved);
+        }
 
-        setmenub1(menu.find(x => x.mode == 2 && x.menu == 1)? menu.find(x => x.mode == 2 && x.menu == 1).approved : false);
-        setMenu(row,2,1,menub1);
-
-        setmenub2(menu.find(x => x.mode == 2 && x.menu == 2)? menu.find(x => x.mode == 2 && x.menu == 2).approved : false);
-        setMenu(row,2,2,menub2);
-
-        setmenub3(menu.find(x => x.mode == 2 && x.menu == 3)? menu.find(x => x.mode == 2 && x.menu == 3).approved : false);
-        setMenu(row,2,3,menub3);
-
-        setmenub4(menu.find(x => x.mode == 2 && x.menu == 4)? menu.find(x => x.mode == 2 && x.menu == 4).approved : false);
-        setMenu(row,2,4,menub3);
-
-        setmenuc1(menu.find(x => x.mode == 3 && x.menu == 1)? menu.find(x => x.mode == 3 && x.menu == 1).approved : false);
-        setMenu(row,3,1,menuc1);
-
-        setmenuc2(menu.find(x => x.mode == 3 && x.menu == 2)? menu.find(x => x.mode == 3 && x.menu == 2).approved : false);
-        setMenu(row,3,2,menuc2);
-
-        setmenuc3(menu.find(x => x.mode == 3 && x.menu == 3)? menu.find(x => x.mode == 3 && x.menu == 3).approved : false);
-        setMenu(row,3,3,menuc3);
-
-        setmenuc4(menu.find(x => x.mode == 3 && x.menu == 4)? menu.find(x => x.mode == 3 && x.menu == 4).approved : false);
-        setMenu(row,3,4,menuc3);
-
+       
         isopen.onOpen();
     }
     const savMenu = async () => {
-        // console.log(user_menu);
         
             let config = {
                 method: 'post',
@@ -198,9 +208,9 @@ const settingaccount = () => {
                 Swal.fire({
                     icon: "success",
                     title: "",
-                    text: ""
+                    text: "บันทึกข้อมูลเรียบร้อย"
                 })
-                // window.location.reload();
+                window.location.reload();
             })
             .catch((error) => {
                 console.log(error);
@@ -217,55 +227,55 @@ const settingaccount = () => {
                 <ModalBody>
                     <b>งานรถเช่าเหมาวัน (พร้อมคนขับรถ)</b>
                     <br />
-                    <Checkbox colorScheme='green' marginRight={"30px"} isChecked={menua1}  onChange={(val) => { setMenu(userEdit,1,1,val.target.checked);setmenua1(val.target.checked); }}>
+                    <Checkbox colorScheme='green' marginRight={"30px"} isChecked={menua1}  onChange={(val) => { setMenu(user_menu,1,1,val.target.checked);setmenua1(val.target.checked); }}>
                         จัดรถเช่าเหมาวัน (พร้อมคนขับรถ)
                     </Checkbox>
                     <br />
-                    <Checkbox colorScheme='green' marginRight={"30px"} isChecked={menua2}  onChange={(val) => { setMenu(userEdit,1,2,val.target.checked);setmenua2(val.target.checked); } }>
+                    <Checkbox colorScheme='green' marginRight={"30px"} isChecked={menua2}  onChange={(val) => { setMenu(user_menu,1,2,val.target.checked);setmenua2(val.target.checked); } }>
                         เพิ่มข้อมูลรถและคนขับรถ
                     </Checkbox>
                     <br />
-                    <Checkbox colorScheme='green' marginRight={"30px"} isChecked={menua3}  onChange={(val) => { setMenu(userEdit,1,3,val.target.checked);setmenua3(val.target.checked); } }>
+                    <Checkbox colorScheme='green' marginRight={"30px"} isChecked={menua3}  onChange={(val) => { setMenu(user_menu,1,3,val.target.checked);setmenua3(val.target.checked); } }>
                         รายงานการขอใช้รถเช่าเหมาวัน (พร้อมคนขับ)
                     </Checkbox>
                     <br />
-                    <Checkbox colorScheme='green' marginRight={"30px"} isChecked={menua4}  onChange={(val) => { setMenu(userEdit,1,4,val.target.checked);setmenua4(val.target.checked); } }>
+                    <Checkbox colorScheme='green' marginRight={"30px"} isChecked={menua4}  onChange={(val) => { setMenu(user_menu,1,4,val.target.checked);setmenua4(val.target.checked); } }>
                         สรุปผลการประเมินความพึงพอใจรถเช่าเหมาวัน
                     </Checkbox>
                     <hr />
                     <b>งานรถเช่าเหมาวัน (ไม่มีคนขับรถ)</b>
                     <br />
-                    <Checkbox colorScheme='green' marginRight={"30px"} isChecked={menub1}  onChange={(val) => { setMenu(userEdit,2,1,val.target.checked);setmenub1(val.target.checked); } }>
+                    <Checkbox colorScheme='green' marginRight={"30px"} isChecked={menub1}  onChange={(val) => { setMenu(user_menu,2,1,val.target.checked);setmenub1(val.target.checked); } }>
                         จัดรถเช่าเหมาวัน (ไม่มีคนขับรถ)
                     </Checkbox>
                     <br />
-                    <Checkbox colorScheme='green' marginRight={"30px"} isChecked={menub2}  onChange={(val) => { setMenu(userEdit,2,2,val.target.checked);setmenub2(val.target.checked); } }>
+                    <Checkbox colorScheme='green' marginRight={"30px"} isChecked={menub2}  onChange={(val) => { setMenu(user_menu,2,2,val.target.checked);setmenub2(val.target.checked); } }>
                         เพิ่มข้อมูลรถ
                     </Checkbox>
                     <br />
-                    <Checkbox colorScheme='green' marginRight={"30px"} isChecked={menub3}  onChange={(val) => { setMenu(userEdit,2,3,val.target.checked);setmenub3(val.target.checked); } }>
+                    <Checkbox colorScheme='green' marginRight={"30px"} isChecked={menub3}  onChange={(val) => { setMenu(user_menu,2,3,val.target.checked);setmenub3(val.target.checked); } }>
                         รายงานการขอใช้รถเช่าเหมาวัน (ไม่มีคนขับรถ)
                     </Checkbox>
                     <br />
-                    <Checkbox colorScheme='green' marginRight={"30px"} isChecked={menub4}  onChange={(val) => { setMenu(userEdit,2,4,val.target.checked);setmenub4(val.target.checked); } }>
+                    <Checkbox colorScheme='green' marginRight={"30px"} isChecked={menub4}  onChange={(val) => { setMenu(user_menu,2,4,val.target.checked);setmenub4(val.target.checked); } }>
                         สรุปผลการประเมินความพึงพอใจรถเช่าเหมาวัน
                     </Checkbox>
                     <hr />
                     <b>งานรถรับส่งระหว่างวัน</b>
                     <br />
-                    <Checkbox colorScheme='green' marginRight={"30px"} isChecked={menuc1}  onChange={(val) => { setMenu(userEdit,3,1,val.target.checked);setmenuc1(val.target.checked); } }>
+                    <Checkbox colorScheme='green' marginRight={"30px"} isChecked={menuc1}  onChange={(val) => { setMenu(user_menu,3,1,val.target.checked);setmenuc1(val.target.checked); } }>
                             งานรถรับส่งระหว่างวัน
                     </Checkbox>
                     <br />
-                    <Checkbox colorScheme='green' marginRight={"30px"} isChecked={menuc2}  onChange={(val) => { setMenu(userEdit,3,2,val.target.checked);setmenuc2(val.target.checked); } }>
+                    <Checkbox colorScheme='green' marginRight={"30px"} isChecked={menuc2}  onChange={(val) => { setMenu(user_menu,3,2,val.target.checked);setmenuc2(val.target.checked); } }>
                         เพิ่มข้อมูลรถและคนขับรถ
                     </Checkbox>
                     <br />
-                    <Checkbox colorScheme='green' marginRight={"30px"} isChecked={menuc3}  onChange={(val) => { setMenu(userEdit,3,3,val.target.checked);setmenuc3(val.target.checked); } }>
+                    <Checkbox colorScheme='green' marginRight={"30px"} isChecked={menuc3}  onChange={(val) => { setMenu(user_menu,3,3,val.target.checked);setmenuc3(val.target.checked); } }>
                         รายงานการขอใช้รถรับส่งระหว่างวัน
                     </Checkbox>  
                     <br />
-                    <Checkbox colorScheme='green' marginRight={"30px"} isChecked={menuc4}  onChange={(val) => { setMenu(userEdit,3,4,val.target.checked);setmenuc4(val.target.checked); } }>
+                    <Checkbox colorScheme='green' marginRight={"30px"} isChecked={menuc4}  onChange={(val) => { setMenu(user_menu,3,4,val.target.checked);setmenuc4(val.target.checked); } }>
                         สรุปผลการประเมินความพึงพอใจ รถรับส่งระหว่างวัน
                     </Checkbox>            
                 </ModalBody>
@@ -300,7 +310,6 @@ const settingaccount = () => {
                         
                         <Td >
                         <a onClick={async(e)=>{
-                            setuserEdit(row)
                             await checkApprove(row);
                             }} href="#"><AiOutlineEdit /></a>
                         </Td>
