@@ -48,10 +48,11 @@ const InfoCars = ({ mode, idcarbooking,booking }) => {
         />
     )
     const [overlay, setOverlay] = React.useState(<OverlayOne />);
-    const [selectCars, setselectCars] = useState<any>([]);
+    const [selectCars, setselectCars] = useState<any>(0);
     const [allCars, setallCars] = useState<any>([]);
     const [cars, setCars] = useState<any>([]);
     const [carsId, setCarsId] = useState<any>([]);
+    const [modalText, setmodalText] = useState<any>([]);
 
     const [editCars, seteditCars] = useState<any>([]);
     const bookingname = booking.bookingname ? booking.bookingname : booking.bookingName;
@@ -103,43 +104,10 @@ const InfoCars = ({ mode, idcarbooking,booking }) => {
     const type_manage = ['รถต่างจังหวัด','กรุงเทพฯ-ปริมณฑล','SKCN-SKCA','SKCN-Kubota Farm'];
     const main_url = ['','rentcaralldaydriver','rentcaralldaynodriver','rentcarduring'];
 
-    // const getCar = async () => {
-    //     try {
-    //         let config: any = {
-    //             url: '/',
-    //             method: 'GET',
-    //             headers: {
-    //                 'accept': '*/*',
-    //                 'Authorization': 'Bearer ' + tokens,
-    //             }
-    //         }
-
-    //         console.log(type);
-
-
-    //         if (type == 'ไม่มีคนขับ') {
-    //             config.url = 'https://d713apsi01-wa01kbtcom.azurewebsites.net/ReserveCar/GetCarBooking/2/' + idcarbooking
-    //         } else if (type == 'พร้อมคนขับ') {
-    //             config.url = 'https://d713apsi01-wa01kbtcom.azurewebsites.net/ReserveCar/GetCarBooking/1/' + idcarbooking
-    //         } else if (type == 'ระหว่างวัน') {
-    //             config.url = 'https://d713apsi01-wa01kbtcom.azurewebsites.net/ReserveCar/GetCarBooking/3/' + idcarbooking
-    //         }
-
-    //         const { data } = await axios(config)
-
-    //         setCars(data);
-
-
-    //     } catch (error) {
-    //         console.log(error);
-    //     }
-    // }
+   
 
 
     useEffect(() => {
-        // getCar();
-       
-        
         setCarsInfo(carForm[mode-1]);
         resetAllcar();
         setchgstat(booking.status);
@@ -148,7 +116,6 @@ const InfoCars = ({ mode, idcarbooking,booking }) => {
     const getAllCars = async () => {
         axios.get('https://d713apsi01-wa01kbtcom.azurewebsites.net/CarDetail/GetCarDetail').then(async (response) => {
             let data = await response.data.filter(x => x.mode == mode &&  !carsId.includes(x.id));
-            // let data = await response.data.filter(x =>);
             console.log(data,'getAllCars');
             
             await setallCars(data);
@@ -158,7 +125,6 @@ const InfoCars = ({ mode, idcarbooking,booking }) => {
     }
     const resetAllcar = async () => {
         axios.get('https://d713apsi01-wa01kbtcom.azurewebsites.net/CarBooking/GetCarBooking/'+mode+'/'+idcarbooking).then(async (response) => {
-            // let data = await response.data.filter(x => x.mode*1 == mode+1);
             let ir = new Array();
             for(let x in response.data){
                 ir.push(response.data.carId);
@@ -172,13 +138,14 @@ const InfoCars = ({ mode, idcarbooking,booking }) => {
     }
     const handleChange = async (event: any) => {
         let ac = addCars;
+       
         ac[event.target.name] = event.target.value;
-        // await setaddCars({ ...addCars, [event.target.name]: event.target.value })
         if(event.target.name === 'car_id'){
+            setselectCars(event.target.value);
             showCarDetail(event.target.value);
+        }else{
+            await setaddCars(ac);
         }
-        await setaddCars(ac);
-
         
     }
     
@@ -197,7 +164,8 @@ const InfoCars = ({ mode, idcarbooking,booking }) => {
         let ac = addCars;
         
         for(let x in carsInfo){
-            text = Array.isArray(carsInfo[x].name) ? text + '<b>ประเภทรถ</b> :'+carsInfo[x].name[carsInfo[x].value]+'<br>': text + '<b>'+carsInfo[x].name+'</b> :'+carsInfo[x].value+'<br>';
+            let cav = carsInfo[x].value ? carsInfo[x].value : '';
+            text = Array.isArray(carsInfo[x].name) ? text + '<b>ประเภทรถ</b> :'+carsInfo[x].name[carsInfo[x].value]+'<br>': text + '<b>'+carsInfo[x].name+'</b> :'+cav +'<br>';
         }
         ac.type_car = showCar.type;
         ac.serv = showCar.serv;
@@ -209,6 +177,7 @@ const InfoCars = ({ mode, idcarbooking,booking }) => {
     }
 
     const insertData = async () => {
+        console.log(addCars);
         
         addCars.booking_id = parseInt(addCars.booking_id);
         addCars.car_id = parseInt(addCars.car_id);
@@ -264,7 +233,7 @@ const InfoCars = ({ mode, idcarbooking,booking }) => {
         ac.mode = data.mode;
         ac.serv = data.serv;
         ac.type_car = data.type_car;
-        ac.type_manage = data.type_manage;
+        ac.type_manage = data.typeManage;
 
         await setaddCars(ac);
         showCarDetail(data.carId);
@@ -345,7 +314,7 @@ const InfoCars = ({ mode, idcarbooking,booking }) => {
             <Modal blockScrollOnMount={false} size={"xl"} isOpen={isopen.isOpen} onClose={isopen.onClose}>
                 {overlay}
                 <ModalContent>
-                    <ModalHeader>เพิ่มรายการรถ</ModalHeader>
+                    <ModalHeader>{ modalText }</ModalHeader>
                     <ModalCloseButton />
 
                     <ModalBody>
@@ -368,7 +337,7 @@ const InfoCars = ({ mode, idcarbooking,booking }) => {
                                             : '' }
                                             
                                             <FormLabel className='lable-rentcar'>เลือกรถ</FormLabel>
-                                            <Select name='car_id' placeholder='เลือกรถ' style={{ border: '1px #00AAAD solid' }} value={addCars.car_id} onChange={handleChange}>
+                                            <Select name='car_id' placeholder='เลือกรถ' style={{ border: '1px #00AAAD solid' }} value={selectCars} onChange={handleChange}>
                                                 {
                                                       allCars.map((val) => {
                                                         return (
@@ -393,7 +362,7 @@ const InfoCars = ({ mode, idcarbooking,booking }) => {
                                 isopen.onClose();
                                 insertData();
                             }}>
-                            เพิ่มรถ
+                            { modalText }
                         </Button>
 
 
@@ -403,7 +372,11 @@ const InfoCars = ({ mode, idcarbooking,booking }) => {
             <Grid templateRows='repeat(2, 1fr)'
                 templateColumns='repeat(12, 1fr)' gap={4}>
                 <GridItem colSpan={3}>
-                    { !booking.status ? <Button colorScheme='blue' backgroundColor={"#00A5A8"} mr={3} onClick={isopen.onOpen}>เพิ่มรถ</Button> : ''}
+                    { !booking.status ? <Button colorScheme='blue' backgroundColor={"#00A5A8"} mr={3} onClick={() => {
+                                isopen.onOpen();
+                                setselectCars(0);
+                                setmodalText('เพิ่มรถ');
+                            }}>เพิ่มรถ</Button> : ''}
                     
                 </GridItem>
                 <GridItem colSpan={3}>
@@ -447,6 +420,8 @@ const InfoCars = ({ mode, idcarbooking,booking }) => {
                     <Tbody >
                         { Array.isArray(cars) &&
                             cars.map((car, index) => {
+                                console.log('allCars',allCars.find(x => x.id == car.carId)?.dateRegisterCar?.slice(0, 10));
+                                
                                 return (
                                     <Tr key={index}>
                                         <Td>{car.serv}</Td>
@@ -455,19 +430,24 @@ const InfoCars = ({ mode, idcarbooking,booking }) => {
                                             {car.license}
                                         </Td>
                                         <Td>
-                                            
+                                            { allCars.find(x => x.id == car.carId)?.dateRegisterCar?.slice(0, 10) }
                                         </Td>
                                         <Td>
                                             
                                         </Td>
                                         <Td>
-                                            
+                                            { allCars.find(x => x.id == car.carId)?.driver }
                                         </Td>
                                         <Td>
-                                           
+                                            { allCars.find(x => x.id == car.carId)?.driverPhone }
                                         </Td>
                                         <Td >
-                                        { !booking.status ?   <a onClick={(e)=>{resetData(car);isopen.onOpen();}} href="#">
+                                            { !booking.status ?   <a onClick={(e)=>{
+                                                resetData(car);
+                                                setselectCars(car.carId);
+                                                setmodalText('แก้ไขรถ');
+                                                isopen.onOpen();
+                                                }} href="#">
                                                 <AiOutlineEdit />
                                             </a>
                                             : '' }
