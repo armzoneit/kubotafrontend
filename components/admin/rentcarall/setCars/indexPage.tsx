@@ -411,8 +411,8 @@ const indexPage = ({ mode }) => {
                                           
                                             <Td>{row.startdate}</Td>
                                             <Td>{row.enddate}</Td>
-                                            <Td style={ white-space: 'nowrap',text-overflow: 'ellipsis'}>{row.locationIn}</Td>
-                                            <Td style={ white-space: 'nowrap',text-overflow: 'ellipsis'}>{row.locationOut}</Td>
+                                            <Td >{row.locationIn}</Td>
+                                            <Td >{row.locationOut}</Td>
                                             {/* <Td>{row.locationIn}</Td>
                                             <Td>{row.locationOut}</Td>
                                             <Td>{row.GL}</Td>
