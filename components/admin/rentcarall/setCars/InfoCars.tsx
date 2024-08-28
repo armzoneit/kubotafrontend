@@ -53,6 +53,8 @@ const InfoCars = ({ mode, idcarbooking,booking }) => {
     const [cars, setCars] = useState<any>([]);
     const [carsId, setCarsId] = useState<any>([]);
     const [modalText, setmodalText] = useState<any>([]);
+    const [carLicense, setcarLicense] = useState<any>([]);
+
 
     const [editCars, seteditCars] = useState<any>([]);
     const bookingname = booking.bookingname ? booking.bookingname : booking.bookingName;
@@ -68,8 +70,6 @@ const InfoCars = ({ mode, idcarbooking,booking }) => {
         serv: "string",
         license: "string"
     });
-    console.log(addCars);
-    console.log(booking.bookingName);
     
     const [carForm, setcarForm] = useState<any>([
         {
@@ -170,7 +170,7 @@ const InfoCars = ({ mode, idcarbooking,booking }) => {
         ac.type_car = showCar.type;
         ac.serv = showCar.serv;
         ac.license = carsInfo.license.value;
-
+        await setcarLicense(carsInfo.license.value);
         await setaddCars(ac);
         
         document.getElementById('car_infomation').innerHTML = text;
@@ -181,6 +181,7 @@ const InfoCars = ({ mode, idcarbooking,booking }) => {
         
         addCars.booking_id = parseInt(addCars.booking_id);
         addCars.car_id = parseInt(addCars.car_id);
+        addCars.license = carLicense;
 
         addCars.type_car = addCars.type_car.toString();
         addCars.type_manage = addCars.type_manage.toString();
@@ -345,6 +346,9 @@ const InfoCars = ({ mode, idcarbooking,booking }) => {
                                                         )})
                                                 }
                                             </Select>
+                                            <FormLabel className='lable-rentcar'>ทะเบียนรถ</FormLabel>
+                                            <Input style={{ border: '1px #00A5A8 solid', width: '150px' }} type="text"  value={carLicense} onChange={(e) => {setcarLicense(e.target.value)}}/>
+
                                             <FormLabel className='lable-rentcar'>ข้อมูลรถที่เลือก</FormLabel>
                                             <div id="car_infomation">
 

@@ -71,7 +71,7 @@ const tableCarManage = ({ mode }) => {
             serv: true,
             type: true,
             type_group:['รถเก๋ง','รถกระบะ'],
-            license: true,
+            license: false,
             register_date: false,
             driver: false,
             driver_phone:false
