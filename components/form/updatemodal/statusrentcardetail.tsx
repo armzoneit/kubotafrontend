@@ -223,14 +223,24 @@ const StatusRentCarDetail = (data: any=false) => {
                             }
                         }
                         if(response.data.data.carBookingWithDriver[0]?.pathfile != ""){
-                            var imagecc = new Image();
-                            imagecc.onload = function(){
-                                setpictureFile(imagecc);
+                            console.log(response.data.data.carBookingWithDriver[0].pathfile,"Image")
+                            fetch("/cardImage/"+response.data.data.carBookingWithDriver[0]?.pathfile)
+                            .then(response => response.blob())
+                            .then(blob => {
+                                setpictureFile(blob);
                                 setnamefile(response.data.data.carBookingWithDriver[0]?.pathfile)
-                                setimageshow(URL.createObjectURL(imagecc));
+                                setimageshow(URL.createObjectURL(blob));
                                 setshowfile(false);
-                            }
-                            imagecc.src = "/assets/"+response.data.data.carBookingWithDriver[0]?.pathfile;
+                            });
+                            // var imagecc = new Image();
+                            // imagecc.onload = function(){
+                            //     console.log(imagecc.target.files[0])
+                            //     setpictureFile(imagecc);
+                            //     setnamefile(response.data.data.carBookingWithDriver[0]?.pathfile)
+                            //     setimageshow(URL.createObjectURL(imagecc));
+                            //     setshowfile(false);
+                            // }
+                            // imagecc.src = "/cardImage/"+response.data.data.carBookingWithDriver[0]?.pathfile;
                         }
                         
                         // @ts-ignore
@@ -445,54 +455,42 @@ const StatusRentCarDetail = (data: any=false) => {
 
         } else if (cartype == "2") {
             let data = JSON.stringify({
-                "idcarbooking": 0,
-                "plantId": 0,
-                "employee_no": "string",
+                "idcarbooking": form.idcarbooking,
+                "plantId": form.PlantId,
+                "employee_no": form.employee_no,
                 "drivername": "string",
-                "booking_date": "string",
-                "bookingname": "string",
-                "email": "string",
-                "agency": "string",
-                "division": "string",
-                "tel": "string",
-                "code_employee": "string",
-                "name_use_car": "string",
-                "use_email": "string",
-                "use_agency": "string",
-                "use_division": "string",
-                "tel_use_car": "string",
-                "type_idcar": "string",
-                "brand": "string",
-                "idcar": "string",
-                "pathfile": "string",
-                "note": "string",
-                "typecar": "string",
-                "number_travelers": 0,
-                "brand_cars1": "string",
-                "person_count": 0,
-                "number_cars": 0,
-                "brand_cars2": "string",
-                "person_count2": 0,
-                "startdate": "string",
-                "enddate": "string",
-                "locationIn": "string",
-                "timeIn": "string",
-                "LocationOut": "string",
-                "timeOut": "string",
-                "operational_area": "string",
-                "upcountry": "string",
-                "overnight_stay": "string",
-                "person_responsible_for_expenses": "string",
-                "other": "string",
-                "GL": "string",
-                "cost_enter": "string",
-                "order": "string",
+                "booking_date": dayjs(form.booking_date, 'DD/MM/YYYY').format('YYYY/MM/DD'),
+                "bookingname": form.bookingname,
+                "email": form.email,
+                "agency": form.agency,
+                "division": form.division,
+                "tel": form.tel,
+                "note": form.note,
+                "typecar": form.typecar,
+                "number_travelers": form.number_travelers,
+                "number_cars": form.number_cars1,
+                "person_count": form.countcar1,
+                "person_count2": form.countcar3,
+                "startdate": dayjs(form.startdate, 'DD/MM/YYYY').format('YYYY/MM/DD'),
+                "enddate": dayjs(form.enddate, 'DD/MM/YYYY').format('YYYY/MM/DD'),
+                "locationIn": form.locationIn,
+                "timeIn": form.timeIn,
+                "LocationOut": form.LocationOut,
+                "timeOut": form.timeOut,
+                "operational_area": form.operational_area,
+                "upcountry": form.upcountry,
+                "overnight_stay": form.overnight_stay,
+                "person_responsible_for_expenses": form.person_responsible_for_expenses,
+                "other": form.other,
+                "GL": form.GL,
+                "cost_enter": form.cost_enter,
+                "order": form.order,
                 "status": 0,
                 "status_approved": 0,
                 "googleform": 0,
-                "overnight": 0,
-                "license_number": "string",
+                "overnight": form.overnight,
                 "employeeapproval": "string"
+
             });
 
             let config: AxiosRequestConfig = {
@@ -509,49 +507,55 @@ const StatusRentCarDetail = (data: any=false) => {
             axios.request(config)
                 .then((response) => {
                     console.log(JSON.stringify(response.data));
+                    toast({
+                        id: toastId4,
+                        description: `แก้ไขข้อมูลสำเร็จ`,
+                        status: "success",
+                        duration: 3000,
+                        isClosable: false,
+                    })
                 })
                 .catch((error) => {
                     console.log(error);
                 });
         } else if (cartype == "3") {
             let data = JSON.stringify({
-                "idcarbooking": 0,
-                "plantId": 0,
-                "employee_no": "string",
-                "driverName": "string",
-                "booking_date": "string",
-                "bookingname": "string",
-                "email": "string",
-                "agency": "string",
-                "division": "string",
-                "tel": "string",
-                "note": "string",
-                "typecar": "string",
-                "number_travelers": 0,
-                "person_count": 0,
-                "number_cars": 0,
-                "number_cars2": 0,
-                "person_count2": 0,
-                "startdate": "string",
-                "enddate": "string",
-                "locationIn": "string",
-                "timeIn": "string",
-                "LocationOut": "string",
-                "timeOut": "string",
-                "person_responsible_for_expenses": "string",
-                "other": "string",
-                "GL": "string",
-                "cost_enter": "string",
-                "order": "string",
+                "idcarbooking": form.idcarbooking,
+                "plantId": form.PlantId,
+                "employee_no": form.employee_no,
+                "drivername": "string",
+                "booking_date": dayjs(form.booking_date, 'DD/MM/YYYY').format('YYYY/MM/DD'),
+                "bookingname": form.bookingname,
+                "email": form.email,
+                "agency": form.agency,
+                "division": form.division,
+                "tel": form.tel,
+                "note": form.note,
+                "typecar": form.typecar,
+                "number_travelers": form.number_travelers,
+                "number_cars": form.number_cars1,
+                "person_count": form.countcar1,
+                "person_count2": form.countcar3,
+                "startdate": dayjs(form.startdate, 'DD/MM/YYYY').format('YYYY/MM/DD'),
+                "enddate": dayjs(form.enddate, 'DD/MM/YYYY').format('YYYY/MM/DD'),
+                "locationIn": form.locationIn,
+                "timeIn": form.timeIn,
+                "LocationOut": form.LocationOut,
+                "timeOut": form.timeOut,
+                "operational_area": form.operational_area,
+                "upcountry": form.upcountry,
+                "overnight_stay": form.overnight_stay,
+                "person_responsible_for_expenses": form.person_responsible_for_expenses,
+                "other": form.other,
+                "GL": form.GL,
+                "cost_enter": form.cost_enter,
+                "order": form.order,
                 "status": 0,
                 "status_approved": 0,
                 "googleform": 0,
-                "employeeapproval": "string",
-                "person_count3": 0,
-                "number_cars3": 0,
-                "operational_area": "string",
-                "upcountry": "string",
-                "overnight_stay": "string"
+                "overnight": form.overnight,
+                "employeeapproval": "string"
+
             });
 
             let config: AxiosRequestConfig = {
@@ -568,6 +572,13 @@ const StatusRentCarDetail = (data: any=false) => {
             axios.request(config)
                 .then((response) => {
                     console.log(JSON.stringify(response.data));
+                    toast({
+                        id: toastId4,
+                        description: `แก้ไขข้อมูลสำเร็จ`,
+                        status: "success",
+                        duration: 3000,
+                        isClosable: false,
+                    })
                 })
                 .catch((error) => {
                     console.log(error);

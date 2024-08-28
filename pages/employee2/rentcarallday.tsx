@@ -495,7 +495,6 @@ const ckcargg = (event:string) => {
         }];
         console.log([JSON.stringify(form)]);
         console.log("aaaa",jsonref);
-        console.log(data.get('cost-enter'));
         axios.post('https://d713apsi01-wa01kbtcom.azurewebsites.net/ReserveCar/InsertReserveCar_NoDriver',jsonref,{headers:headers1}).then((response) => {
             toast({
                 id: toastId4,
@@ -563,7 +562,7 @@ const ckcargg = (event:string) => {
         }).catch((error) => {
             toast({
                 id: toastId4,
-                description: error.response.data.error.message,
+                description: error,
                 status: "error",
                 duration: 5000,
                 isClosable: false,
