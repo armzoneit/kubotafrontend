@@ -64,6 +64,7 @@ const StatusRentCarDetail = (data: any=false) => {
     const [carck5, setcarck5] = useState<boolean>(false);
     const [ckcar1, setckcar1] = useState<boolean>(false);
     const [ckcar2, setckcar2] = useState<boolean>(false);
+    const [ckcar20, setckcar20] = useState<boolean>(false);
     const [namefile,setnamefile] = useState<string>("");
 
     const toast = useToast()
@@ -221,6 +222,17 @@ const StatusRentCarDetail = (data: any=false) => {
                                 seteditbutton(true);
                             }
                         }
+                        if(response.data.data.carBookingWithDriver[0]?.pathfile != ""){
+                            var imagecc = new Image();
+                            imagecc.onload = function(){
+                                setpictureFile(imagecc);
+                                setnamefile(response.data.data.carBookingWithDriver[0]?.pathfile)
+                                setimageshow(URL.createObjectURL(imagecc));
+                                setshowfile(false);
+                            }
+                            imagecc.src = "/assets/"+response.data.data.carBookingWithDriver[0]?.pathfile;
+                        }
+                        
                         // @ts-ignore
                         setform({
                             idcarbooking: response.data.data.carBookingWithDriver[0]?.idcarbooking,
@@ -257,6 +269,12 @@ const StatusRentCarDetail = (data: any=false) => {
                             cost_enter: response.data.data.carBookingWithDriver[0]?.cost_enter,
                             order: response.data.data.carBookingWithDriver[0]?.order,
                             overnight: response.data.data.carBookingWithDriver[0]?.overnight,
+                            code_employee: response.data.data.carBookingWithDriver[0]?.code_employee,
+                            name_use_car:response.data.data.carBookingWithDriver[0]?.name_use_car,
+                            email_employee:response.data.data.carBookingWithDriver[0]?.use_email,
+                            agency_employee:response.data.data.carBookingWithDriver[0]?.use_agency,
+                            division_employee:response.data.data.carBookingWithDriver[0]?.use_division,
+                            tel_use_car:response.data.data.carBookingWithDriver[0]?.tel_use_car,
                         })
                     })
                     .catch((error) => {
@@ -346,6 +364,7 @@ const StatusRentCarDetail = (data: any=false) => {
                             cost_enter: response.data.data.carBookingWithDriver[0]?.cost_Enter,
                             order: response.data.data.carBookingWithDriver[0]?.order,
                             overnight: response.data.data.carBookingWithDriver[0]?.other,
+                            
                         })
                     })
                     .catch((error) => {
@@ -594,7 +613,13 @@ const StatusRentCarDetail = (data: any=false) => {
         countper2: 0,
         countcar3: 0,
         countper3: 0,
-        license_number:""
+        license_number:"",
+        code_employee:"",
+        name_use_car:"",
+        email_employee:"",
+        agency_employee:"",
+        division_employee:"",
+        tel_use_car:""
     })
 
     const [startDate, setStartDate] = useState(new Date());
@@ -619,6 +644,54 @@ const StatusRentCarDetail = (data: any=false) => {
     const handleemail = (event: React.ChangeEvent<HTMLInputElement>) => setform(prev => { return { ...prev, email: event.target.value } })
     const handleagency = (event: React.ChangeEvent<HTMLInputElement>) => setform(prev => { return { ...prev, agency: event.target.value } })
     const handledivision = (event: React.ChangeEvent<HTMLInputElement>) => setform(prev => { return { ...prev, division: event.target.value } })
+    const handlecode_employee = (event:React.ChangeEvent<HTMLInputElement>) => setform(prev=> { 
+        
+        let config1 = {
+            method: 'get',
+            maxBodyLength: Infinity,
+            url: 'https://d713apsi01-wa01kbtcom.azurewebsites.net/employee2/'+event.target.value,
+            headers: { 
+              'Authorization': 'Bearer '+tokens
+            }
+          };
+          
+          axios.request(config1)
+          .then((response) => {
+            if(response.data?.data == null){
+                setform(prev => ({...prev,name_use_car:""}))
+                setform(prev => ({...prev,email_employee:""}))
+                setform(prev => ({...prev,agency_employee:""}))
+                setform(prev => ({...prev,division_employee:""}))
+            }else{
+                console.log("bbb",response)
+                console.log((response.data));
+                setform(prev => ({...prev,name_use_car:response?.data?.data?.firstName+" "+response?.data?.data?.lastName}))
+                setform(prev => ({...prev,email_employee:response?.data?.data?.email}))
+                setform(prev => ({...prev,agency_employee:response?.data?.data?.jobName}))
+                setform(prev => ({...prev,division_employee:response?.data?.data?.positionName}))
+            }
+          })
+          .catch((error) => {
+            console.error(error)
+            setform(prev => ({...prev,name_use_car:""}))
+            setform(prev => ({...prev,email_employee:""}))
+            setform(prev => ({...prev,agency_employee:""}))
+            setform(prev => ({...prev,division_employee:""}))
+          });
+        
+        return {...prev,code_employee:event.target.value}
+    })
+    const handlename_use_car = (event:React.ChangeEvent<HTMLInputElement>) => setform(prev=> { return {...prev,name_use_car:event.target.value}})
+    const handletel_use_car = (event:React.ChangeEvent<HTMLInputElement>) => setform(prev=> { 
+        
+        let isnumber = /^[0-9\b]*$/;
+        if(isnumber.test(event.target.value))
+            {
+                return {...prev,tel_use_car:event.target.value}
+            }else{
+                return {...prev}
+            }
+    })
     const handletel = (event: React.ChangeEvent<HTMLInputElement>) => setform(prev => {
         let isnumber = /^[0-9\b]*$/;
         if (isnumber.test(event.target.value)) {
@@ -790,15 +863,43 @@ const StatusRentCarDetail = (data: any=false) => {
                                         <Input disabled={disread} required placeholder='กรุณากรอกข้อมูล' style={{ border: '1px #00AAAD solid' }} type='search' onChange={handletel} name='search' pattern="[0-9]*" value={form.tel} />
                                     </FormControl>
                                 </GridItem>
-                                <GridItem colSpan={4} hidden={cards}>
-                                    <FormControl >
-                                        <FormLabel className='lable-rentcar'>วัตถุประสงค์ในการจองรถ</FormLabel>
-                                        <Input disabled={disread} required type='search' placeholder='กรุณากรอกข้อมูล' style={{ border: '1px #00AAAD solid' }} onChange={handlenote} value={form.note} name='note' />
-                                        {/* {isError &&
-                                <FormErrorMessage>Email is required.</FormErrorMessage>
-                            } */}
-                                    </FormControl>
-                                </GridItem>
+                                <GridItem colSpan={2}>
+                        <FormControl isRequired>
+                            <FormLabel className='lable-rentcar'>รหัสพนักงานผู้ใช้งาน</FormLabel>
+                            <Input type='search' placeholder='กรุณากรอกข้อมูล'  style={{ border: '1px #00AAAD solid' }}  required value={form.code_employee} onChange={handlecode_employee} />
+                        </FormControl>
+                    </GridItem>
+                    <GridItem colSpan={2} hidden={cards}>
+                        <FormControl >
+                            <FormLabel className='lable-rentcar'>ชื่อผู้ใช้รถ</FormLabel>
+                            <Input type='search' placeholder='Auto' readOnly style={{ border: '1px #00AAAD solid' }} required value={form.name_use_car} onChange={handlename_use_car} />
+                        </FormControl>
+                    </GridItem>
+                    <GridItem colSpan={2} hidden={cards}>
+                        <FormControl>
+                            <FormLabel className='lable-rentcar'>Email</FormLabel>
+                            <Input type='search' placeholder='Auto' style={{ border: '1px #00AAAD solid' }} required value={form.email_employee} readOnly />
+                        </FormControl>
+                    </GridItem>
+                    <GridItem colSpan={2} hidden={cards}>
+                        <FormControl>
+                            <FormLabel className='lable-rentcar'>ตำแหน่ง</FormLabel>
+                            <Input type='search' placeholder='Auto' style={{ border: '1px #00AAAD solid' }} required value={form.agency_employee} readOnly />
+                        </FormControl>
+                    </GridItem>
+                    <GridItem colSpan={2} hidden={cards}>
+                        <FormControl >
+                            <FormLabel className='lable-rentcar'>ส่วนงาน</FormLabel>
+                            <Input type='search' placeholder='Auto' style={{ border: '1px #00AAAD solid' }} required value={form.division_employee} readOnly />
+                        </FormControl>
+                    </GridItem>
+                    <GridItem colSpan={2} hidden={cards}>
+                        <FormControl isRequired>
+                            <FormLabel className='lable-rentcar'>เบอร์โทรศัพท์ผู้ใช้รถ</FormLabel>
+                            <Input type='search' placeholder='กรุณากรอกข้อมูล'  style={{ border: '1px #00AAAD solid' }} required pattern="[0-9]*" onChange={handletel_use_car} name='phone' value={form.tel_use_car} />
+                        </FormControl>
+                    </GridItem>
+                                
                                 <GridItem colSpan={4} hidden={cards}>
                                     <FormControl isRequired>
                                         <FormLabel className='lable-rentcar'>ข้อมูลใบขับขี่บริษัท</FormLabel>
@@ -820,19 +921,28 @@ const StatusRentCarDetail = (data: any=false) => {
                                     </FormControl>
                                     <FormLabel className='lable-rentcar'>{namefile}</FormLabel>
                                 </GridItem>
+                                <GridItem colSpan={4} hidden={cards}>
+                                    <FormControl >
+                                        <FormLabel className='lable-rentcar'>วัตถุประสงค์ในการจองรถ</FormLabel>
+                                        <Input disabled={disread} required type='search' placeholder='กรุณากรอกข้อมูล' style={{ border: '1px #00AAAD solid' }} onChange={handlenote} value={form.note} name='note' />
+                                        {/* {isError &&
+                                <FormErrorMessage>Email is required.</FormErrorMessage>
+                            } */}
+                                    </FormControl>
+                                </GridItem>
                                 <GridItem colSpan={6}>
 
                                     <FormControl>
 
                                         <FormLabel className='lable-rentcar'>ประเภทรถที่ขอ</FormLabel>
                                         <Flex>
-                                            <Checkbox disabled={disread} colorScheme='green' marginRight={"30px"} isChecked={ckcar1} >
+                                            <Checkbox disabled={disread} colorScheme='green' marginRight={"30px"} isChecked={ckcar1} onChange={(val) => setckcar1(val.target.checked)}>
                                                 รถตู้
                                             </Checkbox>
                                             <FormLabel className='lable-rentcar' style={{ marginTop: "10px" }}>จำนวนคัน</FormLabel>
                                             <Stack direction='row' alignItems={"baseline"}>
 
-                                                <Input isDisabled={!ckcar1} style={{ border: '1px #00AAAD solid', margin: "0px 10px" }} maxWidth={"100"} value={form.number_travelers} onChange={handlenumber_travelers} name='number_travelers' type='search' pattern="[0-9]*" />
+                                                <Input isDisabled={!ckcar1} style={{ border: '1px #00AAAD solid', margin: "0px 10px" }} maxWidth={"100"} value={form.number_travelers} onChange={(val) => setckcar1(val.target.checked)} name='number_travelers' type='search' pattern="[0-9]*" />
 
                                             </Stack>
                                             <Stack direction='row' alignItems={"baseline"}>
@@ -845,7 +955,7 @@ const StatusRentCarDetail = (data: any=false) => {
                                 <GridItem colSpan={6}>
                                     <FormControl hidden={carck4}>
                                         <Flex>
-                                            <Checkbox disabled={disread} colorScheme='green' marginRight={"20px"} isChecked={ckcar2} >
+                                            <Checkbox disabled={disread} colorScheme='green' marginRight={"20px"} isChecked={ckcar2} onChange={(val) => setckcar2(val.target.checked)}>
                                                 รถกระบะ
                                             </Checkbox>
                                             <FormLabel className='lable-rentcar' style={{ marginTop: "10px" }}>จำนวนคัน</FormLabel>
@@ -864,17 +974,17 @@ const StatusRentCarDetail = (data: any=false) => {
                                 <GridItem colSpan={6}>
                                     <FormControl hidden={carck3}>
                                         <Flex>
-                                            <Checkbox disabled={disread} colorScheme='green' marginRight={"20px"} isChecked={ckcar2} >
+                                            <Checkbox disabled={disread} colorScheme='green' marginRight={"20px"} isChecked={ckcar20} onChange={(val) => setckcar20(val.target.checked)} >
                                                 รถเก๋ง
                                             </Checkbox>
                                             <FormLabel className='lable-rentcar' style={{ marginTop: "10px" }}>จำนวนคัน</FormLabel>
                                             <Stack direction='row' alignItems={"baseline"}>
-                                                <Input isDisabled={!ckcar2} style={{ border: '1px #00AAAD solid', margin: "0px 10px" }} maxWidth={"100"} value={form.number_cars1} onChange={handlenumber_cars1} type='search' name='number_cars' />
+                                                <Input isDisabled={!ckcar20} style={{ border: '1px #00AAAD solid', margin: "0px 10px" }} maxWidth={"100"} value={form.number_cars1} onChange={handlenumber_cars1} type='search' name='number_cars' />
 
                                             </Stack>
                                             <Stack direction='row' alignItems={"baseline"}>
                                                 <FormLabel className='lable-rentcar'>จำนวนผู้เดินทาง</FormLabel>
-                                                <Input type='search' required isDisabled={!ckcar2} style={{ border: '1px #00AAAD solid', margin: "0px 10px" }} value={form.countper3} onChange={handlecountper3} maxWidth={"100"} />
+                                                <Input type='search' required isDisabled={!ckcar20} style={{ border: '1px #00AAAD solid', margin: "0px 10px" }} value={form.countper3} onChange={handlecountper3} maxWidth={"100"} />
                                             </Stack>
                                         </Flex>
 
