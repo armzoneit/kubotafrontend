@@ -186,6 +186,12 @@ const StatusRentCarDetail = (data: any=false) => {
                                 setdisread(true);
                             }
                         }
+                        if(response.data.data.carBookingWithDriver[0]?.number_travelers != 0){
+                            setckcar1(true);
+                        }
+                        if(response.data.data.carBookingWithDriver[0]?.number_cars != 0){
+                            setckcar20(true)
+                        }
                         // @ts-ignore
                         setform({
                             idcarbooking: response.data.data.carBookingWithDriver[0]?.idcarbooking,
@@ -292,7 +298,12 @@ const StatusRentCarDetail = (data: any=false) => {
                             // }
                             // imagecc.src = "/cardImage/"+response.data.data.carBookingWithDriver[0]?.pathfile;
                         }
-                        
+                        if(response.data.data.carBookingWithDriver[0]?.number_travelers != 0){
+                            setckcar1(true);
+                        }
+                        if(response.data.data.carBookingWithDriver[0]?.number_cars != 0){
+                            setckcar2(true)
+                        }
                         // @ts-ignore
                         setform({
                             idcarbooking: response.data.data.carBookingWithDriver[0]?.idcarbooking,
@@ -395,6 +406,15 @@ const StatusRentCarDetail = (data: any=false) => {
                             }
                         }
                         // @ts-ignore
+                        if(response.data.data.carBookingWithDriver[0]?.number_Cars != 0){
+                            setckcar1(true);
+                        }
+                        if(response.data.data.carBookingWithDriver[0]?.number_Cars2 != 0){
+                            setckcar2(true)
+                        }
+                        if(response.data.data.carBookingWithDriver[0]?.number_Cars3 != 0){
+                            setckcar20(true)
+                        }
                         setform({
                             idcarbooking: response.data.data.carBookingWithDriver[0]?.idCarBooking,
                             PlantId: response.data.data.carBookingWithDriver[0]?.plantId,

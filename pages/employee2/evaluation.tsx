@@ -506,6 +506,7 @@ const Evaluation = () => {
                                         <Th color={"white"} maxWidth={"200px"}>สถานที่รับ</Th>
                                         <Th color={"white"} maxWidth={"200px"}>สถานที่ส่ง</Th>
                                         <Th color={"white"}><Center>ยี่ห้อ/รุ่น</Center></Th>
+                                        <Th color={"white"}><Center>ผู้ให้บริการ</Center></Th>
                                         <Th color={"white"}><Center>ประเมินความพึงพอใจ</Center></Th>
                                     </Tr>
                                     }
@@ -559,6 +560,7 @@ const Evaluation = () => {
                                             <Td><Center>{x.enddate} {x.timeOut}</Center></Td>
                                             <Td maxWidth={"200px"} overflow={"hidden"} textOverflow={"ellipsis"}>{x.locationIn}</Td>
                                             <Td maxWidth={"200px"} overflow={"hidden"} textOverflow={"ellipsis"}>{x.locationOut}</Td>
+                                            <Td></Td>
                                             <Td ><Center></Center></Td>
                                             {
                                                 x.googleform == 1 ? <Td>ประเมินความพึงพอใจแล้ว</Td> : 
