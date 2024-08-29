@@ -170,7 +170,10 @@ const ckcargg = (event:string) => {
                 sethours(range(0,parseInt(subhours[0])))
             }
         }else{
-            sethours([])
+            if(ggg != null && ggg != undefined && ggg != ""){
+                sethours([])
+                setform(prev => ({...prev,timeOut:ggg}));
+            }
         }
         
     };

@@ -1672,15 +1672,15 @@ const [startDate, setStartDate] = useState(new Date());
                                         <Td>{x.booking_date}</Td>
                                         <Td>{x.bookingname}</Td>
                                         { datasall.cartype == "3" ?
-                                             <Td className='text-centers'>{x.number_cars == 0 || x.number_cars == null ? "" : "(รถตู้) "} { x.number_cars1 == 0 || x.number_cars1 == null ? "" : "(รถเก๋ง)"} { x.number_cars3 == 0 || x.number_cars3 == null ? "" : "(รถกระบะ)"}</Td>
+                                             <Td className='text-centers'>{x.number_travelers == 0 || x.number_travelers == null ? "" : "(รถตู้) "} { x.number_cars2 == 0 || x.number_cars2 == null ? "" : "(รถเก๋ง)"} { x.number_cars3 == 0 || x.number_cars3 == null ? "" : "(รถกระบะ)"}</Td>
                                             :
-                                            <Td className='text-centers'>{x.number_travelers == 0 || x.number_travelers == null ? "" : "(รถตู้) "} { x.number_cars1 == 0 || x.number_cars1 == null ? "" : "(รถเก๋ง)"} </Td>
+                                            <Td className='text-centers'>{x.number_travelers == 0 || x.number_travelers == null ? "" : "(รถตู้) "} { x.number_cars2 == 0 || x.number_cars2 == null ? "" : "(รถเก๋ง)"} { x.number_cars3 == 0 || x.number_cars3 == null ? "" : "(รถกระทะ)"} </Td>
                                         }
                                         {
                                             datasall.cartype == "3" ?
-                                            <Td className='text-centers'> {x.number_cars == 0 || x.number_cars == null ? "" : "("+x.number_cars+")"} {x.number_cars1 == 0 || x.number_cars1 == null  ? "" : "("+x.number_cars1+")"} {x.number_cars3 == 0 || x.number_cars3 == null  ? "" : "("+x.number_cars3+")"}</Td>
+                                            <Td className='text-centers'> {x.number_travelers == 0 || x.number_travelers == null ? "" : "("+x.number_travelers+")"} {x.number_cars2 == 0 || x.number_cars2 == null  ? "" : "("+x.number_cars2+")"} {x.number_cars3 == 0 || x.number_cars3 == null  ? "" : "("+x.number_cars3+")"}</Td>
                                             :
-                                            <Td className='text-centers'>{x.number_travelers == 0 || x.number_travelers == null ? "" : "("+x.number_travelers+")"} {x.number_cars1 == 0 || x.number_cars1 == null  ? "" : "("+x.number_cars1+")"}  </Td>
+                                            <Td className='text-centers'>{x.number_travelers == 0 || x.number_travelers == null ? "" : "("+x.number_travelers+")"} {x.number_cars2 == 0 || x.number_cars2 == null  ? "" : "("+x.number_cars2+")"} {x.number_cars3 == 0 || x.number_cars3 == null  ? "" : "("+x.number_cars3+")"}  </Td>
                                         }
                                         
                                         <Td className='text-centers'>{x.startdate}</Td>
@@ -1708,8 +1708,8 @@ const [startDate, setStartDate] = useState(new Date());
                                         <Td>{x.booking_date}</Td>
                                         <Td>{x.bookingname}</Td>
                                         
-                                        <Td className='text-centers'>{x.number_travelers == 0 || x.number_travelers == null ? "" : "(รถตู้) "}  { x.number_cars1 == 0 || x.number_cars1 == null ? "" : "(รถกระบะ)"}</Td>
-                                        <Td className='text-centers'>{x.number_travelers == 0 || x.number_travelers == null ? "" : "("+x.number_travelers+")"}  {x.number_cars1 == 0 || x.number_cars1 == null  ? "" : "("+x.number_cars1+")"}</Td>
+                                        <Td className='text-centers'>{x.number_travelers == 0 || x.number_travelers == null ? "" : "(รถเก๋ง) "}  { x.number_cars2 == 0 || x.number_cars2 == null ? "" : "(รถกระบะ)"}</Td>
+                                        <Td className='text-centers'>{x.number_travelers == 0 || x.number_travelers == null ? "" : "("+x.number_travelers+")"}  {x.number_cars2 == 0 || x.number_cars2 == null  ? "" : "("+x.number_cars2+")"}</Td>
                                         <Td className='text-centers'>{x.startdate}</Td>
                                         <Td className='text-centers'>{x.enddate}</Td>
                                         <Td maxWidth={"200px"} overflow={"hidden"} textOverflow={"ellipsis"}>{x.locationIn}</Td>
