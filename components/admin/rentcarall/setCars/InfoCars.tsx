@@ -177,8 +177,14 @@ const InfoCars = ({ mode, idcarbooking,booking }) => {
             ac.license = carsInfo.license.value;
             await setcarLicense(carsInfo.license.value);
             await setaddCars(ac);
-            setcarsDetail(text)
-            // document.getElementById('car_infomation').innerHTML = text;
+            // setcarsDetail(text);
+            if(document.getElementById('car_infomation')){
+                console.log(1);
+                
+                document.getElementById('car_infomation').innerHTML = text;
+            }
+            console.log(0);
+
         }
        
     }
@@ -243,7 +249,6 @@ const InfoCars = ({ mode, idcarbooking,booking }) => {
         ac.type_car = data.type_car;
         ac.type_manage = data.typeManage ? data.typeManage : data.type_manage;
 
-        await setselectCars(ac.car_id);
         await showCarDetail(ac.car_id);
     }
 
@@ -347,9 +352,12 @@ const InfoCars = ({ mode, idcarbooking,booking }) => {
                                             <FormLabel className='lable-rentcar'>เลือกรถ</FormLabel>
                                             <Select name='car_id' placeholder='เลือกรถ' style={{ border: '1px #00AAAD solid' }} onChange={handleChange}>
                                                 {
+                                                    
                                                       allCars.map((val) => {
+                                                        
+                                                        
                                                         return (
-                                                            <option value={val.id} selected={selectCars}>{ val.carModel } ( { val.license } )</option>
+                                                            <option value={val.id} selected={selectCars}>{ val.carModel } ( { val.license } ) { val.id }</option>
                                                         )})
                                                 }
                                             </Select>
@@ -358,7 +366,7 @@ const InfoCars = ({ mode, idcarbooking,booking }) => {
 
                                             <FormLabel className='lable-rentcar'>ข้อมูลรถที่เลือก</FormLabel>
                                             <div id="car_infomation">
-                                                { carsDetail }
+
                                             </div>
                                         </FormControl>
                                     </GridItem>
@@ -454,10 +462,14 @@ const InfoCars = ({ mode, idcarbooking,booking }) => {
                                         </Td>
                                         <Td >
                                             { !booking.status ?   <a onClick={async (e)=>{
+                                                await setselectCars(carId);
+
+                                                isopen.onOpen();
+                                                console.log(carId,'carId');
+                                                
                                                 await resetData(car);
                                                 await setcarLicense(car.license);
                                                 await setmodalText('แก้ไขรถ');
-                                                isopen.onOpen();
                                                 
                                                 }} href="#">
                                                 <AiOutlineEdit />
