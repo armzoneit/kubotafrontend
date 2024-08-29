@@ -1030,7 +1030,7 @@ const StatusRentCarDetail = (data: any=false) => {
                                             <FormLabel className='lable-rentcar' style={{ marginTop: "10px" }}>จำนวนคัน</FormLabel>
                                             <Stack direction='row' alignItems={"baseline"}>
 
-                                                <Input isDisabled={!ckcar1} style={{ border: '1px #00AAAD solid', margin: "0px 10px" }} maxWidth={"100"} value={form.number_travelers} onChange={(val) => setckcar1(val.target.checked)} name='number_travelers' type='search' pattern="[0-9]*" />
+                                                <Input isDisabled={!ckcar1} style={{ border: '1px #00AAAD solid', margin: "0px 10px" }} maxWidth={"100"} value={form.number_travelers} onChange={handlenumber_travelers} name='number_travelers' type='search' pattern="[0-9]*" />
 
                                             </Stack>
                                             <Stack direction='row' alignItems={"baseline"}>
