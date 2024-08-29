@@ -179,11 +179,11 @@ const InfoCars = ({ mode, idcarbooking,booking }) => {
             await setaddCars(ac);
             // setcarsDetail(text);
             if(document.getElementById('car_infomation')){
-                console.log(1);
-                
                 document.getElementById('car_infomation').innerHTML = text;
+                document.getElementById('car_id').value = showCar.id
             }
-            console.log(0);
+            // await setselectCars(showCar.id);
+
 
         }
        
@@ -246,7 +246,7 @@ const InfoCars = ({ mode, idcarbooking,booking }) => {
         ac.license = data.license;
         ac.mode = data.mode;
         ac.serv = data.serv;
-        ac.type_car = data.type_car;
+        ac.type_car =  data.typeCar ? data.typeCar : data.type_car;
         ac.type_manage = data.typeManage ? data.typeManage : data.type_manage;
 
         await showCarDetail(ac.car_id);
@@ -350,7 +350,7 @@ const InfoCars = ({ mode, idcarbooking,booking }) => {
                                             : '' }
                                             
                                             <FormLabel className='lable-rentcar'>เลือกรถ</FormLabel>
-                                            <Select name='car_id' placeholder='เลือกรถ' style={{ border: '1px #00AAAD solid' }} onChange={handleChange}>
+                                            <Select name='car_id' id='car_id' placeholder='เลือกรถ' style={{ border: '1px #00AAAD solid' }} onChange={handleChange}>
                                                 {
                                                     
                                                       allCars.map((val) => {
@@ -440,11 +440,15 @@ const InfoCars = ({ mode, idcarbooking,booking }) => {
                     <Tbody >
                         { Array.isArray(cars) &&
                             cars.map((car, index) => {
-                                let carId = car.carId ? car.carId : car.car_id
+                                let carId = car.carId ? car.carId : car.car_id;
+                                let cart = car.typeCar ? car.typeCar : car.type_car;
+                                let dateRegisterCar = allCars.find(x => x.id == carId)?.dateRegisterCar?.slice(0, 10);
+
+
                                 return (
                                     <Tr key={index}>
                                         <Td>{car.serv}</Td>
-                                        <Td>{ carsInfo.type.name[car.typeCar]}</Td>
+                                        <Td>{ carsInfo.type.name[cart]}</Td>
                                         <Td>
                                             {car.license}
                                         </Td>
@@ -452,7 +456,7 @@ const InfoCars = ({ mode, idcarbooking,booking }) => {
                                             { allCars.find(x => x.id == carId)?.dateRegisterCar?.slice(0, 10) }
                                         </Td>
                                         <Td>
-                                            
+                                            { dateRegisterCar ? Math.floor((new Date().valueOf() - new Date(dateRegisterCar).valueOf()) / (60*60*24*365*1000)) : '-'} ปี
                                         </Td>
                                         <Td>
                                             { allCars.find(x => x.id == carId)?.driver }
@@ -462,7 +466,7 @@ const InfoCars = ({ mode, idcarbooking,booking }) => {
                                         </Td>
                                         <Td >
                                             { !booking.status ?   <a onClick={async (e)=>{
-                                                await setselectCars(carId);
+                                                await setselectCars(0);
 
                                                 isopen.onOpen();
                                                 console.log(carId,'carId');
