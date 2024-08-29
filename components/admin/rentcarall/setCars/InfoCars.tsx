@@ -379,6 +379,7 @@ const InfoCars = ({ mode, idcarbooking,booking }) => {
                     { !booking.status ? <Button colorScheme='blue' backgroundColor={"#00A5A8"} mr={3} onClick={() => {
                                 isopen.onOpen();
                                 setselectCars(0);
+                                setcarLicense('');
                                 setmodalText('เพิ่มรถ');
                             }}>เพิ่มรถ</Button> : ''}
                     
@@ -410,7 +411,7 @@ const InfoCars = ({ mode, idcarbooking,booking }) => {
                 <Table size='md' className='table-font' >
                     <Thead bgColor={'#00A5A8'} height={"40px"}  >
                         <Tr>
-                            <Th color={"white"}>ผู้ให้บรืการ</Th>
+                            <Th color={"white"}>ผู้ให้บริการ</Th>
                             <Th color={"white"}>ประเภทรถ</Th>
                             <Th color={"white"}>ทะเบียนรถ</Th>
                             <Th color={"white"}>วันทีจดทะเบียน</Th>
@@ -449,6 +450,7 @@ const InfoCars = ({ mode, idcarbooking,booking }) => {
                                             { !booking.status ?   <a onClick={(e)=>{
                                                 resetData(car);
                                                 setselectCars(car.carId);
+                                                setcarLicense(car.license);
                                                 setmodalText('แก้ไขรถ');
                                                 isopen.onOpen();
                                                 }} href="#">
