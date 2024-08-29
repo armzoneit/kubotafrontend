@@ -210,7 +210,7 @@ const settingaccount = () => {
                     title: "",
                     text: "บันทึกข้อมูลเรียบร้อย"
                 })
-                window.location.reload();
+                // window.location.reload();
             })
             .catch((error) => {
                 console.log(error);
