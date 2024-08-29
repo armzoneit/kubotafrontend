@@ -51,6 +51,8 @@ const InfoCars = ({ mode, idcarbooking,booking }) => {
     const [selectCars, setselectCars] = useState<any>(0);
     const [allCars, setallCars] = useState<any>([]);
     const [cars, setCars] = useState<any>([]);
+    const [carsDetail, setcarsDetail] = useState<any>('');
+
     const [carsId, setCarsId] = useState<any>([]);
     const [modalText, setmodalText] = useState<any>([]);
     const [carLicense, setcarLicense] = useState<any>([]);
@@ -115,9 +117,7 @@ const InfoCars = ({ mode, idcarbooking,booking }) => {
     }, [me.isLoading, idcarbooking]);
     const getAllCars = async () => {
         axios.get('https://d713apsi01-wa01kbtcom.azurewebsites.net/CarDetail/GetCarDetail').then(async (response) => {
-            let data = await response.data.filter(x => x.mode == mode &&  !carsId.includes(x.id));
-            console.log(data,'getAllCars');
-            
+            let data = await response.data.filter(x => x.mode == mode &&  !carsId.includes(x.id));            
             await setallCars(data);
         }).catch((error) => {
             console.log(error);
@@ -141,7 +141,6 @@ const InfoCars = ({ mode, idcarbooking,booking }) => {
        
         ac[event.target.name] = event.target.value;
         if(event.target.name === 'car_id'){
-            setselectCars(event.target.value);
             showCarDetail(event.target.value);
         }else{
             await setaddCars(ac);
@@ -155,25 +154,33 @@ const InfoCars = ({ mode, idcarbooking,booking }) => {
             return false;
         }
         let showCar = await allCars.find(x => x.id == id);
-        let data = carsInfo;
+        if(!showCar){
+            await setcarLicense('');
+            // await setselectCars(0);
+        }else{
+            
 
-        for(let x in data){
-            data[x].value = showCar[data[x].key]
+            let data = carsInfo;
+            
+            for(let x in data){
+                data[x].value = showCar[data[x].key]
+            }
+            let text = '';
+            let ac = addCars;
+            
+            for(let x in carsInfo){
+                let cav = carsInfo[x].value ? carsInfo[x].value : '';
+                text = Array.isArray(carsInfo[x].name) ? text + '<b>ประเภทรถ</b> :'+carsInfo[x].name[carsInfo[x].value]+'<br>': text + '<b>'+carsInfo[x].name+'</b> :'+cav +'<br>';
+            }
+            ac.type_car = showCar.type;
+            ac.serv = showCar.serv;
+            ac.license = carsInfo.license.value;
+            await setcarLicense(carsInfo.license.value);
+            await setaddCars(ac);
+            setcarsDetail(text)
+            // document.getElementById('car_infomation').innerHTML = text;
         }
-        let text = '';
-        let ac = addCars;
-        
-        for(let x in carsInfo){
-            let cav = carsInfo[x].value ? carsInfo[x].value : '';
-            text = Array.isArray(carsInfo[x].name) ? text + '<b>ประเภทรถ</b> :'+carsInfo[x].name[carsInfo[x].value]+'<br>': text + '<b>'+carsInfo[x].name+'</b> :'+cav +'<br>';
-        }
-        ac.type_car = showCar.type;
-        ac.serv = showCar.serv;
-        ac.license = carsInfo.license.value;
-        await setcarLicense(carsInfo.license.value);
-        await setaddCars(ac);
-        
-        document.getElementById('car_infomation').innerHTML = text;
+       
     }
 
     const insertData = async () => {
@@ -224,20 +231,20 @@ const InfoCars = ({ mode, idcarbooking,booking }) => {
     }
 
     const resetData= async (data) => {
-
+        
         let ac = addCars;
-        ac.booking_id = data.bookingId;
-        ac.bookingname = data.bookingName;
-        ac.car_id = data.carId;
+        ac.booking_id = data.bookingId ? data.bookingId : data.booking_id;
+        ac.bookingname = data.bookingName ? data.bookingName:data.bookingname;
+        ac.car_id = data.carId ? data.carId:data.car_id;
         ac.id = data.id;
         ac.license = data.license;
         ac.mode = data.mode;
         ac.serv = data.serv;
         ac.type_car = data.type_car;
-        ac.type_manage = data.typeManage;
+        ac.type_manage = data.typeManage ? data.typeManage : data.type_manage;
 
-        await setaddCars(ac);
-        showCarDetail(data.carId);
+        await setselectCars(ac.car_id);
+        await showCarDetail(ac.car_id);
     }
 
     const deleteData = async (id) => {
@@ -338,11 +345,11 @@ const InfoCars = ({ mode, idcarbooking,booking }) => {
                                             : '' }
                                             
                                             <FormLabel className='lable-rentcar'>เลือกรถ</FormLabel>
-                                            <Select name='car_id' placeholder='เลือกรถ' style={{ border: '1px #00AAAD solid' }} value={selectCars} onChange={handleChange}>
+                                            <Select name='car_id' placeholder='เลือกรถ' style={{ border: '1px #00AAAD solid' }} onChange={handleChange}>
                                                 {
                                                       allCars.map((val) => {
                                                         return (
-                                                            <option value={val.id} selected={val.id == addCars.car_id}>{ val.carModel } ( { val.license } )</option>
+                                                            <option value={val.id} selected={selectCars}>{ val.carModel } ( { val.license } )</option>
                                                         )})
                                                 }
                                             </Select>
@@ -351,7 +358,7 @@ const InfoCars = ({ mode, idcarbooking,booking }) => {
 
                                             <FormLabel className='lable-rentcar'>ข้อมูลรถที่เลือก</FormLabel>
                                             <div id="car_infomation">
-
+                                                { carsDetail }
                                             </div>
                                         </FormControl>
                                     </GridItem>
@@ -425,8 +432,7 @@ const InfoCars = ({ mode, idcarbooking,booking }) => {
                     <Tbody >
                         { Array.isArray(cars) &&
                             cars.map((car, index) => {
-                                console.log('allCars',allCars.find(x => x.id == car.carId)?.dateRegisterCar?.slice(0, 10));
-                                
+                                let carId = car.carId ? car.carId : car.car_id
                                 return (
                                     <Tr key={index}>
                                         <Td>{car.serv}</Td>
@@ -435,24 +441,24 @@ const InfoCars = ({ mode, idcarbooking,booking }) => {
                                             {car.license}
                                         </Td>
                                         <Td>
-                                            { allCars.find(x => x.id == car.carId)?.dateRegisterCar?.slice(0, 10) }
+                                            { allCars.find(x => x.id == carId)?.dateRegisterCar?.slice(0, 10) }
                                         </Td>
                                         <Td>
                                             
                                         </Td>
                                         <Td>
-                                            { allCars.find(x => x.id == car.carId)?.driver }
+                                            { allCars.find(x => x.id == carId)?.driver }
                                         </Td>
                                         <Td>
-                                            { allCars.find(x => x.id == car.carId)?.driverPhone }
+                                            { allCars.find(x => x.id == carId)?.driverPhone }
                                         </Td>
                                         <Td >
-                                            { !booking.status ?   <a onClick={(e)=>{
-                                                resetData(car);
-                                                setselectCars(car.carId);
-                                                setcarLicense(car.license);
-                                                setmodalText('แก้ไขรถ');
+                                            { !booking.status ?   <a onClick={async (e)=>{
+                                                await resetData(car);
+                                                await setcarLicense(car.license);
+                                                await setmodalText('แก้ไขรถ');
                                                 isopen.onOpen();
+                                                
                                                 }} href="#">
                                                 <AiOutlineEdit />
                                             </a>
