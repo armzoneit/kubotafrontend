@@ -510,17 +510,23 @@ const [disbut,setdisbut] = useState<boolean>(false);
         var ggg = timeString
         if(typeof timeString === "string" && timeString.length === 0)
             {
-                ggg = "00:00";
+                ggg = "";
             }
-        setform(prev => ({...prev,timeOut:ggg}));
+
         if(form.startdate == form.enddate)
-            {
+        {
+            console.log(ggg,"gggg");
+            if(ggg != null && ggg != undefined && ggg != ""){
+                
                 sethours([])
+                setform(prev => ({...prev,timeOut:ggg}));
+
                 let subhours = ggg.split(":")
                 sethours(range(0,parseInt(subhours[0])))
-            }else{
-                sethours([])
             }
+        }else{
+            sethours([])
+        }
         
       };
       const range = (start: number, end: number) => {

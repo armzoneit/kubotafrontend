@@ -66,9 +66,11 @@ const RentCarAllDayDriver = () => {
     const [value, setValue] = useState("1")
     const [ckcar1,setckcar1] = useState<boolean>(false)
     const [ckcar2,setckcar2] = useState<boolean>(false)
+    const [ckcar20,setckcar20] = useState<boolean>(false)
     const [ckvar3,setckcar3] = useState<string>("0")
     const [disbut,setdisbut] = useState<boolean>(false);
     const [loading,setloading] = useState<boolean>(false);
+    const [plantis,setplantis] = useState<boolean>(true);
     const [dateminend, setdateminend] = useState(new Date())
     dayjs.extend(customParseFormat);
     const [form, setform] = useState({
@@ -85,8 +87,10 @@ const RentCarAllDayDriver = () => {
             typecar:"",
             number_travelers:"0",
             number_cars:"0",
+            number_cars2:"0",
             person_count:"0",
             person_count1:"0",
+            person_count2:"0",
             startdate:"",
             enddate:"",
             locationIn:"",
@@ -115,7 +119,9 @@ const RentCarAllDayDriver = () => {
         if(form.startdate == form.enddate)
         {
             sethours([])
+            
             let subhours = ggg.split(":")
+            
             sethours(range(0,parseInt(subhours[0])))
             setminutes([0])
         }else{
@@ -123,21 +129,26 @@ const RentCarAllDayDriver = () => {
         }
       };
       const onChanges2 = (time: Dayjs, timeString: string) => {
-        console.log(timeString);
         var ggg = timeString
         if(typeof timeString === "string" && timeString.length === 0)
             {
-                ggg = "00:00";
+                ggg = "";
             }
-        setform(prev => ({...prev,timeOut:ggg}));
+
         if(form.startdate == form.enddate)
-            {
+        {
+            console.log(ggg,"gggg");
+            if(ggg != null && ggg != undefined && ggg != ""){
+                
                 sethours([])
+                setform(prev => ({...prev,timeOut:ggg}));
+
                 let subhours = ggg.split(":")
                 sethours(range(0,parseInt(subhours[0])))
-            }else{
-                sethours([])
             }
+        }else{
+            sethours([])
+        }
         
       };
     useEffect(()=>{
@@ -184,7 +195,15 @@ const RentCarAllDayDriver = () => {
             return {...prev}
         }
     });
-    
+    const handlenumber_cars2 = (event:React.ChangeEvent<HTMLInputElement>) => setform(prev=> { 
+        let isnumber = /^[0-9\b]*$/;
+        if(isnumber.test(event.target.value))
+        {
+            return {...prev,number_cars2:event.target.value}
+        }  else{
+            return {...prev}
+        }
+    });
     const handlestartdate = (event:React.ChangeEvent<HTMLInputElement>) => setform(prev=> { 
         const vl = new Date(event)
         const dal1 = [vl.getFullYear(), vl.getMonth()+1, vl.getDate()].join('-');
@@ -258,6 +277,17 @@ const RentCarAllDayDriver = () => {
         
         
     })
+    const handleTrip2 = (event:React.ChangeEvent<HTMLInputElement>) => setform(prev=> { 
+        let isnumber = /^[0-9\b]*$/;
+        if(isnumber.test(event.target.value))
+        {
+            return {...prev,person_count2:event.target.value}
+        } else{
+            return {...prev}
+        }
+        
+        
+    })
     const typecars = useRef(null)
     const ckcargg = (event:string) => {
         
@@ -319,6 +349,18 @@ const RentCarAllDayDriver = () => {
                 
                 return;
             }
+            if(ckcar20 == true &&  form.number_cars2 == 0)
+                {
+                    toast({
+                        id: toastId4,
+                        description: `กรุณาใส่จำนวนรถกระบะ`,
+                        status: "error",
+                        duration: 5000,
+                        isClosable: false,
+                      })
+                    
+                    return;
+                }
         if(ckcar2 == true &&  form.number_cars == 0)
             {
                 toast({
@@ -375,8 +417,10 @@ const RentCarAllDayDriver = () => {
             "typecar":form.typecar,
             "number_travelers":parseInt(form.number_travelers),
             "number_cars":parseInt(form.number_cars),
+            "number_cars3":parseInt(form.number_cars2),
             "person_count":parseInt(form.person_count),
             "person_count2":parseInt(form.person_count1),
+            "person_count3":parseInt(form.person_count2),
             "startdate":form.startdate,
             "enddate":form.enddate,
             "locationIn":form.locationIn,
@@ -422,8 +466,10 @@ const RentCarAllDayDriver = () => {
                 typecar:"",
                 number_travelers:"0",
                 number_cars:"0",
+                number_cars2:"0",
                 person_count:"0",
                 person_count1:"0",
+                person_count2:"0",
                 startdate:"",
                 enddate:"",
                 locationIn:"",
@@ -460,6 +506,11 @@ const RentCarAllDayDriver = () => {
     }
 
     useEffect(() => {
+        if(me?.data?.data?.myHrEmployee.plantId == 2){
+            setplantis(false);
+        }else{
+            setplantis(true);
+        }
         setform({
             idcarbooking:null,
             PlantId:me?.data?.data?.myHrEmployee.plantId,
@@ -474,8 +525,10 @@ const RentCarAllDayDriver = () => {
             typecar:"",
             number_travelers:"0",
             number_cars:"0",
+            number_cars2:"0",
             person_count:"0",
             person_count1:"0",
+            person_count2:"0",
             startdate:"",
             enddate:"",
             locationIn:"",
@@ -543,8 +596,10 @@ const RentCarAllDayDriver = () => {
             typecar:"",
             number_travelers:"0",
             number_cars:"0",
+            number_cars2:"0",
             person_count:"0",
             person_count1:"0",
+            person_count2:"0",
             startdate:"",
             enddate:"",
             locationIn:"",
@@ -668,6 +723,39 @@ const RentCarAllDayDriver = () => {
                                 <Stack direction='row' alignItems={"baseline"}>
                                     <FormLabel className='lable-rentcar'> จำนวนผู้เดินทาง</FormLabel>
                                     <Input isDisabled={!ckcar1} required type='search' style={{ border: '1px #00AAAD solid' }} maxWidth={"100"} value={form.person_count} onChange={handleTrip}/><Text >คน</Text>
+                                </Stack>
+                            </Flex>
+                            {/* <RadioGroup onChange={setValue} value={value}>
+                                <Stack direction='row'>
+                                    <Radio value='1'>รถตู้</Radio>
+                                    <Radio value='2'>รถกระบะ</Radio>
+                                </Stack>
+                            </RadioGroup> */}
+                        </FormControl>
+                    </GridItem>
+                    <GridItem colSpan={6} hidden={plantis}>
+                        <FormControl>
+                            <Flex>
+                                <Checkbox colorScheme='green' marginRight={"30px"} isChecked={ckcar20}  onChange={(val) => setckcar20(val.target.checked)}>
+                                    รถกระบะ
+                                </Checkbox>
+                                <FormLabel className='lable-rentcar' style={{marginTop:"10px"}}>จำนวนคัน</FormLabel>
+                                <Stack direction='row' alignItems={"baseline"}>
+                                    
+                                    <Input isDisabled={!ckcar20} style={{ border: '1px #00AAAD solid', margin: "0px 10px" }} maxWidth={"100"} value={form.number_cars2} onChange={handlenumber_cars2} name='number_cars1' type='search' pattern="[0-9]*" />
+                                    {/* <NumberInput isDisabled={!ckcar1} min={0} max={100} style={{ border: '1px #00AAAD solid', margin: "0px 10px" }} onChange={handlenumber_travelers}>
+                                        <NumberInputField />
+                                        <NumberInputStepper>
+                                            <NumberIncrementStepper />
+                                            <NumberDecrementStepper />
+                                        </NumberInputStepper>
+                                    </NumberInput> */}
+                                    
+                                </Stack>
+                                <Text style={{marginTop:"10px"}}>คัน</Text>
+                                <Stack direction='row' alignItems={"baseline"}>
+                                    <FormLabel className='lable-rentcar'> จำนวนผู้เดินทาง</FormLabel>
+                                    <Input isDisabled={!ckcar1} required type='search' style={{ border: '1px #00AAAD solid' }} maxWidth={"100"} value={form.person_count2} onChange={handleTrip2}/><Text >คน</Text>
                                 </Stack>
                             </Flex>
                             {/* <RadioGroup onChange={setValue} value={value}>

@@ -1690,8 +1690,9 @@ const [startDate, setStartDate] = useState(new Date());
                                         {x.statusApproved == "1" ? <Td className='text-centers'><Link onClick={() => {isopen1.onOpen();getApprovedPerson(x.idcarbooking)}}>อนุมัติ</Link></Td> : <Td className='text-centers'><Link onClick={() => {isopen1.onOpen();getApprovedPerson(x.idcarbooking)}}>รออนุมัติ</Link></Td>
                                         }
                                         {
-                                        x.statusApproved == "1" ? <Td className='text-centers'>รอจัดรถ</Td> : <Td className='text-centers'></Td>
+                                        x.status == 0 && x.statusApproved == 1 ?  <Td className='text-centers' >รอจัดรถ</Td> : x.status == 1 && x.statusApproved == 1 ?  <Td className='text-centers' >จัดเสร็จแล้ว</Td> : x.status == 2 && x.statusApproved == 1 ?  <Td className='text-centers' style={{color:"red"}}>ยกเลิก</Td> : <Td className='text-centers'></Td>  
                                         }
+                                        
                                         <Td className='text-centers'></Td>
                                         <Td className='text-centers'></Td>
                                         <Td className='text-centers'></Td>
@@ -1716,8 +1717,9 @@ const [startDate, setStartDate] = useState(new Date());
                                         {x.statusApproved == "1" ? <Td className='text-centers'><Link onClick={() => {isopen1.onOpen();getApprovedPerson(x.idcarbooking)}}>อนุมัติ</Link></Td> : <Td className='text-centers'><Link onClick={() => {isopen1.onOpen();getApprovedPerson(x.idcarbooking)}}>รออนุมัติ</Link></Td>
                                         }
                                         {
-                                        x.statusApproved == "1" ? <Td className='text-centers'>รอจัดรถ</Td> : <Td className='text-centers'></Td>
+                                        x.status == 0 && x.statusApproved == 1 ?  <Td className='text-centers' >รอจัดรถ</Td> : x.status == 1 && x.statusApproved == 1 ?  <Td className='text-centers' >จัดเสร็จแล้ว</Td> : x.status == 2 && x.statusApproved == 1 ?  <Td className='text-centers' style={{color:"red"}}>ยกเลิก</Td> : <Td className='text-centers'></Td>  
                                         }
+
                                         <Td className='text-centers'></Td>
                                         <Td className='text-centers'></Td>
                                         <Td className='text-centers'></Td>

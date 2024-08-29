@@ -38,8 +38,11 @@ export const getMe = () => {
       if (employeeUsageInfo) {
         data.data.bookingBusUser.employeeUsageInfo = employeeUsageInfo
       }
-      console.log('localStorageSave userId:',data.data.planningBusUser.employeeNo);
-      localStorageSave("userId", data.data.planningBusUser.employeeNo);
+      if(data.data.myHrEmployee != null){
+        console.log('localStorageSave userId:',data.data.myHrEmployee.employeeNo);
+        localStorageSave("userId", data.data.myHrEmployee.employeeNo);
+      }
+      
       return data
     },
     {
