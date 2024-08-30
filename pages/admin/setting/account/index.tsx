@@ -118,6 +118,7 @@ const settingaccount = () => {
         
     }, [me.isLoading]);
     const setMenu = async (row,mod,men,app) => {
+        console.log(row);
         
         let umenu = row;
         if(umenu.find(x => x.mode == mod && x.menu == men)){
@@ -142,9 +143,11 @@ const settingaccount = () => {
         let menu = new Array();
         for(let x =1;x<=3;x++){
             for(let y =1;y<=4;y++){
-                let perM = await permissionReserve.find(x => x.mode == x && x.menu == y);
+                let perM = await permissionReserve.find(z => z.mode == x && z.menu == y);
+                console.log(perM);
+                
                 menu.push({
-                    idPermissionReserve:perM? perM.id:0,
+                    idPermissionReserve:perM? perM.idPermissionReserve:0,
                     plantId:row.plantId,
                     empNo:row.employeeNo,
                     menu:y,
