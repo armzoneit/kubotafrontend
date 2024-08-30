@@ -56,6 +56,7 @@ const tableCarManage = ({ mode }) => {
         'Fortuner 4WD','Revo Double Cab 4WD','Revo Smart Cab 2.4J/E','Ventury','Hiace','Velfire / Alphard 2.5',
         'Invona','BR-V','City','Civic','Accord','ISUZU V','Coss','Mitsubishi Pajero'
     ]);
+    const [modalText, setmodalText] = useState<any>('');
 
     const [addForm, setaddForm] = useState<any>([
         {
@@ -253,7 +254,7 @@ const tableCarManage = ({ mode }) => {
             <Modal blockScrollOnMount={false} size={"xl"} isOpen={isopen.isOpen} onClose={isopen.onClose}>
                 {overlay}
                 <ModalContent>
-                    <ModalHeader>รายการเพิ่ม</ModalHeader>
+                    <ModalHeader>รายการ{ modalText }</ModalHeader>
                     <ModalCloseButton />
 
                     <ModalBody>
@@ -302,16 +303,18 @@ const tableCarManage = ({ mode }) => {
                             onClick={() => {
                                 isopen.onClose();
                                 insertData();
+                                
                             }}>
-                            เพิ่มรถ
+                            { modalText }
                         </Button>
                     </ModalFooter>
                 </ModalContent>
             </Modal>
             <Button colorScheme='blue' backgroundColor={"#00A5A8"} mb={3}  onClick={() => {
-                                isopen.onOpen();
+                                setmodalText('เพิ่มรถ');
+                                
                                 resetData(-1);
-
+                                isopen.onOpen();
                             }}>เพิ่มรถ</Button>
             <TableContainer borderRadius={"10px"} border={'1px #00A5A8 solid'} >
                 <Table size='md' className='table-font' >
@@ -344,7 +347,7 @@ const tableCarManage = ({ mode }) => {
                                     { fillForm.driver_phone ? <Td>{row.driverPhone}</Td> : "" }
                                   
                                     <Td >
-                                         <a onClick={(e)=>{resetData(index);isopen.onOpen();}} href="#">
+                                         <a onClick={(e)=>{resetData(index);setmodalText('แก้ไขรถ');isopen.onOpen();}} href="#">
                                             <AiOutlineEdit />
                                         </a>
                                         
