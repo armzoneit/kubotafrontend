@@ -142,7 +142,7 @@ const settingaccount = () => {
         if(!menu.length){
             let menu = new Array();
             for(let x =1;x<=3;x++){
-                for(let y =1;y<=3;y++){
+                for(let y =1;y<=4;y++){
                     menu.push({
                         idPermissionReserve:0,
                         plantId:row.plantId,
@@ -170,20 +170,20 @@ const settingaccount = () => {
             setmenuc4(false);
         }else{
             await setuser_menu(menu);
-            setmenua1(menu[0].approved);
-            setmenua2(menu[1].approved);
-            setmenua3(menu[2].approved);
-            setmenua4(menu[3].approved);
+            setmenua1(menu.find(x => x.mode == 1 && x.menu == 1) ? menu.find(x => x.mode == 1 && x.menu == 1).approved : false);
+            setmenua2(menu.find(x => x.mode == 1 && x.menu == 2) ? menu.find(x => x.mode == 1 && x.menu == 2).approved : false);
+            setmenua3(menu.find(x => x.mode == 1 && x.menu == 3) ? menu.find(x => x.mode == 1 && x.menu == 3).approved : false);
+            setmenua4(menu.find(x => x.mode == 1 && x.menu == 4) ? menu.find(x => x.mode == 1 && x.menu == 4).approved : false);
 
-            setmenub1(menu[4].approved);
-            setmenub2(menu[5].approved);
-            setmenub3(menu[6].approved);
-            setmenub4(menu[7].approved);
+            setmenub1(menu.find(x => x.mode == 2 && x.menu == 1) ? menu.find(x => x.mode == 2 && x.menu == 1).approved : false);
+            setmenub2(menu.find(x => x.mode == 2 && x.menu == 2) ? menu.find(x => x.mode == 2 && x.menu == 2).approved : false);
+            setmenub3(menu.find(x => x.mode == 2 && x.menu == 3) ? menu.find(x => x.mode == 2 && x.menu == 3).approved : false);
+            setmenub4(menu.find(x => x.mode == 2 && x.menu == 4) ? menu.find(x => x.mode == 2 && x.menu == 4).approved : false);
 
-            setmenuc1(menu[8].approved);
-            setmenuc2(menu[9].approved);
-            setmenuc3(menu[10].approved);
-            setmenuc4(menu[11].approved);
+            setmenuc1(menu.find(x => x.mode == 3 && x.menu == 1) ? menu.find(x => x.mode == 3 && x.menu == 1).approved : false);
+            setmenuc2(menu.find(x => x.mode == 3 && x.menu == 2) ? menu.find(x => x.mode == 3 && x.menu == 2).approved : false);
+            setmenuc3(menu.find(x => x.mode == 3 && x.menu == 3) ? menu.find(x => x.mode == 3 && x.menu == 3).approved : false);
+            setmenuc4(menu.find(x => x.mode == 3 && x.menu == 4) ? menu.find(x => x.mode == 3 && x.menu == 4).approved : false);
         }
 
        
@@ -303,7 +303,7 @@ const settingaccount = () => {
                     {Array.isArray(user) && user.map((row, index) => {
                     return (
                         <Tr>
-                        <Td>{row.empNo}</Td>
+                        <Td>{row.employeeNo}</Td>
                         <Td>{row.name}</Td>
                         
                         <Td >
