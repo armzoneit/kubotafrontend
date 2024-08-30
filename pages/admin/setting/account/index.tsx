@@ -126,7 +126,7 @@ const settingaccount = () => {
             umenu.push({
                 idPermissionReserve:0,
                 plantId:row.plantId,
-                empNo:row.empNo,
+                empNo:row.employeeNo,
                 menu:men,
                 mode:mod,
                 approved:app
@@ -138,22 +138,23 @@ const settingaccount = () => {
     }
     const checkApprove = async (row) => {
         await setuserEdit(row);
-        let menu = row.permissionReserve;
-        if(!menu.length){
-            let menu = new Array();
-            for(let x =1;x<=3;x++){
-                for(let y =1;y<=4;y++){
-                    menu.push({
-                        idPermissionReserve:0,
-                        plantId:row.plantId,
-                        empNo:row.empNo,
-                        menu:y,
-                        mode:x,
-                        approved:false
-                    });
-                }
+        let permissionReserve = row.permissionReserve;
+        let menu = new Array();
+        for(let x =1;x<=3;x++){
+            for(let y =1;y<=4;y++){
+                let perM = await permissionReserve.find(x => x.mode == x && x.menu == y);
+                menu.push({
+                    idPermissionReserve:perM? perM.id:0,
+                    plantId:row.plantId,
+                    empNo:row.employeeNo,
+                    menu:y,
+                    mode:x,
+                    approved:await perM ? perM.approved : false
+                });
             }
-            await setuser_menu(menu);
+        }
+        await setuser_menu(menu);
+        if(!row.permissionReserve.length){
             setmenua1(false);
             setmenua2(false);
             setmenua3(false);
@@ -169,7 +170,7 @@ const settingaccount = () => {
             setmenuc3(false);
             setmenuc4(false);
         }else{
-            await setuser_menu(menu);
+            
             setmenua1(menu.find(x => x.mode == 1 && x.menu == 1) ? menu.find(x => x.mode == 1 && x.menu == 1).approved : false);
             setmenua2(menu.find(x => x.mode == 1 && x.menu == 2) ? menu.find(x => x.mode == 1 && x.menu == 2).approved : false);
             setmenua3(menu.find(x => x.mode == 1 && x.menu == 3) ? menu.find(x => x.mode == 1 && x.menu == 3).approved : false);
@@ -201,6 +202,8 @@ const settingaccount = () => {
                 },
                 data:user_menu
             };
+            console.log(user_menu);
+            
             axios.request(config)
             .then((response) => {
                 Swal.fire({
@@ -208,7 +211,7 @@ const settingaccount = () => {
                     title: "",
                     text: "บันทึกข้อมูลเรียบร้อย"
                 })
-                // window.location.reload();
+                window.location.reload();
             })
             .catch((error) => {
                 console.log(error);
