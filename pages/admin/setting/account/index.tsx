@@ -106,7 +106,7 @@ const settingaccount = () => {
         //         um.push({
         //             idPermissionReserve:0,
         //             plantId:0,
-        //             employeeNo:0,
+        //             empNo:0,
         //             menu:y,
         //             mode:x,
         //             approved:false
@@ -126,7 +126,7 @@ const settingaccount = () => {
             umenu.push({
                 idPermissionReserve:0,
                 plantId:row.plantId,
-                employeeNo:row.employeeNo,
+                empNo:row.empNo,
                 menu:men,
                 mode:mod,
                 approved:app
@@ -146,7 +146,7 @@ const settingaccount = () => {
                     menu.push({
                         idPermissionReserve:0,
                         plantId:row.plantId,
-                        employeeNo:row.employeeNo,
+                        empNo:row.empNo,
                         menu:y,
                         mode:x,
                         approved:false
@@ -168,9 +168,7 @@ const settingaccount = () => {
             setmenuc2(false);
             setmenuc3(false);
             setmenuc4(false);
-            console.log(1);
         }else{
-            console.log(2);
             await setuser_menu(menu);
             setmenua1(menu[0].approved);
             setmenua2(menu[1].approved);
@@ -305,7 +303,7 @@ const settingaccount = () => {
                     {Array.isArray(user) && user.map((row, index) => {
                     return (
                         <Tr>
-                        <Td>{row.employeeNo}</Td>
+                        <Td>{row.empNo}</Td>
                         <Td>{row.name}</Td>
                         
                         <Td >
