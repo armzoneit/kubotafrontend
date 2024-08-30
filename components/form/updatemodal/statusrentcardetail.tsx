@@ -64,6 +64,7 @@ const StatusRentCarDetail = (data: any=false) => {
     const [carck3, setcarck3] = useState<boolean>(false);
     const [carck4, setcarck4] = useState<boolean>(false);
     const [carck5, setcarck5] = useState<boolean>(false);
+    const [carck6, setcarck6] = useState<boolean>(false);
     const [ckcar1, setckcar1] = useState<boolean>(false);
     const [ckcar2, setckcar2] = useState<boolean>(false);
     const [ckcar20, setckcar20] = useState<boolean>(false);
@@ -94,13 +95,13 @@ const StatusRentCarDetail = (data: any=false) => {
     const handleapproved = (ids: number) => {
         const tokens = localStorageLoad("token")
         let data = JSON.stringify({
-            "type": datasall.cartype,
+            "type": cartype,
             "BookingNo": form.idcarbooking,
         });
         let config = {
             method: 'post',
             maxBodyLength: Infinity,
-            url: 'https://d713apsi01-wa01kbtcom.azurewebsites.net/ReserveCar/ApprovalStatus/' + datasall.cartype + '/' + form.idcarbooking,
+            url: 'https://d713apsi01-wa01kbtcom.azurewebsites.net/ReserveCar/ApprovalStatus/' + cartype + '/' + form.idcarbooking,
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': 'Bearer ' + tokens
@@ -110,8 +111,8 @@ const StatusRentCarDetail = (data: any=false) => {
 
         axios.request(config)
             .then((response) => {
+                console.log(response);
                 onClose();
-                search(1);
                 toast({
                     id: toastId4,
                     description: `อนุมัติสำเร็จ`,
@@ -152,7 +153,7 @@ const StatusRentCarDetail = (data: any=false) => {
 
                 axios.request(config5)
                     .then((response) => {
-
+                        console.log(response)
                         seteditbutton(false);
                         setapprovedbutton(true);
                         let subdate = response.data.data.carBookingWithDriver[0]?.booking_date;
@@ -172,12 +173,14 @@ const StatusRentCarDetail = (data: any=false) => {
                                 seteditbutton(false);
                             }else{
                                 seteditbutton(true);
-                                response.data.data.approval.map((e, v) => {
-                                    if (me?.data?.data?.myHrEmployee.employeeNo == e.employeeApproval) {
-                                        setapprovedbutton(false);
-                                    }
-                                });
+                                
                             }
+                            response.data.data.approval.map((e, v) => {
+                                console.log("ckck",me?.data?.data?.myHrEmployee.employeeNo,e.employeeApproval);
+                                if (me?.data?.data?.myHrEmployee.employeeNo == e.employeeApproval) {
+                                    setapprovedbutton(false);
+                                }
+                            });
                         }
                         if (response.data.data.carBookingWithDriver[0]?.employee_no != userId) {
                             if(data.fix){
@@ -237,6 +240,7 @@ const StatusRentCarDetail = (data: any=false) => {
                     });
             } else if (cartype == '2') {
                 setcarck5(true);
+                setcarck3(false);
                 setcards(false)
                 settextcc("จองรถเช่าเหมาวัน(ไม่มีคนขับ)");
                 let config5: AxiosRequestConfig = {
@@ -271,12 +275,13 @@ const StatusRentCarDetail = (data: any=false) => {
                                 seteditbutton(false);
                             }else{
                                 seteditbutton(true);
-                                response.data.data.approval.map((e, v) => {
-                                    if (me?.data?.data?.myHrEmployee.employeeNo == e.employeeApproval) {
-                                        setapprovedbutton(false);
-                                    }
-                                });
+                                
                             }
+                            response.data.data.approval.map((e, v) => {
+                                if (me?.data?.data?.myHrEmployee.employeeNo == e.employeeApproval) {
+                                    setapprovedbutton(false);
+                                }
+                            });
                         }
                         if(response.data.data.carBookingWithDriver[0]?.pathfile != ""){
                             console.log(response.data.data.carBookingWithDriver[0].pathfile,"Image")
@@ -299,10 +304,10 @@ const StatusRentCarDetail = (data: any=false) => {
                             // imagecc.src = "/cardImage/"+response.data.data.carBookingWithDriver[0]?.pathfile;
                         }
                         if(response.data.data.carBookingWithDriver[0]?.number_travelers != 0){
-                            setckcar1(true);
+                            setckcar20(true);
                         }
                         if(response.data.data.carBookingWithDriver[0]?.number_cars != 0){
-                            setckcar2(true)
+                            setckcar1(true)
                         }
                         // @ts-ignore
                         setform({
@@ -320,9 +325,11 @@ const StatusRentCarDetail = (data: any=false) => {
                             typecar: response.data.data.carBookingWithDriver[0]?.typecar,
                             number_travelers: response.data.data.carBookingWithDriver[0]?.number_travelers,
                             number_cars: response.data.data.carBookingWithDriver[0]?.number_cars,
+                            number_cars1:response.data.data.carBookingWithDriver[0]?.number_travelers,
                             person_count: response.data.data.carBookingWithDriver[0]?.person_count,
                             countper1: response.data.data.carBookingWithDriver[0]?.person_count,
                             countper2: response.data.data.carBookingWithDriver[0]?.person_count2,
+                            countper3:response.data.data.carBookingWithDriver[0]?.person_count,
                             startdate: response.data.data.carBookingWithDriver[0]?.startdate,
                             enddate: response.data.data.carBookingWithDriver[0]?.enddate,
                             locationIn: response.data.data.carBookingWithDriver[0]?.locationIn,
@@ -398,12 +405,13 @@ const StatusRentCarDetail = (data: any=false) => {
                                 seteditbutton(false);
                             }else{
                                 seteditbutton(true);
-                                response.data.data.approval.map((e, v) => {
-                                    if (me?.data?.data?.myHrEmployee.employeeNo == e.employeeApproval) {
-                                        setapprovedbutton(false);
-                                    }
-                                });
+                                
                             }
+                            response.data.data.approval.map((e, v) => {
+                                if (me?.data?.data?.myHrEmployee.employeeNo == e.employeeApproval) {
+                                    setapprovedbutton(false);
+                                }
+                            });
                         }
                         // @ts-ignore
                         if(response.data.data.carBookingWithDriver[0]?.number_Cars != 0){
@@ -462,7 +470,7 @@ const StatusRentCarDetail = (data: any=false) => {
 
 
         handleopenedit(ids)
-    }, []);
+    }, [me.isLoading]);
 
 
     const editdata = () => {
@@ -1018,11 +1026,12 @@ const StatusRentCarDetail = (data: any=false) => {
                             } */}
                                     </FormControl>
                                 </GridItem>
-                                <GridItem colSpan={6}>
+                                <FormLabel className='lable-rentcar'>ประเภทรถที่ขอ</FormLabel>
+                                <GridItem colSpan={6} hidden={carck5}>
 
                                     <FormControl>
 
-                                        <FormLabel className='lable-rentcar'>ประเภทรถที่ขอ</FormLabel>
+                                        
                                         <Flex>
                                             <Checkbox disabled={disread} colorScheme='green' marginRight={"30px"} isChecked={ckcar1} onChange={(val) => setckcar1(val.target.checked)}>
                                                 รถตู้
