@@ -52,7 +52,7 @@ const InfoCars = ({ mode, idcarbooking,booking }) => {
     const [allCars, setallCars] = useState<any>([]);
     const [cars, setCars] = useState<any>([]);
     const [carsDetail, setcarsDetail] = useState<any>('');
-
+    const [car_type_manage, settype_manage] = useState<any>('');
     const [carsId, setCarsId] = useState<any>([]);
     const [modalText, setmodalText] = useState<any>([]);
     const [carLicense, setcarLicense] = useState<any>([]);
@@ -338,7 +338,8 @@ const InfoCars = ({ mode, idcarbooking,booking }) => {
                                         <FormControl>
                                             { mode == 1 ? <FormLabel className='lable-rentcar'>ประเภทการจัดรถ :</FormLabel> : ''}
                                             { mode == 1  ?
-                                           <Select name='type_manage' placeholder='เลือกประเภทการจัดรถ' style={{ border: '1px #00AAAD solid' }} value={addCars.type_manage} onChange={handleChange}>
+                                           <Select name='type_manage' placeholder='เลือกประเภทการจัดรถ' style={{ border: '1px #00AAAD solid' }} value={car_type_manage} 
+                                                    onChange={ (e) => { handleChange; settype_manage(e.target.value)}}>
                                                 {
                                                         type_manage.map((val, index) => {
                                                         return (
@@ -467,7 +468,7 @@ const InfoCars = ({ mode, idcarbooking,booking }) => {
                                         <Td >
                                             { !booking.status ?   <a onClick={async (e)=>{
                                                 await setselectCars(0);
-
+                                                await settype_manage(type_manage);
                                                 isopen.onOpen();
                                                 console.log(carId,'carId');
                                                 
