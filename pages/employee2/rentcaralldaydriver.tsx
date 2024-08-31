@@ -161,6 +161,9 @@ const RentCarAllDayDriver = () => {
     const handlebookingdate = (event:React.ChangeEvent<HTMLInputElement>) => setform(prev=> { 
         const vl = new Date(event)
         setStartDate(event);
+        console.log(vl);
+        console.log([vl.getFullYear(), vl.getMonth() + 1, vl.getDate()].join('-')+" 03:54:07.6233333 +00:00")
+        console.log(dayjs([vl.getFullYear(), vl.getMonth() + 1, vl.getDate()].join('-') + " 03:54:07.6233333 +00:00", 'DD/MM/YYYY').format('YYYY/MM/DD'))
         return {...prev,booking_date:[vl.getFullYear(), vl.getMonth()+1, vl.getDate()].join('-')+" 03:54:07.6233333 +00:00"}
     });
     const handlebookingname = (event:React.ChangeEvent<HTMLInputElement>) => setform(prev=> { return {...prev,bookingname:event.target.value}})

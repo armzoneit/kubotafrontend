@@ -428,7 +428,7 @@ const ckcargg = (event:string) => {
         pictureData.append('image', pictureFile);
         try {
             const response = await fetch('/api/upload', {
-                method: 'POST',
+                method: 'PUT',
                 body: pictureData,
             }).then(function(response) {
                 return response.json();

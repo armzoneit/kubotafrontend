@@ -15,6 +15,7 @@
   "dependencies": {
     "@azure/msal-browser": "^2.18.0",
     "@azure/msal-react": "^1.1.0",
+    "@azure/storage-blob": "^12.24.0",
     "@chakra-ui/icons": "^1.0.14",
     "@chakra-ui/react": "^1.6.5",
     "@emotion/react": "^11.11.3",
@@ -46,6 +47,7 @@
     "firstpage": "^1.0.0",
     "formidable": "^3.5.1",
     "framer-motion": "^4",
+    "fs": "^0.0.1-security",
     "jquery": "^3.7.1",
     "js-file-download": "^0.4.12",
     "jwt-decode": "^3.1.2",

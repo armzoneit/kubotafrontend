@@ -13,7 +13,7 @@ export const config = {
 };
 
 export default async (req, res) => {
-    if (req.method === 'POST') {
+    if (req.method === 'PUT') {
 
         // parse form with a Promise wrapper
         const data = await new Promise((resolve, reject) => {

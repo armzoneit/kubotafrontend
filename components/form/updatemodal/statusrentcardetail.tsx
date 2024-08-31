@@ -63,12 +63,17 @@ const StatusRentCarDetail = (data: any=false) => {
 
     const [carck3, setcarck3] = useState<boolean>(false);
     const [carck4, setcarck4] = useState<boolean>(false);
+    const [loading,setloading] = useState<boolean>(false);
     const [carck5, setcarck5] = useState<boolean>(false);
     const [carck6, setcarck6] = useState<boolean>(false);
     const [ckcar1, setckcar1] = useState<boolean>(false);
     const [ckcar2, setckcar2] = useState<boolean>(false);
     const [ckcar20, setckcar20] = useState<boolean>(false);
     const [namefile,setnamefile] = useState<string>("");
+
+    const [brand1,setbrand1] = useState<boolean>(true);
+    const [brand2,setbrand2] = useState<boolean>(true);
+    
 
     const toast = useToast()
     const { isOpen, onOpen, onClose } = useDisclosure()
@@ -92,7 +97,8 @@ const StatusRentCarDetail = (data: any=false) => {
         setshowfile(false);
     };
 
-    const handleapproved = (ids: number) => {
+    const handleapproved = () => {
+        setloading(true)
         const tokens = localStorageLoad("token")
         let data = JSON.stringify({
             "type": cartype,
@@ -120,6 +126,10 @@ const StatusRentCarDetail = (data: any=false) => {
                     duration: 3000,
                     isClosable: false,
                 })
+                setTimeout(()=>{
+                    setloading(false);
+                    window.location.reload();
+                },3000);
             })
             .catch((error) => {
                 console.log(error);
@@ -129,6 +139,8 @@ const StatusRentCarDetail = (data: any=false) => {
     console.log('data', data);
     console.log('ids', ids);
     console.log('cartype', cartype);
+    const handlebrand1 = (event:React.ChangeEvent<HTMLInputElement>) => setform(prev=> { return {...prev,brand_cars1:event.target.value}})
+    const handlebrand2 = (event:React.ChangeEvent<HTMLInputElement>) => setform(prev=> { return {...prev,brand_cars2:event.target.value}})
     useEffect(() => {
         const handleopenedit = (ids: any) => {
             console.log('userId', userId);
@@ -140,6 +152,8 @@ const StatusRentCarDetail = (data: any=false) => {
             if (cartype == '1') {
                 setcarck3(false);
                 setcarck4(true);
+                setbrand1(true);
+                setbrand2(true);
                 settextcc("จองรถเช่าเหมาวัน(พร้อมคนขับ)");
                 let config5: AxiosRequestConfig = {
                     method: 'get',
@@ -210,13 +224,13 @@ const StatusRentCarDetail = (data: any=false) => {
                             typecar: response.data.data.carBookingWithDriver[0]?.typecar,
                             number_travelers: response.data.data.carBookingWithDriver[0]?.number_travelers,
                             number_cars: response.data.data.carBookingWithDriver[0]?.number_cars,
-                            number_cars1: response.data.data.carBookingWithDriver[0]?.number_cars,
+                            number_cars1: response.data.data.carBookingWithDriver[0]?.number_cars3,
                             person_count: response.data.data.carBookingWithDriver[0]?.person_count,
                             countper1: response.data.data.carBookingWithDriver[0]?.person_count,
                             countper2: response.data.data.carBookingWithDriver[0]?.person_count2,
                             countper3: response.data.data.carBookingWithDriver[0]?.person_count2,
-                            startdate: response.data.data.carBookingWithDriver[0]?.startdate,
-                            enddate: response.data.data.carBookingWithDriver[0]?.enddate,
+                            startdate: subdate3[2] + "-" + subdate3[1] + "-" + subdate3[0],
+                            enddate: subdate5[2] + "-" + subdate5[1] + "-" + subdate5[0],
                             locationIn: response.data.data.carBookingWithDriver[0]?.locationIn,
                             timeIn: response.data.data.carBookingWithDriver[0]?.timeIn,
                             LocationOut: response.data.data.carBookingWithDriver[0]?.LocationOut,
@@ -241,6 +255,8 @@ const StatusRentCarDetail = (data: any=false) => {
             } else if (cartype == '2') {
                 setcarck5(true);
                 setcarck3(false);
+                setbrand1(false);
+                setbrand2(false);
                 setcards(false)
                 settextcc("จองรถเช่าเหมาวัน(ไม่มีคนขับ)");
                 let config5: AxiosRequestConfig = {
@@ -255,6 +271,7 @@ const StatusRentCarDetail = (data: any=false) => {
 
                 axios.request(config5)
                     .then((response) => {
+                        console.log("fix",data.fix)
                         console.log(response);
                         seteditbutton(false);
                         let subdate = response.data.data.carBookingWithDriver[0]?.booking_date;
@@ -268,12 +285,15 @@ const StatusRentCarDetail = (data: any=false) => {
                         setStartDate4(new Date(subdate5[2] + "-" + subdate5[1] + "-" + subdate5[0]))
                         setapprovedbutton(true);
                         if (response.data.data.carBookingWithDriver[0]?.employee_no == userId) {
+                            console.log("gg1");
                             seteditbutton(false);
                             setapprovedbutton(true);
                         }else {
                             if(data.fix){
+                                console.log("gg2");
                                 seteditbutton(false);
                             }else{
+                                console.log("gg3");
                                 seteditbutton(true);
                                 
                             }
@@ -303,12 +323,20 @@ const StatusRentCarDetail = (data: any=false) => {
                             // }
                             // imagecc.src = "/cardImage/"+response.data.data.carBookingWithDriver[0]?.pathfile;
                         }
-                        if(response.data.data.carBookingWithDriver[0]?.number_travelers != 0){
-                            setckcar20(true);
+                        if (response.data.data.carBookingWithDriver[0]?.employee_no != userId) {
+                            if(data.fix){
+                                setdisread(false);
+                            }else{
+                                setdisread(true);
+                            }
                         }
                         if(response.data.data.carBookingWithDriver[0]?.number_cars != 0){
-                            setckcar1(true)
+                            setckcar2(true);
                         }
+                        if(response.data.data.carBookingWithDriver[0]?.number_travelers != 0){
+                            setckcar20(true)
+                        }
+                        
                         // @ts-ignore
                         setform({
                             idcarbooking: response.data.data.carBookingWithDriver[0]?.idcarbooking,
@@ -330,8 +358,8 @@ const StatusRentCarDetail = (data: any=false) => {
                             countper1: response.data.data.carBookingWithDriver[0]?.person_count,
                             countper2: response.data.data.carBookingWithDriver[0]?.person_count2,
                             countper3:response.data.data.carBookingWithDriver[0]?.person_count,
-                            startdate: response.data.data.carBookingWithDriver[0]?.startdate,
-                            enddate: response.data.data.carBookingWithDriver[0]?.enddate,
+                            startdate: subdate3[2] + "-" + subdate3[1] + "-" + subdate3[0],
+                            enddate: subdate5[2] + "-" + subdate5[1] + "-" + subdate5[0],
                             locationIn: response.data.data.carBookingWithDriver[0]?.locationIn,
                             timeIn: response.data.data.carBookingWithDriver[0]?.timeIn,
                             LocationOut: response.data.data.carBookingWithDriver[0]?.LocationOut,
@@ -353,13 +381,15 @@ const StatusRentCarDetail = (data: any=false) => {
                             agency_employee:response.data.data.carBookingWithDriver[0]?.use_agency,
                             division_employee:response.data.data.carBookingWithDriver[0]?.use_division,
                             tel_use_car:response.data.data.carBookingWithDriver[0]?.tel_use_car,
+                            brand_cars1:response.data.data.carBookingWithDriver[0]?.brand_cars2,
+                            brand_cars2:response.data.data.carBookingWithDriver[0]?.brand_cars1,
                         })
                     })
                     .catch((error) => {
                         console.log(error);
                     });
             } else if (cartype == '3') {
-                setcarck5(true);
+                setcarck6(true)
                 settextcc("จองรถรับส่งระหว่างวัน");
                 let config5: AxiosRequestConfig = {
                     method: 'get',
@@ -382,16 +412,21 @@ const StatusRentCarDetail = (data: any=false) => {
                         var ggg21 = ggg11.split('T')
                         var ggg22 = ggg12.split('T')
                         var ggg23 = ggg13.split('T')
+                        
                         let subdate = response.data.data.carBookingWithDriver[0]?.booking_date;
                         setapprovedbutton(true);
-                        let subdate1 = ggg21[0].split('/');
-                        let subdate2 = response.data.data.carBookingWithDriver[0]?.startdate;
-                        let subdate3 = ggg22[0].split('/');
-                        let subdate4 = response.data.data.carBookingWithDriver[0]?.enddate;
-                        let subdate5 = ggg23[0].split('/');
-                        setStartDate(new Date(subdate1[2] + "-" + subdate1[1] + "-" + subdate1[0]))
-                        setStartDate3(new Date(subdate3[2] + "-" + subdate3[1] + "-" + subdate3[0]))
-                        setStartDate4(new Date(subdate5[2] + "-" + subdate5[1] + "-" + subdate5[0]))
+                        let subdate1 = ggg21[0].split('-');
+                        let subdate2 = response.data.data.carBookingWithDriver[0]?.startDate;
+                        let subdate3 = ggg22[0].split('-');
+                        let subdate4 = response.data.data.carBookingWithDriver[0]?.endDate;
+                        let subdate5 = ggg23[0].split('-');
+                        console.log(subdate1);
+                        console.log(subdate3);
+                        console.log(subdate5);
+                        setStartDate(new Date(ggg21[0]))
+                        setStartDate3(new Date(ggg22[0]))
+                        setStartDate4(new Date(ggg23[0]))
+                        console.log("ggggg5555");
                         if (response.data.data.carBookingWithDriver[0]?.plantId == 2) {
                             setcarck3(false);
                         } else if (parseInt(response.data.data.carBookingWithDriver[0]?.plantId) == 1) {
@@ -413,6 +448,13 @@ const StatusRentCarDetail = (data: any=false) => {
                                 }
                             });
                         }
+                        if (response.data.data.carBookingWithDriver[0]?.employee_no != userId) {
+                            if(data.fix){
+                                setdisread(false);
+                            }else{
+                                setdisread(true);
+                            }
+                        }
                         // @ts-ignore
                         if(response.data.data.carBookingWithDriver[0]?.number_Cars != 0){
                             setckcar1(true);
@@ -427,7 +469,7 @@ const StatusRentCarDetail = (data: any=false) => {
                             idcarbooking: response.data.data.carBookingWithDriver[0]?.idCarBooking,
                             PlantId: response.data.data.carBookingWithDriver[0]?.plantId,
                             employee_no: response.data.data.carBookingWithDriver[0]?.employee_no,
-                            booking_date: response.data.data.carBookingWithDriver[0]?.booking_date,
+                            booking_date: ggg21[0],
                             bookingname: response.data.data.carBookingWithDriver[0]?.bookingName,
                             email: response.data.data.carBookingWithDriver[0]?.email,
                             agency: response.data.data.carBookingWithDriver[0]?.agency,
@@ -442,8 +484,8 @@ const StatusRentCarDetail = (data: any=false) => {
                             countper2: response.data.data.carBookingWithDriver[0]?.person_count2,
                             countper3: response.data.data.carBookingWithDriver[0]?.person_count3,
                             person_count: response.data.data.carBookingWithDriver[0]?.person_count,
-                            startdate: response.data.data.carBookingWithDriver[0]?.startdate,
-                            enddate: response.data.data.carBookingWithDriver[0]?.enddate,
+                            startdate: ggg22[0],
+                            enddate: ggg23[0],
                             locationIn: response.data.data.carBookingWithDriver[0]?.locationIn,
                             timeIn: response.data.data.carBookingWithDriver[0]?.timeIn,
                             LocationOut: response.data.data.carBookingWithDriver[0]?.locationOut,
@@ -475,12 +517,13 @@ const StatusRentCarDetail = (data: any=false) => {
 
     const editdata = () => {
         if (cartype == "1") {
+            var vl = new Date(startDate);
             let data = JSON.stringify({
                 "idcarbooking": form.idcarbooking,
                 "plantId": form.PlantId,
                 "employee_no": form.employee_no,
                 "drivername": "string",
-                "booking_date": dayjs(form.booking_date, 'DD/MM/YYYY').format('YYYY/MM/DD'),
+                "booking_date": [vl.getFullYear(), vl.getMonth()+1, vl.getDate()].join('-')+" 03:54:07.6233333 +00:00",
                 "bookingname": form.bookingname,
                 "email": form.email,
                 "agency": form.agency,
@@ -490,10 +533,12 @@ const StatusRentCarDetail = (data: any=false) => {
                 "typecar": form.typecar,
                 "number_travelers": form.number_travelers,
                 "number_cars": form.number_cars1,
-                "person_count": form.countcar1,
-                "person_count2": form.countcar3,
-                "startdate": dayjs(form.startdate, 'DD/MM/YYYY').format('YYYY/MM/DD'),
-                "enddate": dayjs(form.enddate, 'DD/MM/YYYY').format('YYYY/MM/DD'),
+                "number_cars3": form.number_cars,
+                "person_count": form.countper1,
+                "person_count2": form.countper3,
+                "person_count3": form.countper2,
+                "startdate": form.startdate,
+                "enddate": form.enddate,
                 "locationIn": form.locationIn,
                 "timeIn": form.timeIn,
                 "LocationOut": form.LocationOut,
@@ -539,12 +584,13 @@ const StatusRentCarDetail = (data: any=false) => {
                 });
 
         } else if (cartype == "2") {
-            let data = JSON.stringify({
+            var vl = new Date(startDate);
+            let data555 = JSON.stringify({
                 "idcarbooking": form.idcarbooking,
                 "plantId": form.PlantId,
                 "employee_no": form.employee_no,
                 "drivername": "string",
-                "booking_date": dayjs(form.booking_date, 'DD/MM/YYYY').format('YYYY/MM/DD'),
+                "booking_date": [vl.getFullYear(), vl.getMonth()+1, vl.getDate()].join('-')+" 03:54:07.6233333 +00:00",
                 "bookingname": form.bookingname,
                 "email": form.email,
                 "agency": form.agency,
@@ -552,12 +598,13 @@ const StatusRentCarDetail = (data: any=false) => {
                 "tel": form.tel,
                 "note": form.note,
                 "typecar": form.typecar,
-                "number_travelers": form.number_travelers,
-                "number_cars": form.number_cars1,
-                "person_count": form.countcar1,
-                "person_count2": form.countcar3,
-                "startdate": dayjs(form.startdate, 'DD/MM/YYYY').format('YYYY/MM/DD'),
-                "enddate": dayjs(form.enddate, 'DD/MM/YYYY').format('YYYY/MM/DD'),
+                "number_travelers": form.number_cars1,
+                "number_cars": form.number_cars,
+
+                "brand_cars1": form.brand_cars2,
+                "brand_cars2": form.brand_cars1,
+                "startdate": form.startdate,
+                "enddate": form.enddate,
                 "locationIn": form.locationIn,
                 "timeIn": form.timeIn,
                 "LocationOut": form.LocationOut,
@@ -574,10 +621,20 @@ const StatusRentCarDetail = (data: any=false) => {
                 "status_approved": 0,
                 "googleform": 0,
                 "overnight": form.overnight,
-                "employeeapproval": "string"
+                "employeeapproval": "string",
+                "code_employee": form.code_employee,
+                "name_use_car": form.name_use_car,
+                "use_email": form.email_employee,
+                "use_agency": form.agency_employee,
+                "use_division": form.division_employee,
+                "tel_use_car": form.tel_use_car,
+                "license_number":form.license_number,
+                "person_count": parseInt(form.countper3),
+                "person_count2": parseInt(form.countper2),
+                
 
             });
-
+            console.log("ggggg",data555);
             let config: AxiosRequestConfig = {
                 method: 'put',
                 maxBodyLength: Infinity,
@@ -586,7 +643,7 @@ const StatusRentCarDetail = (data: any=false) => {
                     'accept': '*/*',
                     'Content-Type': 'application/json'
                 },
-                data: data
+                data: data555
             };
 
             axios.request(config)
@@ -604,12 +661,13 @@ const StatusRentCarDetail = (data: any=false) => {
                     console.log(error);
                 });
         } else if (cartype == "3") {
+            var vl = new Date(startDate);
             let data = JSON.stringify({
                 "idcarbooking": form.idcarbooking,
                 "plantId": form.PlantId,
                 "employee_no": form.employee_no,
                 "drivername": "string",
-                "booking_date": dayjs(form.booking_date, 'DD/MM/YYYY').format('YYYY/MM/DD'),
+                "booking_date": [vl.getFullYear(), vl.getMonth()+1, vl.getDate()].join('-')+" 03:54:07.6233333 +00:00",
                 "bookingname": form.bookingname,
                 "email": form.email,
                 "agency": form.agency,
@@ -618,11 +676,14 @@ const StatusRentCarDetail = (data: any=false) => {
                 "note": form.note,
                 "typecar": form.typecar,
                 "number_travelers": form.number_travelers,
-                "number_cars": form.number_cars1,
-                "person_count": form.countcar1,
-                "person_count2": form.countcar3,
-                "startdate": dayjs(form.startdate, 'DD/MM/YYYY').format('YYYY/MM/DD'),
-                "enddate": dayjs(form.enddate, 'DD/MM/YYYY').format('YYYY/MM/DD'),
+                "number_cars": form.number_travelers,
+                "number_cars2": form.number_cars,
+                "number_cars3":form.number_cars1,
+                "person_count": form.countper1,
+                "person_count2": form.countper2,
+                "person_count3":form.countper3,
+                "startdate": form.startdate,
+                "enddate": form.enddate,
                 "locationIn": form.locationIn,
                 "timeIn": form.timeIn,
                 "LocationOut": form.LocationOut,
@@ -715,7 +776,9 @@ const StatusRentCarDetail = (data: any=false) => {
         email_employee:"",
         agency_employee:"",
         division_employee:"",
-        tel_use_car:""
+        tel_use_car:"",
+        brand_cars1:"",
+        brand_cars2:""
     })
 
     const [startDate, setStartDate] = useState(new Date());
@@ -823,6 +886,53 @@ const StatusRentCarDetail = (data: any=false) => {
             return { ...prev }
         }
     });
+    const [dateminend, setdateminend] = useState(new Date())
+    const handlestartdate = (event:React.ChangeEvent<HTMLInputElement>) => setform(prev=> { 
+        const vl = new Date(event)
+        const dal1 = [vl.getFullYear(), vl.getMonth()+1, vl.getDate()].join('-');
+        setStartDate3(event);
+        console.log(dal1)
+        setdateminend(new Date([vl.getFullYear(), vl.getMonth()+1, vl.getDate()].join('-')))
+        
+        if(dal1 == form.enddate)
+            {
+                sethours([])
+                setform(prev => ({...prev,timeIn:"00:00"}));
+                setform(prev => ({...prev,timeOut:"00:00"}));
+            }else{
+                sethours([])
+            }
+        return {...prev,startdate:[vl.getFullYear(), vl.getMonth()+1, vl.getDate()].join('-')}
+    })
+    const range = (start: number, end: number) => {
+        const result = [];
+        for (let i = start; i < end; i++) {
+          result.push(i);
+        }
+        return result;
+      };
+    
+      const [hours,sethours] = useState([])
+      const [minutes,setminutes] = useState([])
+      const disabledDateTime = () => ({
+          disabledHours: () => hours,
+          disabledMinutes: () => minutes,
+        });
+      const handleenddate = (event:React.ChangeEvent<HTMLInputElement>) => setform(prev=> { 
+          const vl = new Date(event)
+          setStartDate4(event);
+          const datl = [vl.getFullYear(), vl.getMonth()+1, vl.getDate()].join('-');
+          console.log(event);
+          if(form.startdate == datl)
+              {
+                  sethours([])
+                  setform(prev => ({...prev,timeIn:"00:00"}));
+                  setform(prev => ({...prev,timeOut:"00:00"}));
+              }else{
+                  sethours([])
+              }
+          return {...prev,enddate:[vl.getFullYear(), vl.getMonth()+1, vl.getDate()].join('-')}
+      })
 
     const handlestartdate3 = (date: Date) => setform(prev => {
         const vl = new Date(date)
@@ -888,21 +998,48 @@ const StatusRentCarDetail = (data: any=false) => {
     const handleother = (event: React.ChangeEvent<HTMLInputElement>) => setform(prev => { return { ...prev, other: event.target.value } })
     const onChanges1 = (time: Dayjs, timeString: string) => {
         var ggg = timeString
-        if (typeof timeString === "string" && timeString.length === 0) {
-            ggg = "00:00";
+        if(typeof timeString === "string" && timeString.length === 0)
+            {
+                ggg = "00:00";
+            }
+        setform(prev => ({...prev,timeIn:ggg}));
+        if(form.startdate == form.enddate)
+        {
+            sethours([])
+            
+            let subhours = ggg.split(":")
+            
+            sethours(range(0,parseInt(subhours[0])))
+            setminutes([0])
+        }else{
+            sethours([])
         }
-        setform(prev => ({ ...prev, timeIn: ggg }));
-
-    };
-    const onChanges2 = (time: Dayjs, timeString: string) => {
-        console.log(timeString);
+      };
+      const onChanges2 = (time: Dayjs, timeString: string) => {
         var ggg = timeString
-        if (typeof timeString === "string" && timeString.length === 0) {
-            ggg = "00:00";
-        }
-        setform(prev => ({ ...prev, timeOut: ggg }));
+        if(typeof timeString === "string" && timeString.length === 0)
+            {
+                ggg = "";
+            }
 
-    };
+        if(form.startdate == form.enddate)
+        {
+            if(ggg != null && ggg != undefined && ggg != ""){
+                
+                sethours([])
+                setform(prev => ({...prev,timeOut:ggg}));
+
+                let subhours = ggg.split(":")
+                sethours(range(0,parseInt(subhours[0])))
+            }
+        }else{
+            if(ggg != null && ggg != undefined && ggg != ""){
+                sethours([])
+                setform(prev => ({...prev,timeOut:ggg}));
+            }
+        }
+        
+      };
 
 
 
@@ -962,37 +1099,37 @@ const StatusRentCarDetail = (data: any=false) => {
                                 <GridItem colSpan={2}>
                         <FormControl isRequired hidden={cards}>
                             <FormLabel className='lable-rentcar'>รหัสพนักงานผู้ใช้งาน</FormLabel>
-                            <Input type='search' placeholder='กรุณากรอกข้อมูล'  style={{ border: '1px #00AAAD solid' }}  required value={form.code_employee} onChange={handlecode_employee} />
+                            <Input type='search' placeholder='กรุณากรอกข้อมูล'  style={{ border: '1px #00AAAD solid' }} disabled={disread}  required value={form.code_employee} onChange={handlecode_employee} />
                         </FormControl>
                     </GridItem>
                     <GridItem colSpan={2} hidden={cards}>
                         <FormControl >
                             <FormLabel className='lable-rentcar'>ชื่อผู้ใช้รถ</FormLabel>
-                            <Input type='search' placeholder='Auto' readOnly style={{ border: '1px #00AAAD solid' }} required value={form.name_use_car} onChange={handlename_use_car} />
+                            <Input type='search' placeholder='Auto' readOnly style={{ border: '1px #00AAAD solid' }} disabled={disread} required value={form.name_use_car} onChange={handlename_use_car} />
                         </FormControl>
                     </GridItem>
                     <GridItem colSpan={2} hidden={cards}>
                         <FormControl>
                             <FormLabel className='lable-rentcar'>Email</FormLabel>
-                            <Input type='search' placeholder='Auto' style={{ border: '1px #00AAAD solid' }} required value={form.email_employee} readOnly />
+                            <Input type='search' placeholder='Auto' style={{ border: '1px #00AAAD solid' }} disabled={disread} required value={form.email_employee} readOnly />
                         </FormControl>
                     </GridItem>
                     <GridItem colSpan={2} hidden={cards}>
                         <FormControl>
                             <FormLabel className='lable-rentcar'>ตำแหน่ง</FormLabel>
-                            <Input type='search' placeholder='Auto' style={{ border: '1px #00AAAD solid' }} required value={form.agency_employee} readOnly />
+                            <Input type='search' placeholder='Auto' style={{ border: '1px #00AAAD solid' }} disabled={disread}  required value={form.agency_employee} readOnly />
                         </FormControl>
                     </GridItem>
                     <GridItem colSpan={2} hidden={cards}>
                         <FormControl >
                             <FormLabel className='lable-rentcar'>ส่วนงาน</FormLabel>
-                            <Input type='search' placeholder='Auto' style={{ border: '1px #00AAAD solid' }} required value={form.division_employee} readOnly />
+                            <Input type='search' placeholder='Auto' style={{ border: '1px #00AAAD solid' }} disabled={disread} required value={form.division_employee} readOnly />
                         </FormControl>
                     </GridItem>
                     <GridItem colSpan={2} hidden={cards}>
                         <FormControl isRequired>
                             <FormLabel className='lable-rentcar'>เบอร์โทรศัพท์ผู้ใช้รถ</FormLabel>
-                            <Input type='search' placeholder='กรุณากรอกข้อมูล'  style={{ border: '1px #00AAAD solid' }} required pattern="[0-9]*" onChange={handletel_use_car} name='phone' value={form.tel_use_car} />
+                            <Input type='search' placeholder='กรุณากรอกข้อมูล'  style={{ border: '1px #00AAAD solid' }} disabled={disread} required pattern="[0-9]*" onChange={handletel_use_car} name='phone' value={form.tel_use_car} />
                         </FormControl>
                     </GridItem>
                                 
@@ -1001,7 +1138,7 @@ const StatusRentCarDetail = (data: any=false) => {
                                         <FormLabel className='lable-rentcar'>ข้อมูลใบขับขี่บริษัท</FormLabel>
                                         <RadioGroup value={"1"} >
                                             <Stack direction='row' alignItems={"baseline"} >
-                                                <Radio value='1' defaultChecked>มีใบขับขี่ เลขที่ </Radio><Input style={{ border: '1px #00AAAD solid', width: '150px' }} value={form.license_number} onChange={handle_idcar}  required />
+                                                <Radio value='1' defaultChecked>มีใบขับขี่ เลขที่ </Radio><Input style={{ border: '1px #00AAAD solid', width: '150px' }} disabled={disread} value={form.license_number} onChange={handle_idcar}  required />
                                             </Stack>
                                         </RadioGroup>
                                     </FormControl>
@@ -1010,7 +1147,7 @@ const StatusRentCarDetail = (data: any=false) => {
                                 <FormLabel className='lable-rentcar'>แนบไฟล์ใบขับขี่</FormLabel>
                                     <FormControl isRequired my={"-1.5"} style={{marginTop:"-30px"}}>
                                         <FormLabel style={{display:"inline-block"}} htmlFor="file-input" id='file-input-label' className='lable-rentcar'>แนบไฟล์ใบขับขี่</FormLabel>
-                                        <Input type='file' style={{ border: '0px solid', color: '#00AAAD' }}  id="file-input" name="file-input"  onChange={pictureChangeHandler}/>
+                                        <Input type='file' style={{ border: '0px solid', color: '#00AAAD' }}  id="file-input" name="file-input" disabled={disread}  onChange={pictureChangeHandler}/>
                                         {/* <label id="file-input-label" htmlFor="file-input">แนบไฟล์ใบขับขี่ </label> */}
                                         <Button isDisabled={showfile} onClick={(e)=>{window.open(imageshow,"_blank")}} className='lable-rentcar'  colorScheme='teal' size='md' px={'2'} py={'2'} mb={"10px"} type="button"><SearchIcon /></Button>
                                         
@@ -1039,12 +1176,13 @@ const StatusRentCarDetail = (data: any=false) => {
                                             <FormLabel className='lable-rentcar' style={{ marginTop: "10px" }}>จำนวนคัน</FormLabel>
                                             <Stack direction='row' alignItems={"baseline"}>
 
-                                                <Input isDisabled={!ckcar1} style={{ border: '1px #00AAAD solid', margin: "0px 10px" }} maxWidth={"100"} value={form.number_travelers} onChange={handlenumber_travelers} name='number_travelers' type='search' pattern="[0-9]*" />
+                                                <Input style={{ border: '1px #00AAAD solid', margin: "0px 10px" }} maxWidth={"100"} value={form.number_travelers} disabled={disread == true ? true : !ckcar1} onChange={handlenumber_travelers} name='number_travelers' type='search' pattern="[0-9]*" />
 
                                             </Stack>
+                                            
                                             <Stack direction='row' alignItems={"baseline"}>
                                                 <FormLabel className='lable-rentcar'>จำนวนผู้เดินทาง</FormLabel>
-                                                <Input type='search' required isDisabled={!ckcar1} style={{ border: '1px #00AAAD solid', margin: "0px 10px" }} value={form.countper1} onChange={handlecountper1} maxWidth={"100"} />
+                                                <Input type='search' required style={{ border: '1px #00AAAD solid', margin: "0px 10px" }} value={form.countper1} disabled={disread == true ? true : !ckcar1} onChange={handlecountper1} maxWidth={"100"} />
                                             </Stack>
                                         </Flex>
                                     </FormControl>
@@ -1055,14 +1193,19 @@ const StatusRentCarDetail = (data: any=false) => {
                                             <Checkbox disabled={disread} colorScheme='green' marginRight={"20px"} isChecked={ckcar2} onChange={(val) => setckcar2(val.target.checked)}>
                                                 รถกระบะ
                                             </Checkbox>
+                                            <Stack hidden={brand1} direction='row' alignItems={"baseline"} marginRight={"20px"}  marginLeft={"10px"}>
+                                                <FormLabel className='lable-rentcar'>ยี่ห้อรุ่น</FormLabel>
+                                                <Input type='search' required style={{ border: '1px #00AAAD solid' }} maxWidth={"150"} value={form.brand_cars1} disabled={disread == true ? true : !ckcar2} onChange={handlebrand1}  />
+                                            </Stack>
                                             <FormLabel className='lable-rentcar' style={{ marginTop: "10px" }}>จำนวนคัน</FormLabel>
                                             <Stack direction='row' alignItems={"baseline"}>
-                                                <Input isDisabled={!ckcar2} style={{ border: '1px #00AAAD solid', margin: "0px 10px" }} maxWidth={"100"} value={form.number_cars} onChange={handlenumber_cars} type='search' name='number_cars' />
+                                                <Input style={{ border: '1px #00AAAD solid', margin: "0px 10px" }} maxWidth={"100"} value={form.number_cars} disabled={disread == true ? true : !ckcar2} onChange={handlenumber_cars} type='search' name='number_cars' />
 
                                             </Stack>
+                                            
                                             <Stack direction='row' alignItems={"baseline"}>
                                                 <FormLabel className='lable-rentcar'>จำนวนผู้เดินทาง</FormLabel>
-                                                <Input type='search' required isDisabled={!ckcar2} style={{ border: '1px #00AAAD solid', margin: "0px 10px" }} value={form.countper2} onChange={handlecountper2} maxWidth={"100"} />
+                                                <Input type='search' required  style={{ border: '1px #00AAAD solid', margin: "0px 10px" }} value={form.countper2} disabled={disread == true ? true : !ckcar2} onChange={handlecountper2} maxWidth={"100"} />
                                             </Stack>
                                         </Flex>
 
@@ -1074,14 +1217,18 @@ const StatusRentCarDetail = (data: any=false) => {
                                             <Checkbox disabled={disread} colorScheme='green' marginRight={"20px"} isChecked={ckcar20} onChange={(val) => setckcar20(val.target.checked)} >
                                                 รถเก๋ง
                                             </Checkbox>
+                                            <Stack hidden={brand2} direction='row' alignItems={"baseline"} marginRight={"20px"}  marginLeft={"10px"}>
+                                                <FormLabel className='lable-rentcar'>ยี่ห้อรุ่น</FormLabel>
+                                                <Input type='search' required  style={{ border: '1px #00AAAD solid' }} maxWidth={"150"} value={form.brand_cars2} disabled={disread == true ? true : !ckcar20} onChange={handlebrand2}  />
+                                            </Stack>
                                             <FormLabel className='lable-rentcar' style={{ marginTop: "10px" }}>จำนวนคัน</FormLabel>
                                             <Stack direction='row' alignItems={"baseline"}>
-                                                <Input isDisabled={!ckcar20} style={{ border: '1px #00AAAD solid', margin: "0px 10px" }} maxWidth={"100"} value={form.number_cars1} onChange={handlenumber_cars1} type='search' name='number_cars' />
+                                                <Input style={{ border: '1px #00AAAD solid', margin: "0px 10px" }} maxWidth={"100"} value={form.number_cars1} disabled={disread == true ? true : !ckcar20} onChange={handlenumber_cars1} type='search' name='number_cars' />
 
                                             </Stack>
                                             <Stack direction='row' alignItems={"baseline"}>
                                                 <FormLabel className='lable-rentcar'>จำนวนผู้เดินทาง</FormLabel>
-                                                <Input type='search' required isDisabled={!ckcar20} style={{ border: '1px #00AAAD solid', margin: "0px 10px" }} value={form.countper3} onChange={handlecountper3} maxWidth={"100"} />
+                                                <Input type='search' required  style={{ border: '1px #00AAAD solid', margin: "0px 10px" }} value={form.countper3} disabled={disread == true ? true : !ckcar20} onChange={handlecountper3} maxWidth={"100"} />
                                             </Stack>
                                         </Flex>
 
@@ -1095,13 +1242,15 @@ const StatusRentCarDetail = (data: any=false) => {
                                 <GridItem colSpan={2}>
                                     <FormControl >
                                         <FormLabel className='lable-rentcar'>วันที่ใช้รถเริ่มต้น</FormLabel>
-                                        <DatePicker disabled={disread} required placeholderText='วัน-เดือน-ปี' dateFormat="dd-MM-yyyy" minDate={new Date()} wrapperClassName='date_picker full-width' selected={startDate3} onChange={handlestartdate3} />
+                                        <DatePicker disabled={disread} required placeholderText='วัน-เดือน-ปี' dateFormat="dd-MM-yyyy" minDate={new Date()} wrapperClassName='date_picker full-width' selected={startDate3} onChange={handlestartdate} />
+                                        {/* <DatePicker disabled={disread} required placeholderText='วัน-เดือน-ปี' dateFormat="dd-MM-yyyy" minDate={new Date()} wrapperClassName='date_picker full-width' selected={startDate3} onChange={handlestartdate3} /> */}
                                     </FormControl>
                                 </GridItem>
                                 <GridItem colSpan={2}>
                                     <FormControl >
                                         <FormLabel className='lable-rentcar'>วันที่ใช้รถสิ้นสุด</FormLabel>
-                                        <DatePicker disabled={disread} required placeholderText='วัน-เดือน-ปี' dateFormat="dd-MM-yyyy" minDate={new Date()} wrapperClassName='date_picker full-width' selected={startDate4} onChange={handleenddate4} />
+                                        <DatePicker required disabled={disread} placeholderText='วัน-เดือน-ปี' dateFormat="dd-MM-yyyy" minDate={dateminend} wrapperClassName='date_picker full-width' selected={startDate4} onChange={handleenddate} />
+                                        {/* <DatePicker  required placeholderText='วัน-เดือน-ปี' dateFormat="dd-MM-yyyy" minDate={new Date()} wrapperClassName='date_picker full-width' selected={startDate4} onChange={handleenddate4} /> */}
                                     </FormControl>
                                 </GridItem>
                                 <GridItem colSpan={2} />
@@ -1131,7 +1280,7 @@ const StatusRentCarDetail = (data: any=false) => {
                                     </FormControl>
                                 </GridItem>
                                 <GridItem colSpan={2} />
-                                <GridItem colSpan={2} hidden={carck5}>
+                                <GridItem colSpan={2} hidden={carck5 == true ? true : carck6}>
                                     <FormControl>
                                         <FormLabel className='lable-rentcar'>พื้นที่การปฏิบัติงาน</FormLabel>
                                         <Select disabled={disread} required placeholder='เลือกพื้นที่การปฏิบัติงาน' style={{ border: '1px #00AAAD solid' }} value={form.operational_area} onChange={handleoperational_area}>
@@ -1142,7 +1291,7 @@ const StatusRentCarDetail = (data: any=false) => {
                                 </GridItem>
                                 {
                                     form.operational_area == "option2" ?
-                                        <GridItem colSpan={2} hidden={carck5}>
+                                        <GridItem colSpan={2} hidden={carck5 == true ? true : carck6}>
                                             <FormControl>
                                                 <FormLabel className='lable-rentcar'>จังหวัด</FormLabel>
                                                 <Input disabled={disread} type='search' required placeholder='กรุณากรอกข้อมูล' style={{ border: '1px #00AAAD solid' }} value={form.upcountry} onChange={handlerovince} />
@@ -1152,7 +1301,7 @@ const StatusRentCarDetail = (data: any=false) => {
                                         <GridItem colSpan={2} />
                                 }
                                 <GridItem colSpan={2} />
-                                <GridItem colSpan={2} hidden={carck5}>
+                                <GridItem colSpan={2} hidden={carck5 == true ? true : carck6}>
                                     <FormControl>
                                         <FormLabel className='lable-rentcar'>ข้อมูลการพักค้างคืน</FormLabel>
                                         <Select disabled={disread} required placeholder='เลือกข้อมูลการพักค้างคืน' style={{ border: '1px #00AAAD solid' }} value={form.overnight_stay} onChange={handleovernight_stay}>
@@ -1163,7 +1312,7 @@ const StatusRentCarDetail = (data: any=false) => {
                                 </GridItem>
                                 {
                                     form.overnight_stay == "option1" ?
-                                        <GridItem colSpan={2} hidden={carck5}>
+                                        <GridItem colSpan={2} hidden={carck5 == true ? true : carck6}>
                                             <FormControl>
                                                 <FormLabel className='lable-rentcar'>จำนวนวันที่ค้างคืน (วัน)</FormLabel>
                                                 <Input disabled={disread} type='search' required placeholder='กรุณากรอกข้อมูล' style={{ border: '1px #00AAAD solid' }} value={form.overnight} onChange={handleovernight} />
@@ -1173,7 +1322,7 @@ const StatusRentCarDetail = (data: any=false) => {
                                         <GridItem colSpan={2} />
                                 }
 
-                                <GridItem colSpan={2} hidden={carck5} />
+                                <GridItem colSpan={2} hidden={carck5 == true ? true : carck6} />
                                 <GridItem colSpan={2}>
                                     <FormControl>
                                         <FormLabel className='lable-rentcar'>ผู้รับผิดชอบค่าใช้จ่าย</FormLabel>
@@ -1217,7 +1366,9 @@ const StatusRentCarDetail = (data: any=false) => {
                                     <Button hidden={editbutton} onClick={editdata} className='lable-rentcar' type='submit' colorScheme='teal' size='md' px={'10'} py={'5'} mb={"20px"}>
                                         แก้ไขข้อมูล
                                     </Button>
-                                    <Button onClick={handleapproved} hidden={approvedbutton} className='lable-rentcar' type='submit' colorScheme='teal' size='md' px={'10'} py={'5'} mx={"3"} mb={"20px"}>
+                                    <Button isLoading={loading}
+    loadingText='กำลังอัพเดท'
+   onClick={handleapproved} hidden={approvedbutton} className='lable-rentcar' type='submit' colorScheme='teal' size='md' px={'10'} py={'5'} mx={"3"} mb={"20px"}>
                                         อนุมัติ
                                     </Button>
                                 </GridItem>

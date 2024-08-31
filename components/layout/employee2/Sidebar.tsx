@@ -7,7 +7,8 @@ import {
   Text,
   BoxProps,
   MenuList,
-
+  Center,
+  Spinner,
 } from "@chakra-ui/react"
 import { IconType } from "react-icons"
 import { UserIcon, EmployeeIcon, CarBookingIcon, ReportIcon,CarnotBookingIcon,CarduringBookingIcon,CarBookingIcon11,CarBookingIcon12 } from "../../Icon"
@@ -99,10 +100,12 @@ const Sidebar = ({
 
   // console.log(SidebarData);
   const me = getMe();
-
+  const [isLoading, setLoading] = useState(true)
   useEffect(()=>{
     let ggg1 = me?.data?.data?.myHrEmployee?.plantId;
     if(parseInt(ggg1) == 2){
+    setLoading(false)
+      
       LinkItems = [
         // { name: "ข้อมูลลงทะเบียน", icon: UserIcon, link: "/employee/registration" },
         {
@@ -152,10 +155,25 @@ const Sidebar = ({
         //   link: "/employee2/evaluation",
         // },
       ]
+    }else if(parseInt(ggg1) == 1 ){
+      setLoading(false)
+
     }
     
   },[me.isLoading]);
-  
+  if (isLoading)
+    return (
+      <Flex
+        alignItems="center"
+        width="100%"
+        height="100vh"
+        justifyContent="center"
+      >
+        <Center>
+          <Spinner size="xl" color="primary.500" />
+        </Center>
+      </Flex>
+    )
   return (
     <Box
       transition="width .3s ease"
