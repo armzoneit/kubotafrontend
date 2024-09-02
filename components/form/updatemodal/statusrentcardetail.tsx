@@ -246,6 +246,10 @@ const StatusRentCarDetail = (data: any=false) => {
                             cost_enter: response.data.data.carBookingWithDriver[0]?.cost_enter,
                             order: response.data.data.carBookingWithDriver[0]?.order,
                             overnight: response.data.data.carBookingWithDriver[0]?.overnight,
+                            status: response.data.data.carBookingWithDriver[0]?.status,
+                            status_approved: response.data.data.carBookingWithDriver[0]?.status_approved,
+                            googleform: response.data.data.carBookingWithDriver[0]?.googleform,
+                            
                         })
 
                     })
@@ -383,6 +387,10 @@ const StatusRentCarDetail = (data: any=false) => {
                             tel_use_car:response.data.data.carBookingWithDriver[0]?.tel_use_car,
                             brand_cars1:response.data.data.carBookingWithDriver[0]?.brand_cars2,
                             brand_cars2:response.data.data.carBookingWithDriver[0]?.brand_cars1,
+                            status:response.data.data.carBookingWithDriver[0]?.status,
+                            status_approved:response.data.data.carBookingWithDriver[0]?.status_approved,
+                            googleform:response.data.data.carBookingWithDriver[0]?.googleform,
+
                         })
                     })
                     .catch((error) => {
@@ -501,7 +509,9 @@ const StatusRentCarDetail = (data: any=false) => {
                             cost_enter: response.data.data.carBookingWithDriver[0]?.cost_Enter,
                             order: response.data.data.carBookingWithDriver[0]?.order,
                             overnight: response.data.data.carBookingWithDriver[0]?.other,
-                            
+                            status: response.data.data.carBookingWithDriver[0]?.status,
+                            status_approved: response.data.data.carBookingWithDriver[0]?.status_approved,
+                            googleform: response.data.data.carBookingWithDriver[0]?.googleform,
                         })
                     })
                     .catch((error) => {
@@ -551,9 +561,9 @@ const StatusRentCarDetail = (data: any=false) => {
                 "GL": form.GL,
                 "cost_enter": form.cost_enter,
                 "order": form.order,
-                "status": 0,
-                "status_approved": 0,
-                "googleform": 0,
+                "status": form.status,
+                "status_approved": form.status_approved,
+                "googleform": form.googleform,
                 "overnight": form.overnight,
                 "employeeapproval": "string"
             });
@@ -617,9 +627,9 @@ const StatusRentCarDetail = (data: any=false) => {
                 "GL": form.GL,
                 "cost_enter": form.cost_enter,
                 "order": form.order,
-                "status": 0,
-                "status_approved": 0,
-                "googleform": 0,
+               "status": form.status,
+                "status_approved": form.status_approved,
+                "googleform": form.googleform,
                 "overnight": form.overnight,
                 "employeeapproval": "string",
                 "code_employee": form.code_employee,
@@ -696,9 +706,9 @@ const StatusRentCarDetail = (data: any=false) => {
                 "GL": form.GL,
                 "cost_enter": form.cost_enter,
                 "order": form.order,
-                "status": 0,
-                "status_approved": 0,
-                "googleform": 0,
+                "status": form.status,
+                "status_approved": form.status_approved,
+                "googleform": form.googleform,
                 "overnight": form.overnight,
                 "employeeapproval": "string"
 
@@ -778,7 +788,10 @@ const StatusRentCarDetail = (data: any=false) => {
         division_employee:"",
         tel_use_car:"",
         brand_cars1:"",
-        brand_cars2:""
+        brand_cars2:"",
+        status: 0,
+        status_approved: 0,
+        googleform:0
     })
 
     const [startDate, setStartDate] = useState(new Date());
