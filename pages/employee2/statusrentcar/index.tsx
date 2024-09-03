@@ -14,7 +14,8 @@ import { Box, Button, Flex,Spacer, FormControl, FormErrorMessage, FormHelperText
   NumberInputField,
   effect,
   Link,
-  position
+  position,
+  Spinner
 
 } from '@chakra-ui/react'
 import Head from 'next/head';
@@ -1193,30 +1194,44 @@ const [startDate, setStartDate] = useState(new Date());
                 <ModalHeader>ข้อมูลสายอนุมัติ</ModalHeader>
                 <ModalCloseButton />
                 <ModalBody>
-                    <Box>
-                        <TableContainer borderRadius={"10px"} border={'1px #00A5A8 solid'} height={"45vh"} overflowY={"auto"}  >
-                            <Table size='md' className='table-font' >
-                                <Thead bgColor={'#00A5A8'} height={"40px"} position={"sticky"} top={"0"}  >
-                                    <Tr>
-                                        <Th color={"white"}>ลำดับ</Th>
-                                        <Th color={"white"}>ชื่อ</Th>
-                                        <Th color={"white"}>ตำแหน่ง</Th>
-                                        <Th color={"white"}>สถานะ</Th>
-                                    </Tr>
-                                </Thead>
-                                <Tbody>
-                                    {approval.map((x,i) =>
-                                        <Tr>
-                                            <Th>{(i)+1}</Th>
-                                            <Th>{x.name}</Th>
-                                            <Th>{x.position}</Th>
-                                            <Th>{x.status}</Th>
-                                        </Tr>
-                                    )}
-                                </Tbody>
-                            </Table>
-                        </TableContainer>
-                    </Box>
+                    {
+                        approval.length > 0 ?
+                            <Box>
+                                <TableContainer borderRadius={"10px"} border={'1px #00A5A8 solid'} height={"45vh"} overflowY={"auto"}  >
+                                    <Table size='md' className='table-font' >
+                                        <Thead bgColor={'#00A5A8'} height={"40px"} position={"sticky"} top={"0"}  >
+                                            <Tr>
+                                                <Th color={"white"}>ลำดับ</Th>
+                                                <Th color={"white"}>ชื่อ</Th>
+                                                <Th color={"white"}>ตำแหน่ง</Th>
+                                                <Th color={"white"}>สถานะ</Th>
+                                            </Tr>
+                                        </Thead>
+                                        <Tbody>
+                                            {approval.map((x,i) =>
+                                                <Tr>
+                                                    <Th>{(i)+1}</Th>
+                                                    <Th>{x.name}</Th>
+                                                    <Th>{x.position}</Th>
+                                                    <Th>{x.status}</Th>
+                                                </Tr>
+                                            )}
+                                        </Tbody>
+                                    </Table>
+                                </TableContainer>
+                            </Box>
+                        :
+                        <Flex
+                        alignItems="center"
+              
+                        justifyContent="center"
+                      >
+                        <Center>
+                          <Spinner size="xl" color="primary.500" />
+                        </Center>
+                      </Flex>
+                    }
+                    
                 </ModalBody>
                     
                 <ModalFooter>
