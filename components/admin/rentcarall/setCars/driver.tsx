@@ -257,20 +257,16 @@ const RentCarAllDayDriver = ({ data }) => {
     const handlecost_enter = (event:React.ChangeEvent<HTMLInputElement>) => setform(prev=> { return {...prev,cost_enter:event.target.value}})
     const handleorder = (event:React.ChangeEvent<HTMLInputElement>) => setform(prev=> { return {...prev,order:event.target.value}})
     const handleovernight = (event:React.ChangeEvent<HTMLInputElement>) => setform(prev=> {
-         
         let isnumber = /^[0-9\b]*$/;
         if(isnumber.test(event.target.value))
         {
             return {...prev,overnight:event.target.value}
         } else{
             return {...prev}
-        }
-        
-        
+        } 
     })
     const handleother = (event:React.ChangeEvent<HTMLInputElement>) => setform(prev=> { return {...prev,other:event.target.value}})
     const handleSubmit = (event: any) => {
-        // alert('You clicked submit');
         event.preventDefault();
         if(ckcar1 == false && ckcar2 == false)
             {
@@ -333,8 +329,6 @@ const RentCarAllDayDriver = ({ data }) => {
             return;
         }
         setloading(true)
-        
-      
     }
 
     useEffect(() => {
@@ -369,7 +363,6 @@ const RentCarAllDayDriver = ({ data }) => {
     const isError = datas.note === ''
     return (
         <>
-        
             <Head>
                 <title>จองรถเช่าเหมาวัน(พร้อมคนขับ)</title>
                 <meta name="description" content="reservation" />
@@ -384,7 +377,6 @@ const RentCarAllDayDriver = ({ data }) => {
                     <GridItem colSpan={2} >
                         <FormControl isRequired >
                             <FormLabel className='lable-rentcar'>วันที่จองรถ</FormLabel>
-                            {/* <Input style={{ border: '1px #00AAAD solid' }} name="booking_date" type="date" value={new Date(Date.now()).toISOString().split("T")[0]} /> */}
                             <DatePicker required dateFormat="dd-MM-yyyy" wrapperClassName='date_picker full-width' selected={startDate} onChange={handlebookingdate} />
                             <DatePickerWrapperStyles />
                         </FormControl>
@@ -428,9 +420,6 @@ const RentCarAllDayDriver = ({ data }) => {
                         <FormControl isRequired isInvalid={isError}>
                             <FormLabel className='lable-rentcar'>วัตถุประสงค์ในการจองรถ</FormLabel>
                             <Input required type='search' placeholder='กรุณากรอกข้อมูล' style={{ border: '1px #00AAAD solid' }} onChange={handlenote} value={data.note} name='note' />
-                            {/* {isError &&
-                                <FormErrorMessage>Email is required.</FormErrorMessage>
-                            } */}
                         </FormControl>
                     </GridItem>
                     <GridItem colSpan={6}>
@@ -444,13 +433,7 @@ const RentCarAllDayDriver = ({ data }) => {
                                 <Stack direction='row' alignItems={"baseline"}>
                                     
                                     <Input isDisabled={!ckcar1} style={{ border: '1px #00AAAD solid', margin: "0px 10px" }} maxWidth={"100"} value={data.number_travelers} onChange={handlenumber_travelers} name='number_travelers' type='search' pattern="[0-9]*" />
-                                    {/* <NumberInput isDisabled={!ckcar1} min={0} max={100} style={{ border: '1px #00AAAD solid', margin: "0px 10px" }} onChange={handlenumber_travelers}>
-                                        <NumberInputField />
-                                        <NumberInputStepper>
-                                            <NumberIncrementStepper />
-                                            <NumberDecrementStepper />
-                                        </NumberInputStepper>
-                                    </NumberInput> */}
+                                    
                                     
                                 </Stack>
                                 <Text style={{marginTop:"10px"}}>คัน</Text>
@@ -459,12 +442,7 @@ const RentCarAllDayDriver = ({ data }) => {
                                     <Input isDisabled={!ckcar1} required type='search' style={{ border: '1px #00AAAD solid' }} maxWidth={"100"} value={data.person_count} onChange={handleTrip}/><Text >คน</Text>
                                 </Stack>
                             </Flex>
-                            {/* <RadioGroup onChange={setValue} value={value}>
-                                <Stack direction='row'>
-                                    <Radio value='1'>รถตู้</Radio>
-                                    <Radio value='2'>รถกระบะ</Radio>
-                                </Stack>
-                            </RadioGroup> */}
+                            
                         </FormControl>
                     </GridItem>
                     <GridItem colSpan={6}>
@@ -476,13 +454,7 @@ const RentCarAllDayDriver = ({ data }) => {
                                 <FormLabel className='lable-rentcar' style={{marginTop:"10px"}}>จำนวนคัน</FormLabel>
                                 <Stack direction='row' alignItems={"baseline"}>
                                     <Input isDisabled={!ckcar2} style={{ border: '1px #00AAAD solid', margin: "0px 10px" }} maxWidth={"100"} value={data.number_cars} onChange={handlenumber_cars} type='search' name='number_cars' />
-                                    {/* <NumberInput isDisabled={!ckcar2} min={0} max={100} style={{ border: '1px #00AAAD solid', margin: "0px 10px" }} value={data.number_cars} onChange={(val) => console.log(val)}>
-                                        <NumberInputField />
-                                        <NumberInputStepper>
-                                            <NumberIncrementStepper />
-                                            <NumberDecrementStepper />
-                                        </NumberInputStepper>
-                                    </NumberInput> */}
+                                    
                                 </Stack>
                                 <Text style={{marginTop:"10px"}}>คัน</Text>
                                 <Stack direction='row' alignItems={"baseline"}>
@@ -490,77 +462,26 @@ const RentCarAllDayDriver = ({ data }) => {
                                     <Input isDisabled={!ckcar2} required type='search' style={{ border: '1px #00AAAD solid' }} maxWidth={"100"} value={data.person_count1} onChange={handleTrip1}/><Text >คน</Text>
                                 </Stack>
                             </Flex>
-                            {/* <RadioGroup onChange={setValue} value={value}>
-                                <Stack direction='row'>
-                                    <Radio value='1'>รถตู้</Radio>
-                                    <Radio value='2'>รถกระบะ</Radio>
-                                </Stack>
-                            </RadioGroup> */}
+                            
                         </FormControl>
                     </GridItem>
-                    {/* <GridItem colSpan={2}>
-                        <FormControl isRequired>
-                            <Stack direction='row' alignItems={"baseline"}>
-                                <FormLabel className='lable-rentcar'>จำนวนผู้เดินทาง</FormLabel>
-                                <Input required type='search' style={{ border: '1px #00AAAD solid' }} maxWidth={"100"} value={data.number_of_trips} onChange={handleTrip}/><Text >คน</Text>
-                            </Stack>
-                        </FormControl>
-                    </GridItem> */}
+                    
                     <GridItem colSpan={6} />
                     <GridItem colSpan={2}>
-                        {/* <FormControl>
-                            <Stack direction='row' alignItems={"baseline"}>
-                                <FormLabel className='lable-rentcar'>จำนวนคัน</FormLabel>
-                                <Input style={{ border: '1px #00AAAD solid', marginLeft: "48px" }} maxWidth={"50"} /><Text>คัน</Text>
-                            </Stack>
-                        </FormControl> */}
+                       
                     </GridItem>
                     <GridItem colSpan={4} />
                     <GridItem colSpan={2}>
                         <FormControl isRequired>
                             <FormLabel className='lable-rentcar'>วันที่ใช้รถเริ่มต้น</FormLabel>
-                            {/* <Controller
-                                name={`date`}
-                                control={control}
-                                render={({ field, fieldState }) => (
-                                    <DatePickerInput
-                                        date={date ?? null}
-                                        minDate={new Date()}
-                                        field={field}
-                                        fieldState={fieldState}
-                                        dateFormat="dd/MM/yyyy (ccc)"
-                                        customOnChange={true}
-                                        onChange={(date: any) => {
-                                            field.onChange(date)
-                                            handleSetDate(date)
-                                            if (date == null) {
-                                                setError("date", {
-                                                    message: "กรุณาเลือกวันที่",
-                                                    type: "required",
-                                                })
-                                            } else {
-                                                clearErrors("date")
-                                            }
-
-                                            if (!(date === watchDate)) {
-                                                setValue(`timeTableRoundId`, null)
-                                            }
-                                            unregister(`timeTableRoundId`)
-                                        }}
-                                    />
-                                )}
-                                rules={{
-                                    required: "กรุณาเลือกวันที่",
-                                }}
-                            /> */}
-                            {/* <Input style={{ border: '1px #00AAAD solid' }} type="date" value={data.startdate} onChange={handlestartdate} /> */}
+                           
                             <DatePicker required placeholderText='วัน-เดือน-ปี' dateFormat="dd-MM-yyyy" minDate={new Date()} wrapperClassName='date_picker full-width' selected={startDate1} onChange={handlestartdate} />
                         </FormControl>
                     </GridItem>
                     <GridItem colSpan={2}>
                         <FormControl isRequired>
                             <FormLabel className='lable-rentcar'>วันที่ใช้รถสิ้นสุด</FormLabel>
-                            {/* <Input style={{ border: '1px #00AAAD solid' }} type="date" value={data.enddate} onChange={handleenddate} /> */}
+
                             <DatePicker required placeholderText='วัน-เดือน-ปี' dateFormat="dd-MM-yyyy" minDate={dateminend} wrapperClassName='date_picker full-width' selected={startDate2} onChange={handleenddate} />
                         </FormControl>
                     </GridItem>
@@ -574,7 +495,7 @@ const RentCarAllDayDriver = ({ data }) => {
                     <GridItem colSpan={2}>
                         <FormControl isRequired>
                             <FormLabel className='lable-rentcar'>เวลา</FormLabel>
-                            {/* <Input style={{ border: '1px #00AAAD solid' }} type="time" value={data.timeIn} onChange={handletimeIn} /> */}
+                            
                             <TimePicker required onChange={onChanges1} value={dayjs(data.timeIn,"HH:mm")} format="HH:mm"  />
                         </FormControl>
                     </GridItem>
@@ -588,7 +509,7 @@ const RentCarAllDayDriver = ({ data }) => {
                     <GridItem colSpan={2}>
                         <FormControl isRequired>
                             <FormLabel className='lable-rentcar'>เวลา</FormLabel>
-                            {/* <Input style={{ border: '1px #00AAAD solid' }} type="time" value={data.timeOut} onChange={handletimeOut} /> */}
+
                             <TimePicker required onChange={onChanges2} value={dayjs(data.timeOut,"HH:mm")} format="HH:mm" disabledTime={disabledDateTime}/>
                         </FormControl>
                     </GridItem>
@@ -617,16 +538,14 @@ const RentCarAllDayDriver = ({ data }) => {
                             </FormControl>
                         }
                     </GridItem>
-                    {
-                        data.operational_area == "option2" ? 
+                    {   data.operational_area == "option2" ? 
                         <GridItem colSpan={2}>
                             <FormControl isRequired>
                                 <FormLabel className='lable-rentcar'>จังหวัด</FormLabel>
                                 <Input type='search' required placeholder='กรุณากรอกข้อมูล' style={{ border: '1px #00AAAD solid' }} value={data.province} onChange={handlerovince} />
                             </FormControl>
                         </GridItem>
-                        :
-                        <GridItem colSpan={2} />
+                        :<GridItem colSpan={2} />
                     }
                     <GridItem colSpan={2} />
                     <GridItem colSpan={2}>
@@ -692,8 +611,11 @@ const RentCarAllDayDriver = ({ data }) => {
                     </GridItem>
                     <GridItem colSpan={4}>
                         <Button isLoading={loading}
-    loadingText='ส่งแบบฟอร์ม'
-    colorScheme='teal' className='lable-rentcar' type='submit' colorScheme='teal' size='md' px={'10'} py={'5'} mb={"20px"} disabled={disbut}>
+                                loadingText='ส่งแบบฟอร์ม'
+                                colorScheme='teal' 
+                                className='lable-rentcar' 
+                                type='submit' 
+                                colorScheme='teal' size='md' px={'10'} py={'5'} mb={"20px"} disabled={disbut}>
                             ส่งแบบฟอร์ม
                         </Button>
 
@@ -704,11 +626,7 @@ const RentCarAllDayDriver = ({ data }) => {
                 </Grid>
 
             </form >
-
-
-
         </>
-
     )
 }
 

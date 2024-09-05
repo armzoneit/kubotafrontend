@@ -236,7 +236,6 @@ const indexPage = ({ mode }) => {
         },
         data : data
         };
-        console.log(config.url);
         
         axios.request(config)
         .then((response) => {
@@ -290,7 +289,7 @@ const indexPage = ({ mode }) => {
                 <GridItem colSpan={6}>
                     <Box border="solid 1px #00A5A8" p={4} borderRadius={"10px"} justifySelf={"center"}>
                         <Text color={'#00A5A8'} fontSize='xl' as={'b'} className='lable-rentcar'>{ title_name[mode] }</Text>
-                        <Grid style={{ justifyContent: "center" }} >
+                        <Grid templateColumns='repeat(12, 1fr)' style={{ justifyContent: "center" }} >
                             <GridItem colSpan={6}>
                                 <label className='lable-statusrentcar' style={{ width: "150px" }}>วันที่ใช้รถเริ่มต้น</label>
                                 <span>
@@ -301,12 +300,9 @@ const indexPage = ({ mode }) => {
                                 <span>
                                     <DatePicker required dateFormat="dd-MM-yyyy" wrapperClassName='date_picker full-width' selected={startDate1} onChange={(event)=>{setStartDate1(event)}} />
                                 </span>
-                                
-                            </GridItem>
-                            <GridItem colSpan={6}>
-                                <label className='lable-statusrentcar' style={{ width: "150px" }}>ชื่อผู้จองรถ</label><br />
+                                <label className='lable-statusrentcar' >ชื่อผู้จองรถ</label><br />
                                 <Input style={{ border: '1px #00A5A8 solid'}} type="text"  value={bookingnames} onChange={(e) => {setbookingnames(e.target.value)}}/>
-                                <label className='lable-statusrentcar' style={{ width: "150px" }}>สถานะการจัดรถ</label>
+                                <label className='lable-statusrentcar' >สถานะการจัดรถ</label>
                                 <span>
                                     <Select  style={{ border: '1px #00A5A8 solid'}} value={datasall.cartype} onChange={handlecartye}>
                                     {
@@ -318,7 +314,7 @@ const indexPage = ({ mode }) => {
                                     </Select>
                                 </span>
                             </GridItem>
-                            <GridItem colSpan={6}>
+                            <GridItem colSpan={12}>
                                 <br />
                                 <Button className='lable-rentcar' type='button' onClick={search} colorScheme='teal' size='md' ml={5}><AiOutlineSearch />ค้นหา</Button>
                             </GridItem>

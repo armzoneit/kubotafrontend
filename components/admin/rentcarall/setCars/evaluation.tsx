@@ -127,38 +127,38 @@ const evaluation = ({ mode }) => {
       )
       const [overlay, setOverlay] = React.useState(<OverlayOne />)
     const [form, setform] = useState({
-        idcarbooking:null,
-        PlantId:"",
-        employee_no:"",
-        booking_date:"",
-        bookingname:"",
-        email:"",
-        agency:"",
-        division:"",
-        tel:"",
-        note:"",
-        typecar:"",
-        number_travelers:"0",
-        number_cars:"0",
-        person_count:"0",
-        startdate:"",
-        enddate:"",
-        locationIn:"",
-        timeIn:"00:00",
-        LocationOut:"",
-        timeOut:"00:00",
-        operational_area:"",
-        upcountry:"",
-        overnight_stay:"",
-        person_responsible_for_expenses:"",
-        other:"",
-        number_of_trips:"",
-        province:"",
-        GL:"",
-        cost_enter:"",
-        order:"",
-        overnight:"0",
-})
+            idcarbooking:null,
+            PlantId:"",
+            employee_no:"",
+            booking_date:"",
+            bookingname:"",
+            email:"",
+            agency:"",
+            division:"",
+            tel:"",
+            note:"",
+            typecar:"",
+            number_travelers:"0",
+            number_cars:"0",
+            person_count:"0",
+            startdate:"",
+            enddate:"",
+            locationIn:"",
+            timeIn:"00:00",
+            LocationOut:"",
+            timeOut:"00:00",
+            operational_area:"",
+            upcountry:"",
+            overnight_stay:"",
+            person_responsible_for_expenses:"",
+            other:"",
+            number_of_trips:"",
+            province:"",
+            GL:"",
+            cost_enter:"",
+            order:"",
+            overnight:"0",
+    })
     const handlebookingname = (event:React.ChangeEvent<HTMLInputElement>) => setform(prev=> { console.log("test555"); return {...prev,bookingname:event.target.value}})
     const handleemail = (event:React.ChangeEvent<HTMLInputElement>) => setform(prev=> { return {...prev,email:event.target.value}})
     const handleagency = (event:React.ChangeEvent<HTMLInputElement>) => setform(prev=> { return {...prev,agency:event.target.value}})
@@ -253,7 +253,7 @@ const evaluation = ({ mode }) => {
     }
     // console.log(datas);
     const handlecartye = (event:React.ChangeEvent<HTMLInputElement>) => setdatas(prev=> { 
-        console.log(event.target.value);
+        
         return {...prev,cartype:event.target.value}}
     )
     
@@ -286,42 +286,40 @@ const evaluation = ({ mode }) => {
     
     return (
         <>
-            <Grid templateColumns='repeat(6, 1fr)'>
+            <Grid templateColumns='repeat(6, 1fr)' style={{ margin: "10px" }}>
                 <GridItem colSpan={6}>
                     <Box border="solid 1px #00A5A8" p={4} borderRadius={"10px"} justifySelf={"center"}>
                         <Text color={'#00A5A8'} fontSize='xl' as={'b'} className='lable-rentcar'>{ title_name[mode] }</Text>
-                        <Grid style={{ justifyContent: "center" }} >
-                        
-                            <Flex p={2}  >
-                                <label className='lable-statusrentcar' style={{ width: "150px" }}>วันที่ใช้รถเริ่มต้น</label>
-                                <span>
-                                    <DatePicker required dateFormat="dd-MM-yyyy" wrapperClassName='date_picker full-width' selected={startDate} onChange={(event)=>{setStartDate(event)}} />
-                                </span>
-                                <DatePickerWrapperStyles />
-                                <label className='lable-statusrentcar' style={{ width: "150px" }}>วันที่ใช้รถสิ้นสุด</label>
-                                <span>
-                                    <DatePicker required dateFormat="dd-MM-yyyy" wrapperClassName='date_picker full-width' selected={startDate1} onChange={(event)=>{setStartDate1(event)}} />
-                                </span>
-                            </Flex>
-                            <Flex p={2}  >
-                                <label className='lable-statusrentcar' style={{ width: "150px" }}>ชื่อผู้จองรถ</label>
-                                    <Input style={{ border: '1px #00A5A8 solid', width: '150px' }} type="text"  value={bookingnames} onChange={(e) => {setbookingnames(e.target.value)}}/>
-                                <label className='lable-statusrentcar' style={{ width: "150px" }}>สถานะการจัดรถ</label>
-                                <span>
-                                    <Select  style={{ border: '1px #00A5A8 solid'}} value={datasall.cartype} onChange={handlecartye}>
-                                    {
-                                            status.map((val, index) => {
-                                            return (
-                                                <option value={index} >{ val }</option>
-                                            )})
-                                    }
-                                    </Select>
-                                </span>
+                            <Grid  templateColumns='repeat(12, 1fr)' style={{ justifyContent: "center" }} >
+                                <GridItem colSpan={6}>
+                                    <label className='lable-statusrentcar' >วันที่ใช้รถเริ่มต้น</label>
+                                    <span>
+                                        <DatePicker required dateFormat="dd-MM-yyyy" wrapperClassName='date_picker full-width' selected={startDate} onChange={(event)=>{setStartDate(event)}} />
+                                    </span>
+                                    <DatePickerWrapperStyles />
+                                    <label className='lable-statusrentcar' >วันที่ใช้รถสิ้นสุด</label>
+                                    <span>
+                                        <DatePicker required dateFormat="dd-MM-yyyy" wrapperClassName='date_picker full-width' selected={startDate1} onChange={(event)=>{setStartDate1(event)}} />
+                                    </span>
+                                    <label className='lable-statusrentcar' >ชื่อผู้จองรถ</label>
+                                        <Input style={{ border: '1px #00A5A8 solid' }} type="text"  value={bookingnames} onChange={(e) => {setbookingnames(e.target.value)}}/>
+                                    <label className='lable-statusrentcar' >สถานะการจัดรถ</label>
+                                    <span>
+                                        <Select  style={{ border: '1px #00A5A8 solid'}} value={datasall.cartype} onChange={handlecartye}>
+                                        {
+                                                status.map((val, index) => {
+                                                return (
+                                                    <option value={index} >{ val }</option>
+                                                )})
+                                        }
+                                        </Select>
+                                    </span>
+                                </GridItem>
+                                <GridItem colSpan={12} p={2}>
                                     <Button className='lable-rentcar' type='button' onClick={search} colorScheme='teal' size='md' ml={5}><AiOutlineSearch />ค้นหา</Button>
-                            </Flex>
-                            <Flex p={2} justifyContent={"center"} >
-                            <Button className='lable-rentcar' type='button' colorScheme='teal' size='md' ml={5}>ดูสรุปการประเมิน</Button>          
-                            </Flex>
+                                    <Button className='lable-rentcar' type='button' colorScheme='teal' size='md' ml={5}>ดูสรุปการประเมิน</Button>          
+                                </GridItem>
+                           
                         </Grid>
                     </Box>
                 </GridItem>
@@ -349,20 +347,18 @@ const evaluation = ({ mode }) => {
                                     {Array.isArray(datatables) && datatables.map((row, index) => {
                                         return (
                                             <Tr>
-                                            <Td>{index+1}</Td>
-                                            <Td>{row.booking_date}</Td>
-                                            <Td>{row.bookingname}</Td>
-                                            <Td>{row.agency}</Td>
-                                            <Td>{row.division}</Td>
-                                            <Td>{row.tel}</Td>
-                                            <Td>{row.googleForm ? 'ประเมินแล้ว':'ยังไม่ได้ประเมิน'}</Td>
-                                           
-                                        </Tr>
+                                                <Td>{index+1}</Td>
+                                                <Td>{row.booking_date}</Td>
+                                                <Td>{row.bookingname}</Td>
+                                                <Td>{row.agency}</Td>
+                                                <Td>{row.division}</Td>
+                                                <Td>{row.tel}</Td>
+                                                <Td>{row.googleForm ? 'ประเมินแล้ว':'ยังไม่ได้ประเมิน'}</Td>
+                                            </Tr>
                                         );
                                     })} {datatables.length == 0 && 
                                         <Tr>
                                             <Td colSpan={11} style={{textAlign:'center'}}>ไม่พบข้อมูล</Td>
-                                            
                                         </Tr>
                                     }
                                     
