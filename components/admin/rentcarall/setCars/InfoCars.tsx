@@ -430,10 +430,10 @@ const InfoCars = ({ mode, idcarbooking,booking }) => {
                             <Th color={"white"}>ผู้ให้บริการ</Th>
                             <Th color={"white"}>ประเภทรถ</Th>
                             <Th color={"white"}>ทะเบียนรถ</Th>
-                            <Th color={"white"}>วันทีจดทะเบียน</Th>
-                            <Th color={"white"}>อายุรถ</Th>
-                            <Th color={"white"}>ชื่อคนขับ</Th>
-                            <Th color={"white"}>เบอร์โทรศัพท์</Th>
+                            { mode == 1 ? <Th color={"white"}>วันทีจดทะเบียน</Th> : '' }
+                            { mode == 1 ? <Th color={"white"}>อายุรถ</Th> : '' }
+                            { mode != 2 ? <Th color={"white"}>ชื่อคนขับ</Th> : '' }
+                            { mode != 2 ? <Th color={"white"}>เบอร์โทรศัพท์</Th> : '' }
                     
                             <Th color={"white"} colSpan={2}>จัดการ</Th>
                         </Tr>
@@ -450,21 +450,11 @@ const InfoCars = ({ mode, idcarbooking,booking }) => {
                                     <Tr key={index}>
                                         <Td>{car.serv}</Td>
                                         <Td>{ carsInfo.type.name[cart]}</Td>
-                                        <Td>
-                                            {car.license}
-                                        </Td>
-                                        <Td>
-                                            { allCars.find(x => x.id == carId)?.dateRegisterCar?.slice(0, 10) }
-                                        </Td>
-                                        <Td>
-                                            { dateRegisterCar ? Math.floor((new Date().valueOf() - new Date(dateRegisterCar).valueOf()) / (60*60*24*365*1000)) : '-'} ปี
-                                        </Td>
-                                        <Td>
-                                            { allCars.find(x => x.id == carId)?.driver }
-                                        </Td>
-                                        <Td>
-                                            { allCars.find(x => x.id == carId)?.driverPhone }
-                                        </Td>
+                                        <Td>{car.license}</Td>
+                                        { mode == 1 ? <Td>{ allCars.find(x => x.id == carId)?.dateRegisterCar?.slice(0, 10) }</Td> : '' }
+                                        { mode == 1 ? <Td> { dateRegisterCar ? Math.floor((new Date().valueOf() - new Date(dateRegisterCar).valueOf()) / (60*60*24*365*1000)) : '-'} ปี</Td> : '' }
+                                        { mode != 2 ? <Td> { allCars.find(x => x.id == carId)?.driver }</Td> : '' }
+                                        { mode != 2 ? <Td> { allCars.find(x => x.id == carId)?.driverPhone }</Td> : '' }
                                         <Td >
                                             { !booking.status ?   <a onClick={async (e)=>{
                                                 await setselectCars(0);
