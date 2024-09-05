@@ -250,129 +250,133 @@ const tableCarManage = ({ mode }) => {
           });
     }
     return (
-        <>
-            <Modal blockScrollOnMount={false} size={"xl"} isOpen={isopen.isOpen} onClose={isopen.onClose}>
-                {overlay}
-                <ModalContent>
-                    <ModalHeader>รายการ{ modalText }</ModalHeader>
-                    <ModalCloseButton />
-
-                    <ModalBody>
-                            { fillForm.serv ? <FormLabel className='lable-rentcar'>ผู้ให้บริการ</FormLabel> : ''}
-                            { fillForm.serv ? <Input style={{ border: '1px #00AAAD solid' }} name="serv" value={addData.serv} onChange={handleChange}/> : ''}
-                            
-                            
-                            { fillForm.type ? <FormLabel className='lable-rentcar'>ประเภท</FormLabel> : ''}
-                            { fillForm.type ?
-                            <Select name='type' placeholder='เลือกประเภทรถ' style={{ border: '1px #00AAAD solid' }} onChange={handleChange}>
-                                    { fillForm.type_group.map((type_name,index) => { 
-                                        return ( 
-                                            <option value={index*1} selected={index == addData.type}>{type_name}</option> 
-                                            )
-                                        }) 
-                                    }
-                            </Select>
-                            : '' }
-
-                            { fillForm.license ? <FormLabel className='lable-rentcar'>ทะเบียนรถ</FormLabel> : ''}
-                            { fillForm.license ? <Input style={{ border: '1px #00AAAD solid' }} name="license" value={addData.license} onChange={handleChange}/> : ''}
-                            <FormLabel className='lable-rentcar'>รุ่นรถ</FormLabel> 
-                            <Select name='car_model' placeholder='เลือกรุ่นรถ' style={{ border: '1px #00AAAD solid' }} onChange={handleChange}>
-                                    { carModel.map((type_name,index) => { 
-                                        return ( 
-                                            <option value={type_name} selected={type_name == addData.car_model}>{type_name}</option> 
-                                            )
-                                        }) 
-                                    }
-                            </Select> 
-                           
-                            { fillForm.register_date ? <FormLabel className='lable-rentcar'>วันที่จดทะเบียนรถ</FormLabel> : ''}
-                            { fillForm.register_date ? <Input type="date" style={{ border: '1px #00AAAD solid' }} name="register_date" value={addData.register_date ? addData.register_date.slice(0,10) : ''} onChange={handleChange}/> : ''}
-
-                            { fillForm.driver ? <FormLabel className='lable-rentcar'>ชื่อคนขับรถ</FormLabel> : ''}
-                            { fillForm.driver ? <Input style={{ border: '1px #00AAAD solid' }} name="driver" value={addData.driver} onChange={handleChange}/> : ''}
-
-                            { fillForm.driver_phone ? <FormLabel className='lable-rentcar'>เบอร์โทรศัพท์คนขับรถ</FormLabel> : ''}
-                            { fillForm.driver_phone ? <Input style={{ border: '1px #00AAAD solid' }} name="driver_phone" value={addData.driver_phone} onChange={handleChange}/> : ''}
-
-                                           
-                    </ModalBody>
-
-                    <ModalFooter>
-                        <Button colorScheme='blue' backgroundColor={"#00A5A8"} mr={3}
-                            onClick={() => {
-                                isopen.onClose();
-                                insertData();
-                                
-                            }}>
-                            { modalText }
-                        </Button>
-                    </ModalFooter>
-                </ModalContent>
-            </Modal>
-            <Button colorScheme='blue' backgroundColor={"#00A5A8"} mb={3}  onClick={() => {
-                                setmodalText('เพิ่มรถ');
-                                
-                                resetData(-1);
-                                isopen.onOpen();
-                            }}>เพิ่มรถ</Button>
-            <TableContainer borderRadius={"10px"} border={'1px #00A5A8 solid'} >
-                <Table size='md' className='table-font' >
-                    <Thead bgColor={'#00A5A8'} height={"40px"}  >
-                        <Tr>
-                            <Th color={"white"}>ลำดับ</Th>
-                            { fillForm.serv ?  <Th color={"white"}>ผู้ให้บริการ</Th> : ""}
-                            <Th color={"white"}>ประเภทรถ</Th>
-                            <Th color={"white"}>รุ่นรถ</Th>
-                            { fillForm.license ? <Th color={"white"}>ทะเบียนรถ</Th> : ""}
-
-                            { fillForm.register_date ? <Th color={"white"}>วันที่จดทะเบียนรถ</Th> : ""}
-                            { fillForm.driver ? <Th color={"white"}>ชื่อคนขับ</Th> : "" }
-                            { fillForm.driver_phone ? <Th color={"white"}>เบอร์โทร</Th> : ""}
-                            <Th color={"white"} colSpan={2}>จัดการ</Th>
-                        </Tr>
-                    </Thead>
-                    <Tbody >
-                        {Array.isArray(allCars) && allCars.map((row, index) => {
-                            
-                            return (
-                                <Tr>
-                                    <Td>{index+1}</Td>
-                                    { fillForm.serv ?  <Td>{row.serv}</Td> :"" }
-                                    <Td>{ fillForm.type_group[row.type]}</Td>
-                                    <Td>{ row.carModel }</Td>
-                                    { fillForm.license ? <Td>{ row.license }</Td> :""}
-                                    { fillForm.register_date ? <Td>{ new Date(row.dateRegisterCar).toLocaleDateString() }</Td> : ""}
-                                    { fillForm.driver ? <Td>{row.driver}</Td> : "" }
-                                    { fillForm.driver_phone ? <Td>{row.driverPhone}</Td> : "" }
-                                  
-                                    <Td >
-                                         <a onClick={(e)=>{resetData(index);setmodalText('แก้ไขรถ');isopen.onOpen();}} href="#">
-                                            <AiOutlineEdit />
-                                        </a>
-                                        
-                                    </Td>
-                                    <Td >
-                                        <a onClick={(e)=>{deleteData(row.id);}} href="#">
-                                            <AiOutlineDelete />
-                                        </a>
-                                    </Td>
-                                </Tr>
-                            );
-                        })} 
-                        {allCars.length == 0 && 
-                            <Tr>
-                                <Td colSpan={17} style={{textAlign:'center'}}>ไม่พบข้อมูล</Td>
-                                
-                            </Tr>
-                        }
-                        
-                    </Tbody>
-
-                </Table>
-            </TableContainer>
+        <Grid style={{ margin: "10px" }}>
             
-        </>
+                <Modal blockScrollOnMount={false} size={"xl"} isOpen={isopen.isOpen} onClose={isopen.onClose}>
+                    {overlay}
+                    <ModalContent>
+                        <ModalHeader>รายการ{ modalText }</ModalHeader>
+                        <ModalCloseButton />
+
+                        <ModalBody>
+                                { fillForm.serv ? <FormLabel className='lable-rentcar'>ผู้ให้บริการ</FormLabel> : ''}
+                                { fillForm.serv ? <Input style={{ border: '1px #00AAAD solid' }} name="serv" value={addData.serv} onChange={handleChange}/> : ''}
+                                
+                                
+                                { fillForm.type ? <FormLabel className='lable-rentcar'>ประเภท</FormLabel> : ''}
+                                { fillForm.type ?
+                                <Select name='type' placeholder='เลือกประเภทรถ' style={{ border: '1px #00AAAD solid' }} onChange={handleChange}>
+                                        { fillForm.type_group.map((type_name,index) => { 
+                                            return ( 
+                                                <option value={index*1} selected={index == addData.type}>{type_name}</option> 
+                                                )
+                                            }) 
+                                        }
+                                </Select>
+                                : '' }
+
+                                { fillForm.license ? <FormLabel className='lable-rentcar'>ทะเบียนรถ</FormLabel> : ''}
+                                { fillForm.license ? <Input style={{ border: '1px #00AAAD solid' }} name="license" value={addData.license} onChange={handleChange}/> : ''}
+                                <FormLabel className='lable-rentcar'>รุ่นรถ</FormLabel> 
+                                <Select name='car_model' placeholder='เลือกรุ่นรถ' style={{ border: '1px #00AAAD solid' }} onChange={handleChange}>
+                                        { carModel.map((type_name,index) => { 
+                                            return ( 
+                                                <option value={type_name} selected={type_name == addData.car_model}>{type_name}</option> 
+                                                )
+                                            }) 
+                                        }
+                                </Select> 
+                            
+                                { fillForm.register_date ? <FormLabel className='lable-rentcar'>วันที่จดทะเบียนรถ</FormLabel> : ''}
+                                { fillForm.register_date ? <Input type="date" style={{ border: '1px #00AAAD solid' }} name="register_date" value={addData.register_date ? addData.register_date.slice(0,10) : ''} onChange={handleChange}/> : ''}
+
+                                { fillForm.driver ? <FormLabel className='lable-rentcar'>ชื่อคนขับรถ</FormLabel> : ''}
+                                { fillForm.driver ? <Input style={{ border: '1px #00AAAD solid' }} name="driver" value={addData.driver} onChange={handleChange}/> : ''}
+
+                                { fillForm.driver_phone ? <FormLabel className='lable-rentcar'>เบอร์โทรศัพท์คนขับรถ</FormLabel> : ''}
+                                { fillForm.driver_phone ? <Input style={{ border: '1px #00AAAD solid' }} name="driver_phone" value={addData.driver_phone} onChange={handleChange}/> : ''}
+
+                                            
+                        </ModalBody>
+
+                        <ModalFooter>
+                            <Button colorScheme='blue' backgroundColor={"#00A5A8"} mr={3}
+                                onClick={() => {
+                                    isopen.onClose();
+                                    insertData();
+                                    
+                                }}>
+                                { modalText }
+                            </Button>
+                        </ModalFooter>
+                    </ModalContent>
+                </Modal>
+            <GridItem colSpan={1}>
+            <Button colorScheme='blue' backgroundColor={"#00A5A8"} mb={3}  onClick={() => {
+                                    setmodalText('เพิ่มรถ');
+                                    
+                                    resetData(-1);
+                                    isopen.onOpen();
+                                }}>เพิ่มรถ</Button>
+            </GridItem>
+                
+                <TableContainer borderRadius={"10px"} border={'1px #00A5A8 solid'} >
+                    <Table size='md' className='table-font' >
+                        <Thead bgColor={'#00A5A8'} height={"40px"}  >
+                            <Tr>
+                                <Th color={"white"}>ลำดับ</Th>
+                                { fillForm.serv ?  <Th color={"white"}>ผู้ให้บริการ</Th> : ""}
+                                <Th color={"white"}>ประเภทรถ</Th>
+                                <Th color={"white"}>รุ่นรถ</Th>
+                                { fillForm.license ? <Th color={"white"}>ทะเบียนรถ</Th> : ""}
+
+                                { fillForm.register_date ? <Th color={"white"}>วันที่จดทะเบียนรถ</Th> : ""}
+                                { fillForm.driver ? <Th color={"white"}>ชื่อคนขับ</Th> : "" }
+                                { fillForm.driver_phone ? <Th color={"white"}>เบอร์โทร</Th> : ""}
+                                <Th color={"white"} colSpan={2}>จัดการ</Th>
+                            </Tr>
+                        </Thead>
+                        <Tbody >
+                            {Array.isArray(allCars) && allCars.map((row, index) => {
+                                
+                                return (
+                                    <Tr>
+                                        <Td>{index+1}</Td>
+                                        { fillForm.serv ?  <Td>{row.serv}</Td> :"" }
+                                        <Td>{ fillForm.type_group[row.type]}</Td>
+                                        <Td>{ row.carModel }</Td>
+                                        { fillForm.license ? <Td>{ row.license }</Td> :""}
+                                        { fillForm.register_date ? <Td>{ new Date(row.dateRegisterCar).toLocaleDateString() }</Td> : ""}
+                                        { fillForm.driver ? <Td>{row.driver}</Td> : "" }
+                                        { fillForm.driver_phone ? <Td>{row.driverPhone}</Td> : "" }
+                                    
+                                        <Td >
+                                            <a onClick={(e)=>{resetData(index);setmodalText('แก้ไขรถ');isopen.onOpen();}} href="#">
+                                                <AiOutlineEdit />
+                                            </a>
+                                            
+                                        </Td>
+                                        <Td >
+                                            <a onClick={(e)=>{deleteData(row.id);}} href="#">
+                                                <AiOutlineDelete />
+                                            </a>
+                                        </Td>
+                                    </Tr>
+                                );
+                            })} 
+                            {allCars.length == 0 && 
+                                <Tr>
+                                    <Td colSpan={17} style={{textAlign:'center'}}>ไม่พบข้อมูล</Td>
+                                    
+                                </Tr>
+                            }
+                            
+                        </Tbody>
+
+                    </Table>
+                </TableContainer>
+            
+        </Grid>
     );
 }
 

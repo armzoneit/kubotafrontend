@@ -123,15 +123,19 @@ const detailpage = ({ mode }) => {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <form onSubmit={handleSubmit}>
-                <Text className='head-text' >{type_text}</Text>
+                
                 <Grid h='200px'
                     templateRows='repeat(2, 1fr)'
                     templateColumns='repeat(12, 1fr)'
-                    gap={4}>
-                    <GridItem colSpan={6}>
+                    style={{ margin: "10px" }}
+                    gap={6}>
+                    <GridItem colSpan={12}>
+                        <Text className='head-text' >{type_text}</Text>
+                    </GridItem>
+                    <GridItem colSpan={12}>
                         <CarDetailpage booking_id={id} typecar={mode} fix={true}/>
                     </GridItem>
-                    <GridItem colSpan={6} style={{ padding: '1%' }}>
+                    <GridItem colSpan={12} style={{ padding: '1%' }}>
                         <InfoCars mode={mode} idcarbooking={id} booking={datas} />
                     </GridItem>
 

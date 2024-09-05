@@ -286,13 +286,12 @@ const indexPage = ({ mode }) => {
     
     return (
         <>
-            <Grid templateColumns='repeat(6, 1fr)'>
+            <Grid templateColumns='repeat(6, 1fr)' style={{ margin: "10px" }}>
                 <GridItem colSpan={6}>
                     <Box border="solid 1px #00A5A8" p={4} borderRadius={"10px"} justifySelf={"center"}>
                         <Text color={'#00A5A8'} fontSize='xl' as={'b'} className='lable-rentcar'>{ title_name[mode] }</Text>
                         <Grid style={{ justifyContent: "center" }} >
-                        
-                            <Flex p={2}  >
+                            <GridItem colSpan={6}>
                                 <label className='lable-statusrentcar' style={{ width: "150px" }}>วันที่ใช้รถเริ่มต้น</label>
                                 <span>
                                     <DatePicker required dateFormat="dd-MM-yyyy" wrapperClassName='date_picker full-width' selected={startDate} onChange={(event)=>{setStartDate(event)}} />
@@ -302,10 +301,11 @@ const indexPage = ({ mode }) => {
                                 <span>
                                     <DatePicker required dateFormat="dd-MM-yyyy" wrapperClassName='date_picker full-width' selected={startDate1} onChange={(event)=>{setStartDate1(event)}} />
                                 </span>
-                            </Flex>
-                            <Flex p={2}  >
-                                <label className='lable-statusrentcar' style={{ width: "150px" }}>ชื่อผู้จองรถ</label>
-                                    <Input style={{ border: '1px #00A5A8 solid', width: '150px' }} type="text"  value={bookingnames} onChange={(e) => {setbookingnames(e.target.value)}}/>
+                                
+                            </GridItem>
+                            <GridItem colSpan={6}>
+                                <label className='lable-statusrentcar' style={{ width: "150px" }}>ชื่อผู้จองรถ</label><br />
+                                <Input style={{ border: '1px #00A5A8 solid'}} type="text"  value={bookingnames} onChange={(e) => {setbookingnames(e.target.value)}}/>
                                 <label className='lable-statusrentcar' style={{ width: "150px" }}>สถานะการจัดรถ</label>
                                 <span>
                                     <Select  style={{ border: '1px #00A5A8 solid'}} value={datasall.cartype} onChange={handlecartye}>
@@ -317,12 +317,12 @@ const indexPage = ({ mode }) => {
                                     }
                                     </Select>
                                 </span>
-                                    <Button className='lable-rentcar' type='button' onClick={search} colorScheme='teal' size='md' ml={5}><AiOutlineSearch />ค้นหา</Button>
-                            </Flex>
-                            <Flex p={2} justifyContent={"center"} >
-                                {/* <Button className='lable-rentcar' type='submit' colorScheme='teal' size='md' ml={5}><AiOutlineSearch onClick={downloadpdf} />PDF</Button>
-                                <Button onClick={downloadexcel} className='lable-rentcar' type='submit' colorScheme='teal' size='md' ml={5}><AiOutlineSearch  />Excel</Button> */}
-                            </Flex>
+                            </GridItem>
+                            <GridItem colSpan={6}>
+                                <br />
+                                <Button className='lable-rentcar' type='button' onClick={search} colorScheme='teal' size='md' ml={5}><AiOutlineSearch />ค้นหา</Button>
+                            </GridItem>
+                            
                         </Grid>
                     </Box>
                 </GridItem>
