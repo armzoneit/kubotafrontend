@@ -267,7 +267,7 @@ const evaluation = ({ mode }) => {
         let config = {
         method: 'get',
         maxBodyLength: Infinity,
-        url: 'https://d713apsi01-wa01kbtcom.azurewebsites.net/ReserveCar/GetCheckStatus_ReserveCar2/'+mode+'/'+res1+'/'+res2+'/'+me?.data?.data?.planningBusUser.role+'/'+(bookingnames == "" ? " " : bookingnames)+'/'+datasall.cartype+'/0?page=1&size=100',
+        url: 'https://d713apsi01-wa01kbtcom.azurewebsites.net/ReserveCar/GetCheckStatus_ReserveCar2/'+mode+'/'+res1+'/'+res2+'/'+me?.data?.data?.planningBusUser.role+'/'+(bookingnames == "" ? " " : bookingnames)+'/'+datasall.cartype+'/1?page=1&size=100',
         headers: { 
             'Content-Type': 'application/json', 
             'Authorization': 'Bearer '+tokens
