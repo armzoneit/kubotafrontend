@@ -379,7 +379,7 @@ const indexPage = ({ mode }) => {
                                           
                                             : '' }
                                             { mode == 1 ?
-                                            <Td>{ parseInt(row.number_travelers) + parseInt(row.number_cars2)  }</Td>
+                                            <Td>({ parseInt(row.number_travelers)}) ({parseInt(row.number_cars2)})</Td>
                                             : '' }
                                             
                                             { mode == 2 ? <Td>
@@ -389,7 +389,7 @@ const indexPage = ({ mode }) => {
                                            
                                             : '' }
                                              { mode == 2 ? 
-                                            <Td>{ parseInt(row.number_travelers) + parseInt(row.number_cars2)  }</Td>
+                                            <Td>({ parseInt(row.number_travelers)})  ({parseInt(row.number_cars2)})</Td>
 
                                             : '' }
                                             { mode == 3 ? <Td>
@@ -401,7 +401,7 @@ const indexPage = ({ mode }) => {
                                            
                                             : '' }
                                             { mode == 3 ? 
-                                            <Td>{ parseInt(row.number_cars2) + parseInt(row.number_cars3) + parseInt(row.number_travelers) }</Td>
+                                            <Td>({parseInt(row.number_cars2)}) ({parseInt(row.number_cars3)}) ({parseInt(row.number_travelers) })</Td>
 
                                             : '' }
                                           
