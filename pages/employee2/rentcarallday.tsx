@@ -452,134 +452,135 @@ const ckcargg = (event:string) => {
             console.log(error.message);
         }
         
-        // const headers1 = { 
-        //     'Authorization': 'Bearer '+tokens
-        //   }
-        //   const vl = new Date(startDate)
-        // // console.log(data.get('cost-enter'));
-        // let jsonref = [{
-        //     "idcarbooking":null,
-        //     "plantId":me?.data?.data?.myHrEmployee.plantId,
-        //     "employee_no":me?.data?.data?.myHrEmployee.employeeNo,
-        //     "booking_date":[vl.getFullYear(), vl.getMonth()+1, vl.getDate()].join('-')+" 03:54:07.6233333 +00:00",
-        //     "bookingname":form.bookingname,
-        //     "email":form.email,
-        //     "agency":form.agency,
-        //     "division":form.division,
-        //     "tel": form.tel,
-        //     "code_employee": form.code_employee,
-        //     "name_use_car": form.name_use_car,
-        //     "use_email":form.email_employee,
-        //     "use_agency": form.agency_employee,
-        //     "use_division": form.division_employee,
-        //     "tel_use_car": form.tel_use_car,
-        //     "type_idcar": form.type_idcar,
-        //     "brand": form.brand,
-        //     "idcar": "",
-        //     "pathfile": pathc,
-        //     "note": form.note,
-        //     "typecar": form.typecar,
-        //     "number_travelers": parseInt(form.countcar1),
-        //     "brand_cars1": form.brand_cars1,
-        //     "person_count": parseInt(form.countper1),
-        //     "number_cars": parseInt(form.countcar2),
-        //     "brand_cars2": form.brand_cars2,
-        //     "person_count2": parseInt(form.countper2),
-        //     "startdate": form.startdate,
-        //     "enddate": form.enddate,
-        //     "locationIn": form.locationIn,
-        //     "timeIn": form.timeIn,
-        //     "LocationOut": form.LocationOut,
-        //     "timeOut": form.timeOut,
-        //     "operational_area": form.operational_area,
-        //     "upcountry": form.upcountry,
-        //     "overnight_stay": form.overnight_stay,
-        //     "person_responsible_for_expenses": form.person_responsible_for_expenses,
-        //     "other": form.other,
-        //     "GL": form.GL,
-        //     "cost_enter": form.cost_enter,
-        //     "order": form.order,
-        //     "status": 0,
-        //     "status_approved": 0,
-        //     "googleform": 0,
-        //     "overnight": 0,
-        //     "license_number": form.idcar
-        // }];
-        // console.log([JSON.stringify(form)]);
-        // console.log("aaaa",jsonref);
-        // axios.post('https://d713apsi01-wa01kbtcom.azurewebsites.net/ReserveCar/InsertReserveCar_NoDriver',jsonref,{headers:headers1}).then((response) => {
-        //     toast({
-        //         id: toastId4,
-        //         description: `เพิ่มข้อมูลสำเร็จ`,
-        //         status: "success",
-        //         duration: 5000,
-        //         isClosable: false,
-        //       })
-        //       setform({
-        //         idcarbooking:null,
-        //         PlantId:me?.data?.data?.myHrEmployee.plantId,
-        //         employee_no:me?.data?.data?.myHrEmployee.employeeNo,
-        //         booking_date:"2023-12-06 03:54:07.6233333 +00:00",
-        //         bookingname:me?.data?.data?.myHrEmployee.firstName+" "+me?.data?.data?.myHrEmployee.lastName,
-        //         email:me?.data?.data?.myHrEmployee.email,
-        //         agency:me?.data?.data?.myHrEmployee.jobName,
-        //         division:me?.data?.data?.myHrEmployee.positionName,
-        //         tel:"",
-        //         code_employee:"",
-        //         email_employee:"",
-        //         agency_employee:"",
-        //         division_employee:"",
-        //         name_use_car:"",
-        //         tel_use_car:"",
-        //         type_idcar:"",
-        //         brand:"",
-        //         idcar:"",
-        //         pathfile:"",
-        //         note:"",
-        //         typecar:"",
-        //         number_travelers:"0",
-        //         brand_cars1:"",
-        //         person_count:"0",
-        //         number_cars:"0",
-        //         brand_cars2:"",
-        //         person_count2:"0",
-        //         startdate:"",
-        //         enddate:"",
-        //         locationIn:"",
-        //         timeIn:"00:00",
-        //         LocationOut:"",
-        //         timeOut:"00:00",
-        //         operational_area:"",
-        //         upcountry:"",
-        //         overnight_stay:"",
-        //         person_responsible_for_expenses:"",
-        //         other:"",
-        //         GL:"",
-        //         cost_enter:"",
-        //         order:"",
-        //         countcar1:0,
-        //         countper1:0,
-        //         countcar2:0,
-        //         countper2:0,
-        //         license_number:"",
-        //       });
-        //       setStartDate1(undefined)
-        //       setStartDate2(undefined)
-        //       setckcar1(false);
-        //       setckcar2(false);
-        //       setpictureFile(null);
-        //       setnamefile("")
-        //       setimageshow("gibbresh.png")
-        //       setshowfile(true);
-        // }).catch((error) => {
-        //     toast({
-        //         id: toastId4,
-        //         description: error,
-        //         status: "error",
-        //         duration: 5000,
-        //         isClosable: false,
-        //       })
-        // });
+        const headers1 = { 
+            'Authorization': 'Bearer '+tokens
+          }
+          const vl = new Date(startDate)
+        // console.log(data.get('cost-enter'));
+        let jsonref = [{
+            "idcarbooking":null,
+            "plantId":me?.data?.data?.myHrEmployee.plantId,
+            "employee_no":me?.data?.data?.myHrEmployee.employeeNo,
+            "booking_date":[vl.getFullYear(), vl.getMonth()+1, vl.getDate()].join('-')+" 03:54:07.6233333 +00:00",
+            "bookingname":form.bookingname,
+            "email":form.email,
+            "agency":form.agency,
+            "division":form.division,
+            "tel": form.tel,
+            "code_employee": form.code_employee,
+            "name_use_car": form.name_use_car,
+            "use_email":form.email_employee,
+            "use_agency": form.agency_employee,
+            "use_division": form.division_employee,
+            "tel_use_car": form.tel_use_car,
+            "type_idcar": form.type_idcar,
+            "brand": form.brand,
+            "idcar": "",
+            "pathfile": pathc,
+            "note": form.note,
+            "typecar": form.typecar,
+            "number_travelers": parseInt(form.countcar1),
+            "brand_cars1": form.brand_cars1,
+            "person_count": parseInt(form.countper1),
+            "number_cars": parseInt(form.countcar2),
+            "brand_cars2": form.brand_cars2,
+            "person_count2": parseInt(form.countper2),
+            "startdate": form.startdate,
+            "enddate": form.enddate,
+            "locationIn": form.locationIn,
+            "timeIn": form.timeIn,
+            "LocationOut": form.LocationOut,
+            "timeOut": form.timeOut,
+            "operational_area": form.operational_area,
+            "upcountry": form.upcountry,
+            "overnight_stay": form.overnight_stay,
+            "person_responsible_for_expenses": form.person_responsible_for_expenses,
+            "other": form.other,
+            "GL": form.GL,
+            "cost_enter": form.cost_enter,
+            "order": form.order,
+            "status": 0,
+            "status_approved": 0,
+            "googleform": 0,
+            "overnight": 0,
+            "license_number": form.idcar
+        }];
+        console.log([JSON.stringify(form)]);
+        console.log("aaaa",jsonref);
+        axios.post('https://d713apsi01-wa01kbtcom.azurewebsites.net/ReserveCar/InsertReserveCar_NoDriver',jsonref,{headers:headers1}).then((response) => {
+            toast({
+                id: toastId4,
+                description: `เพิ่มข้อมูลสำเร็จ`,
+                status: "success",
+                duration: 5000,
+                isClosable: false,
+              })
+              setform({
+                idcarbooking:null,
+                PlantId:me?.data?.data?.myHrEmployee.plantId,
+                employee_no:me?.data?.data?.myHrEmployee.employeeNo,
+                booking_date:"2023-12-06 03:54:07.6233333 +00:00",
+                bookingname:me?.data?.data?.myHrEmployee.firstName+" "+me?.data?.data?.myHrEmployee.lastName,
+                email:me?.data?.data?.myHrEmployee.email,
+                agency:me?.data?.data?.myHrEmployee.jobName,
+                division:me?.data?.data?.myHrEmployee.positionName,
+                tel:"",
+                code_employee:"",
+                email_employee:"",
+                agency_employee:"",
+                division_employee:"",
+                name_use_car:"",
+                tel_use_car:"",
+                type_idcar:"",
+                brand:"",
+                idcar:"",
+                pathfile:"",
+                note:"",
+                typecar:"",
+                number_travelers:"0",
+                brand_cars1:"",
+                person_count:"0",
+                number_cars:"0",
+                brand_cars2:"",
+                person_count2:"0",
+                startdate:"",
+                enddate:"",
+                locationIn:"",
+                timeIn:"00:00",
+                LocationOut:"",
+                timeOut:"00:00",
+                operational_area:"",
+                upcountry:"",
+                overnight_stay:"",
+                person_responsible_for_expenses:"",
+                other:"",
+                GL:"",
+                cost_enter:"",
+                order:"",
+                countcar1:0,
+                countper1:0,
+                countcar2:0,
+                countper2:0,
+                license_number:"",
+              });
+              setStartDate1(undefined)
+              setStartDate2(undefined)
+              setckcar1(false);
+              setckcar2(false);
+              setpictureFile(null);
+              setnamefile("")
+              setimageshow("gibbresh.png")
+              setshowfile(true);
+        }).catch((error) => {
+            toast({
+                id: toastId4,
+                description: error,
+                status: "error",
+                duration: 5000,
+                isClosable: false,
+              })
+        });
+        
         setloading(false);
     }
     const [disbut,setdisbut] = useState<boolean>(false);
