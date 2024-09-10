@@ -154,8 +154,9 @@ const InfoCars = ({ mode, idcarbooking,booking }) => {
             return false;
         }
         let showCar = await allCars.find(x => x.id == id);
+        setcarLicense('');
+
         if(!showCar){
-            await setcarLicense('');
             // await setselectCars(0);
         }else{
             
@@ -175,6 +176,8 @@ const InfoCars = ({ mode, idcarbooking,booking }) => {
             ac.type_car = showCar.type;
             ac.serv = showCar.serv;
             ac.license = carsInfo.license.value;
+            console.log(carsInfo.license.value);
+            
             await setcarLicense(carsInfo.license.value);
             await setaddCars(ac);
             // setcarsDetail(text);
@@ -190,7 +193,6 @@ const InfoCars = ({ mode, idcarbooking,booking }) => {
     }
 
     const insertData = async () => {
-        console.log(addCars);
         
         addCars.booking_id = parseInt(addCars.booking_id);
         addCars.car_id = parseInt(addCars.car_id);
@@ -304,7 +306,7 @@ const InfoCars = ({ mode, idcarbooking,booking }) => {
                 axios.post('https://d713apsi01-wa01kbtcom.azurewebsites.net/ReserveCar/UpdateStatusBooking',{
                     id:parseInt(idcarbooking),
                     mode:mode,
-                    status:parseInt(chgstat)
+                    status:chgstat ? parseInt(chgstat) : 0
                 }).then(async(response) => {
                     Swal.fire({
                         icon: "success",
@@ -460,7 +462,6 @@ const InfoCars = ({ mode, idcarbooking,booking }) => {
                                                 await setselectCars(0);
                                                 await settype_manage(type_manage);
                                                 isopen.onOpen();
-                                                console.log(carId,'carId');
                                                 
                                                 await resetData(car);
                                                 await setcarLicense(car.license);
