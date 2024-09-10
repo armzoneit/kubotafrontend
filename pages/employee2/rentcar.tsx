@@ -49,6 +49,7 @@ const RentCar = () => {
     const [startDate, setStartDate] = useState(new Date());
     const [startDate1, setStartDate1] = useState();
     const [startDate2, setStartDate2] = useState();
+    const [loading,setloading] = useState<boolean>(false);
     const [ckcar1,setckcar1] = useState<boolean>(false)
     const [ckcar2,setckcar2] = useState<boolean>(false)
     const [ckcar3,setckcar3] = useState<boolean>(false)
@@ -161,6 +162,7 @@ const RentCar = () => {
             
             return;
         }
+        setloading(true);
         const data = new FormData(event.currentTarget);
         // console.log(data.get('cost-enter'));
         const headers1 = { 
@@ -262,6 +264,7 @@ const RentCar = () => {
                 isClosable: false,
               })
         });
+        setloading(false);
     }
 
     const [form, setform] = useState({
@@ -816,7 +819,8 @@ const [disbut,setdisbut] = useState<boolean>(false);
                     </GridItem>
 
                     <GridItem colSpan={8}>
-                        <Button disabled={disbut} className='lable-rentcar' type='submit' colorScheme='teal' size='md' px={'10'} py={'5'} mb={"20px"}>
+                        <Button isLoading={loading}
+    loadingText='กำลังอัพเดท' disabled={disbut} className='lable-rentcar' type='submit' colorScheme='teal' size='md' px={'10'} py={'5'} mb={"20px"}>
                             ส่งแบบฟอร์ม
                         </Button>
                         <Button style={{marginLeft:"30px"}} onClick={handlereset} className='lable-rentcar'  colorScheme='teal' size='md' px={'10'} py={'5'} mb={"20px"}>

@@ -510,7 +510,7 @@ const StatusRentCarDetail = (data: any=false) => {
                             order: response.data.data.carBookingWithDriver[0]?.order,
                             overnight: response.data.data.carBookingWithDriver[0]?.other,
                             status: response.data.data.carBookingWithDriver[0]?.status,
-                            status_approved: response.data.data.carBookingWithDriver[0]?.status_approved,
+                            status_approved: response.data.data.carBookingWithDriver[0]?.status_Approved,
                             googleform: response.data.data.carBookingWithDriver[0]?.googleform,
                         })
                     })
